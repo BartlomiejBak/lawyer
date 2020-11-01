@@ -30,5 +30,8 @@ public class Case {
     private List<Contact> contactList;
     @ManyToMany
     private List<Task> taskList;
-
+    @OneToMany
+    private List<Contact> plaintiff;
+    @OneToMany
+    private List<Contact> defendant;
 }
