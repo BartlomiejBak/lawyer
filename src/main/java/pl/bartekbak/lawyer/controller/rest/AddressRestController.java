@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class AddressRestController {
 
     AddressServiceSpringData addressService;
