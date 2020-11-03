@@ -5,7 +5,7 @@ import pl.bartekbak.lawyer.entity.Task;
 import java.util.List;
 
 public interface TaskService {
-    public List<Task> findAllAddresses();
+    public List<Task> findAllTasks();
 
     public Task findTaskById(int id);
 

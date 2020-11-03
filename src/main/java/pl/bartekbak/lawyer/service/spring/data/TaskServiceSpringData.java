@@ -19,7 +19,7 @@ public class TaskServiceSpringData implements TaskService {
     }
 
     @Override
-    public List<Task> findAllAddresses() {
+    public List<Task> findAllTasks() {
         return taskRepository.findAllByOrderByDeadlineAsc();
     }
 

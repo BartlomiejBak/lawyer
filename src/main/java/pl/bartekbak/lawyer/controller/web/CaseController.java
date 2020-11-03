@@ -21,7 +21,7 @@ public class CaseController {
     }
 
     @GetMapping("/list")
-    public String listACases(Model model) {
+    public String listAllCases(Model model) {
         List<Case> caseList = caseService.findAllCases();
         model.addAttribute("cases", caseList);
         return "cases/list-cases";
@@ -31,7 +31,7 @@ public class CaseController {
     public String showFormForAdd(Model model) {
         Case aCase = new Case();
         model.addAttribute("cases", aCase);
-        return "cases/add-cases-form";
+        return "cases/add-case-form";
     }
 
     @GetMapping("/showFormForUpdate")
