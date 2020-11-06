@@ -1,10 +1,13 @@
 package pl.bartekbak.lawyer.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "task")
 public class Task {
 
