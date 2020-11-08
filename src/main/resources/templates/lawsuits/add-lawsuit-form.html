@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Dodaj sprawę</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <h3>Dodaj sprawę</h3>
+        <hr>
+
+        <p class="h4 mb-4">Zapisz sprawę</p>
+        <form action="#" th:action="@{/lawsuits/save}"
+        th:object="${lawsuit}" method="post">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{id}"/>
+
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
+            placeholder="nazwa">
+            <input type="text" th:field="*{caseSide}" class="form-control mb-4 col-4"
+            placeholder="reprezentowana strona">
+            <input type="date" th:field="*{inputDate}" class="form-control mb-4 col-4"
+            placeholder="data wpisu">
+            <input type="date" th:field="*{deadline}" class="form-control mb-4 col-4"
+            placeholder="deadline">
+            <input type="text" th:field="*{signature}" class="form-control mb-4 col-4"
+            placeholder="sygnatura">
+            <input type="text" th:field="*{claimAmount}" class="form-control mb-4 col-4"
+            placeholder="wartość sporu">
+            <input type="text" th:field="*{additionalInfo}" class="form-control mb-4 col-4"
+            placeholder="dodatkowe informacje">
+            <input type="text" th:field="*{contactList}" class="form-control mb-4 col-4"
+            placeholder="kontakty">
+            <input type="text" th:field="*{taskList}" class="form-control mb-4 col-4"
+            placeholder="zadania">
+            <input type="text" th:field="*{plaintiff}" class="form-control mb-4 col-4"
+            placeholder="powód">
+            <input type="text" th:field="*{defendant}" class="form-control mb-4 col-4"
+            placeholder="pozwany">
+
+            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+
+        </form>
+
+        <hr>
+        <a th:href="@{/lawsuits/list}">Powrót do listy spraw</a>
+        <br>
+        <a th:href="@{/main/menu}">Powrót do menu</a>
+
+
+    </div>
+
+</body>
+</html>

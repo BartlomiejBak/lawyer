@@ -23,7 +23,7 @@ public class Task {
     private String description;
 
     @ManyToMany(mappedBy = "taskList")
-    private List<Case> caseList;
+    private List<Lawsuit> lawsuitList;
     @ManyToMany(mappedBy = "taskList")
     private List<Contact> contactList;
 

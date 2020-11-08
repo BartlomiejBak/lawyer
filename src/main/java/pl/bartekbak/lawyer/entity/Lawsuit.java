@@ -8,8 +8,8 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "cases")
-public class Case {
+@Table(name = "lawsuit")
+public class Lawsuit {
     @Id
     @Column(name = "case_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Case {
     @Column(name = "add_info")
     private String additionalInfo;
 
-    @ManyToMany(mappedBy = "caseList")
+    @ManyToMany(mappedBy = "lawsuitList")
     private List<Contact> contactList;
     @ManyToMany
     private List<Task> taskList;

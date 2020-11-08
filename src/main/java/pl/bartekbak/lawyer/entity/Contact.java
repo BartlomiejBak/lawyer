@@ -47,7 +47,7 @@ public class Contact {
     @OneToOne
     private Address address;
     @ManyToMany
-    private List<Case> caseList;
+    private List<Lawsuit> lawsuitList;
 
     // private List<Field> fieldList;
     @ManyToMany

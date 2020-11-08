@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Lista spraw</title>
+</head>
+<body>
+
+<div class="container">
+    <h3>Lista spraw</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/lawsuits/showFormForAdd}"
+    class="btn btn-primary btn-sm mb-3">
+        Dodaj sprawę
+    </a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nazwa</th>
+            <th>Reprezentowana strona</th>
+            <th>Data wpisu</th>
+            <th>Deadline</th>
+            <th>Sygnatura</th>
+            <th>Wartość sporu</th>
+            <th>Dodatkowe informacje</th>
+            <th>Kontakty</th>
+            <th>Zadania</th>
+            <th>Powód</th>
+            <th>Pozwany</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempLawsuit : ${lawsuits}">
+            <td th:text="${tempLawsuit.name}"/>
+            <td th:text="${tempLawsuit.caseSide}"/>
+            <td th:text="${tempLawsuit.inputDate}"/>
+            <td th:text="${tempLawsuit.deadline}"/>
+            <td th:text="${tempLawsuit.signature}"/>
+            <td th:text="${tempLawsuit.claimAmount}"/>
+            <td th:text="${tempLawsuit.additionalInfo}"/>
+            <td th:text="${tempLawsuit.contactList}"/>
+            <td th:text="${tempLawsuit.taskList}"/>
+            <td th:text="${tempLawsuit.plaintiff}"/>
+            <td th:text="${tempLawsuit.defendant}"/>
+            <!-- add button -->
+            <td>
+                <a th:href="@{/lawsuits/showFormForUpdate(lawsuitId=${tempLawsuit.id})}"
+                class="btn btn-info btn-sm">
+                    Zaktualizuj
+                </a>
+                <a th:href="@{/lawsuits/delete(lawsuit=${tempLawsuit.id})}"
+                class="btn btn-danger btn-sm"
+                onclick="if (!(confirm('Czy chcesz usunąć ten wpis?'))) return false">
+                    Usuń
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <a th:href="@{/main/menu}">Powrót do menu</a>
+</div>
+</body>
+</html>
