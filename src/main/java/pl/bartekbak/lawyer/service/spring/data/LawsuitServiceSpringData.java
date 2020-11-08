@@ -30,7 +30,7 @@ public class LawsuitServiceSpringData implements LawsuitService {
         if (result.isPresent()){
             lawsuit = result.get();
         } else {
-            throw new RuntimeException("Case id not found");
+            throw new RuntimeException("Lawsuit id not found");
         }
         return lawsuit;
     }
