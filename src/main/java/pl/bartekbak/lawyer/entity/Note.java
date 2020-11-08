@@ -18,6 +18,4 @@ public class Note {
     @Column(name = "text")
     private String text;
 
-
-
 }
