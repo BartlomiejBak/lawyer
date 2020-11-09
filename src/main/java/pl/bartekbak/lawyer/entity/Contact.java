@@ -1,6 +1,8 @@
 package pl.bartekbak.lawyer.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "contact")
 public class Contact {
 
@@ -52,4 +56,11 @@ public class Contact {
     // private List<Field> fieldList;
     @ManyToMany
     private List<Task> taskList;
+
+    public Contact(int id, String name, String firstName, String lastName) {
+        this.id = id;
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
