@@ -31,5 +31,10 @@ public class Task {
     @ManyToMany(mappedBy = "taskList")
     private List<Contact> contactList;
 
+    public Task(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
+
     //add tags
 }
