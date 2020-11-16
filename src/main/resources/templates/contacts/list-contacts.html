@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Lista kontaktów</title>
+</head>
+<body>
+
+<div class="container">
+    <h3>Lista kontaktów</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/contacts/showFormForAdd}"
+       class="btn btn-primary btn-sm mb-3">
+        Dodaj adres
+    </a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nazwa</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Telefon</th>
+            <th>Email</th>
+            <th>Lista zadań</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempContact : ${contacts}">
+            <td th:text="${tempContact.name}"/>
+            <td th:text="${tempContact.firstName}"/>
+            <td th:text="${tempContact.lastName}"/>
+            <td th:text="${tempContact.phone}"/>
+            <td th:text="${tempContact.email}"/>
+            <td th:text="${tempContact.taskList}"/>
+            <!-- add button -->
+            <td>
+                <a th:href="@{/contacts/showFormForUpdate(contactId=${tempContact.id})}"
+                   class="btn btn-info btn-sm">
+                    Zaktualizuj
+                </a>
+                <a th:href="@{/contacts/delete(contact=${tempContact.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Czy chcesz usunąć ten kontakt?'))) return false">
+                    Usuń
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <a th:href="@{/main/menu}">Powrót do menu</a>
+</div>
+</body>
+</html>
