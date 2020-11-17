@@ -21,4 +21,7 @@ public class Tag {
     @Column(name = "name")
     private String name;
 
+    public Tag(String name) {
+        this.name = name;
+    }
 }

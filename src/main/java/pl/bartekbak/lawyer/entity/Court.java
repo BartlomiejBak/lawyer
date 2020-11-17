@@ -2,6 +2,7 @@ package pl.bartekbak.lawyer.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "COURT")
 public class Court {
     @Id
@@ -23,4 +25,10 @@ public class Court {
     private Address address;
     @Column(name = "description")
     private String description;
+
+    public Court(String name, Address address, String description) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+    }
 }

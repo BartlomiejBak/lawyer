@@ -1,9 +1,6 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "address")
 public class Address {
 
@@ -27,5 +25,10 @@ public class Address {
     @Column(name = "country")
     private String country;
 
-
+    public Address(String street, String zipCode, String city, String country) {
+        this.street = street;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.country = country;
+    }
 }

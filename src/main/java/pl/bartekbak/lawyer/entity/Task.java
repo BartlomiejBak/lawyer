@@ -1,6 +1,7 @@
 package pl.bartekbak.lawyer.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "task")
 public class Task {
 
@@ -34,6 +36,14 @@ public class Task {
     public Task(int id, String description) {
         this.id = id;
         this.description = description;
+    }
+
+    public Task(boolean priority, LocalDateTime deadline, String description, List<Lawsuit> lawsuitList, List<Contact> contactList) {
+        this.priority = priority;
+        this.deadline = deadline;
+        this.description = description;
+        this.lawsuitList = lawsuitList;
+        this.contactList = contactList;
     }
 
     //add tags

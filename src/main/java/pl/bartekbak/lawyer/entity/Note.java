@@ -22,4 +22,8 @@ public class Note {
     @Column(name = "text")
     private String text;
 
+    public Note(String title, String text) {
+        this.title = title;
+        this.text = text;
+    }
 }
