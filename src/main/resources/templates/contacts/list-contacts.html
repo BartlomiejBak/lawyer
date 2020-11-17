@@ -32,7 +32,14 @@
             <th>Nazwisko</th>
             <th>Telefon</th>
             <th>Email</th>
+            <th>Firma spółki</th>
+            <th>PESEL</th>
+            <th>NIP</th>
+            <th>REGON</th>
+            <th>KRS</th>
+            <th>Adres</th>
             <th>Lista zadań</th>
+            <th>Lista spraw</th>
         </tr>
         </thead>
 
@@ -41,9 +48,16 @@
             <td th:text="${tempContact.name}"/>
             <td th:text="${tempContact.firstName}"/>
             <td th:text="${tempContact.lastName}"/>
-            <td th:text="${tempContact.phone}"/>
-            <td th:text="${tempContact.email}"/>
+            <td th:text="${tempContact.phone}, ${tempContact.altPhone}"/>
+            <td th:text="${tempContact.email}, ${tempContact.altEmail}"/>
+            <td th:text="${tempContact.companyName}"/>
+            <td th:text="${tempContact.pesel}"/>
+            <td th:text="${tempContact.nip}"/>
+            <td th:text="${tempContact.regon}"/>
+            <td th:text="${tempContact.krs}"/>
+            <td th:text="${tempContact.address}"/>
             <td th:text="${tempContact.taskList}"/>
+            <td th:text="${tempContact.lawsuitList}"/>
             <!-- add button -->
             <td>
                 <a th:href="@{/contacts/showFormForUpdate(contactId=${tempContact.id})}"

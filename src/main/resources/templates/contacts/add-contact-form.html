@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Add Contact</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <h3>Dodaj kontakt</h3>
+        <hr>
+
+        <p class="h4 mb-4">Zapisz kontakt</p>
+        <form action="#" th:action="@{/contacts/save}"
+        th:object="${contact}" method="post">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{id}"/>
+
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
+            placeholder="nazwa">
+            <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4"
+            placeholder="imię">
+            <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4"
+            placeholder="nazwisko">
+            <input type="text" th:field="*{email}" class="form-control mb-4 col-4"
+            placeholder="email">
+            <input type="text" th:field="*{altEmail}" class="form-control mb-4 col-4"
+            placeholder="email 2">
+            <input type="text" th:field="*{phone}" class="form-control mb-4 col-4"
+            placeholder="tel">
+            <input type="text" th:field="*{altPhone}" class="form-control mb-4 col-4"
+            placeholder="tel 2">
+            <input type="text" th:field="*{companyName}" class="form-control mb-4 col-4"
+            placeholder="firma spółki">
+            <input type="text" th:field="*{pesel}" class="form-control mb-4 col-4"
+            placeholder="PESEL">
+            <input type="text" th:field="*{nip}" class="form-control mb-4 col-4"
+            placeholder="NIP">
+            <input type="text" th:field="*{regon}" class="form-control mb-4 col-4"
+            placeholder="REGON">
+            <input type="text" th:field="*{krs}" class="form-control mb-4 col-4"
+            placeholder="KRS">
+            <input type="text" th:field="*{address}" class="form-control mb-4 col-4"
+            placeholder="Adres">
+
+            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+
+        </form>
+
+        <hr>
+        <a th:href="@{/contacts/list}">Powrót do listy adresów</a>
+        <br>
+        <a th:href="@{/main/menu}">Powrót do menu</a>
+
+
+    </div>
+
+</body>
+</html>
