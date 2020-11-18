@@ -10,36 +10,34 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <meta charset="UTF-8">
-    <title>Add Address</title>
+    <title>Add Court</title>
 </head>
 <body>
 
     <div class="container">
 
-        <h3>Dodaj adres</h3>
+        <h3>Dodaj sąd</h3>
         <hr>
 
-        <p class="h4 mb-4">Zapisz adres</p>
-        <form action="#" th:action="@{/addresses/save}"
-        th:object="${address}" method="post">
+        <p class="h4 mb-4">Zapisz sąd</p>
+        <form action="#" th:action="@{/courts/save}"
+        th:object="${court}" method="post">
 
             <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{courtId}"/>
 
-            <input type="text" th:field="*{street}" class="form-control mb-4 col-4"
-            placeholder="ulica">
-            <input type="text" th:field="*{zipCode}" class="form-control mb-4 col-4"
-            placeholder="kod pocztowy">
-            <input type="text" th:field="*{city}" class="form-control mb-4 col-4"
-            placeholder="miasto">
-            <input type="text" th:field="*{country}" class="form-control mb-4 col-4"
-            placeholder="kraj">
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
+            placeholder="nazwa">
+            <input type="text" th:field="*{address}" class="form-control mb-4 col-4"
+            placeholder="adres">
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4"
+            placeholder="opis">
             <button type="submit" class="btn btn-info col-2">Zapisz</button>
 
         </form>
 
         <hr>
-        <a th:href="@{/addresses/list}">Powrót do listy adresów</a>
+        <a th:href="@{/courts/list}">Powrót do listy sądów</a>
         <br>
         <a th:href="@{/main/menu}">Powrót do menu</a>
 
