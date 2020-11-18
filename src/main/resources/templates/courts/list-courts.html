@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Lista sądów</title>
+</head>
+<body>
+
+<div class="container">
+    <h3>Lista sądów</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/courts/showFormForAdd}"
+    class="btn btn-primary btn-sm mb-3">
+        Dodaj sąd
+    </a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nazwa</th>
+            <th>Adres</th>
+            <th>Opis</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempCourt : ${courts}">
+            <td th:text="${tempCourt.name}"/>
+            <td th:text="${tempCourt.address}"/>
+            <td th:text="${tempCourt.description}"/>
+            <!-- add button -->
+            <td>
+                <a th:href="@{/courts/showFormForUpdate(courtId=${tempCourt.courtId})}"
+                class="btn btn-info btn-sm">
+                    Zaktualizuj
+                </a>
+                <a th:href="@{/courts/delete(courtId=${tempCourt.courtId})}"
+                class="btn btn-danger btn-sm"
+                onclick="if (!(confirm('Czy chcesz usunąć ten sąd?'))) return false">
+                    Usuń
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <a th:href="@{/main/menu}">Powrót do menu</a>
+</div>
+</body>
+</html>
