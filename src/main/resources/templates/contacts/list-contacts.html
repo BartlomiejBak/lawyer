@@ -21,7 +21,7 @@
     <!-- Add a button -->
     <a th:href="@{/contacts/showFormForAdd}"
        class="btn btn-primary btn-sm mb-3">
-        Dodaj adres
+        Dodaj kontakt
     </a>
 
     <table class="table table-bordered table-striped">
@@ -48,8 +48,8 @@
             <td th:text="${tempContact.name}"/>
             <td th:text="${tempContact.firstName}"/>
             <td th:text="${tempContact.lastName}"/>
-            <td th:text="${tempContact.phone}, ${tempContact.altPhone}"/>
-            <td th:text="${tempContact.email}, ${tempContact.altEmail}"/>
+            <td th:text="${tempContact.phone} + ' ' + ${tempContact.altPhone}"/>
+            <td th:text="${tempContact.email} + ' ' + ${tempContact.altEmail}"/>
             <td th:text="${tempContact.companyName}"/>
             <td th:text="${tempContact.pesel}"/>
             <td th:text="${tempContact.nip}"/>

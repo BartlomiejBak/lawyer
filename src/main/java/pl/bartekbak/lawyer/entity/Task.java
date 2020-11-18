@@ -37,14 +37,4 @@ public class Task {
         this.id = id;
         this.description = description;
     }
-
-    public Task(boolean priority, LocalDateTime deadline, String description, List<Lawsuit> lawsuitList, List<Contact> contactList) {
-        this.priority = priority;
-        this.deadline = deadline;
-        this.description = description;
-        this.lawsuitList = lawsuitList;
-        this.contactList = contactList;
-    }
-
-    //add tags
 }

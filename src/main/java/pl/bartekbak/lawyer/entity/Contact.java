@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,14 +51,25 @@ public class Contact {
     @Column(name = "modified")
     private LocalDate dateModified;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
-    @ManyToMany
-    private List<Lawsuit> lawsuitList;
 
-    // private List<Field> fieldList;
     @ManyToMany
-    private List<Task> taskList;
+    @JoinTable(
+            name = "contact_lawsuit",
+            joinColumns = @JoinColumn(name = "contact_id"),
+            inverseJoinColumns = @JoinColumn(name = "lawsuit_id")
+    )
+    private List<Lawsuit> lawsuitList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "contact_task",
+            joinColumns = @JoinColumn(name = "contact_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private List<Task> taskList = new ArrayList<>();
 
     public Contact(int id, String name, String firstName, String lastName) {
         this.id = id;
@@ -66,5 +78,11 @@ public class Contact {
         this.lastName = lastName;
     }
 
+    public void addLawsuit(Lawsuit lawsuit) {
+        this.lawsuitList.add(lawsuit);
+    }
 
+    public void addTask(Task task) {
+        this.taskList.add(task);
+    }
 }

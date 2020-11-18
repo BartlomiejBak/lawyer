@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @Table(name = "lawsuit")
 public class Lawsuit {
+
     @Id
     @Column(name = "case_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +39,17 @@ public class Lawsuit {
     @ManyToMany(mappedBy = "lawsuitList")
     private List<Contact> contactList;
     @ManyToMany
+    @JoinTable(
+            name = "lawsuit_task",
+            joinColumns = @JoinColumn(name = "lawsuit_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
     private List<Task> taskList;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lawsuit_id_plaintiff")
     private List<Contact> plaintiff;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lawsuit_id_defendant")
     private List<Contact> defendant;
 
     public Lawsuit(int id, String name, String caseSide) {

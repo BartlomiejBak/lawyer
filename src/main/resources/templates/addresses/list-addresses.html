@@ -46,7 +46,7 @@
                 class="btn btn-info btn-sm">
                     Zaktualizuj
                 </a>
-                <a th:href="@{/addresses/delete(address=${tempAddress.id})}"
+                <a th:href="@{/addresses/delete(addressId=${tempAddress.id})}"
                 class="btn btn-danger btn-sm"
                 onclick="if (!(confirm('Czy chcesz usunąć ten adres?'))) return false">
                     Usuń

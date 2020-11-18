@@ -22,6 +22,7 @@ public class Court {
     @Column(name = "name")
     private String name;
     @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
     @Column(name = "description")
     private String description;

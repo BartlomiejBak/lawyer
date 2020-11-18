@@ -3,12 +3,8 @@ package pl.bartekbak.lawyer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import pl.bartekbak.lawyer.dao.AddressRepository;
-import pl.bartekbak.lawyer.dao.NoteRepository;
-import pl.bartekbak.lawyer.dao.TagRepository;
-import pl.bartekbak.lawyer.entity.Address;
-import pl.bartekbak.lawyer.entity.Note;
-import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.dao.*;
+import pl.bartekbak.lawyer.entity.*;
 
 @SpringBootApplication
 public class LawyerApplication {
@@ -52,7 +48,38 @@ public class LawyerApplication {
         tagRepository.save(tagC);
         tagRepository.save(tagD);
 
+        //populate court table
+        CourtRepository courtRepository = context.getBean(CourtRepository.class);
+        Court courtA = new Court("pierwszy sąd", addressA, "taki wysoki budynek");
+        Court courtB = new Court("drugi sąd", addressB, "taki szeroki budynek");
+        Court courtC = new Court("trzeci sąd", addressC, "taki kolorowy budynek");
+        Court courtD = new Court("czwarty sąd", addressD, "taki stary budynek");
+        courtRepository.save(courtA);
+        courtRepository.save(courtB);
+        courtRepository.save(courtC);
+        courtRepository.save(courtD);
 
+        //populate contact table
+        ContactRepository contactRepository = context.getBean(ContactRepository.class);
+        Contact contactA = Contact.builder()
+                .name("pierwszy kontakt")
+                .address(addressA)
+                .build();
+        Contact contactB = Contact.builder()
+                .name("drugi kontakt")
+                .address(addressB)
+                .build();
+        Contact contactC = Contact.builder()
+                .name("trzeci kontakt")
+                .address(addressC)
+                .build();
+        Contact contactD = Contact.builder()
+                .name("czwarty kontakt")
+                .address(addressD)
+                .build();
+        contactRepository.save(contactA);
+        contactRepository.save(contactB);
+        contactRepository.save(contactC);
+        contactRepository.save(contactD);
     }
-
 }
