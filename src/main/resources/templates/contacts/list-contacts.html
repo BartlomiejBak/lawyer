@@ -64,7 +64,7 @@
                    class="btn btn-info btn-sm">
                     Zaktualizuj
                 </a>
-                <a th:href="@{/contacts/delete(contact=${tempContact.id})}"
+                <a th:href="@{/contacts/delete(contactId=${tempContact.id})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Czy chcesz usunąć ten kontakt?'))) return false">
                     Usuń

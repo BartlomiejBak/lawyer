@@ -30,7 +30,7 @@ public class NoteController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
         Note note = new Note();
-        model.addAttribute("notes", note);
+        model.addAttribute("note", note);
         return "notes/add-note-form";
     }
 

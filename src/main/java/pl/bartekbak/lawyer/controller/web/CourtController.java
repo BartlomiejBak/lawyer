@@ -30,7 +30,7 @@ public class CourtController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
         Court court = new Court();
-        model.addAttribute("courts", court);
+        model.addAttribute("court", court);
         return "courts/add-court-form";
     }
 

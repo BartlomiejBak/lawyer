@@ -30,7 +30,7 @@ public class ContactController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
         Contact contact = new Contact();
-        model.addAttribute("contacts", contact);
+        model.addAttribute("contact", contact);
         return "contacts/add-contact-form";
     }
 

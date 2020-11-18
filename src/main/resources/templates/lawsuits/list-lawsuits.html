@@ -60,7 +60,7 @@
                 class="btn btn-info btn-sm">
                     Zaktualizuj
                 </a>
-                <a th:href="@{/lawsuits/delete(lawsuit=${tempLawsuit.id})}"
+                <a th:href="@{/lawsuits/delete(lawsuitId=${tempLawsuit.id})}"
                 class="btn btn-danger btn-sm"
                 onclick="if (!(confirm('Czy chcesz usunąć ten wpis?'))) return false">
                     Usuń

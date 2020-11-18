@@ -22,7 +22,7 @@ public class TaskController {
     @GetMapping("/list")
     public String listAllTasks(Model model) {
         List<Task> taskList = service.findAllTasks();
-        model.addAttribute("tasks", taskList);
+        model.addAttribute("task", taskList);
         return "tasks/list-tasks";
     }
 

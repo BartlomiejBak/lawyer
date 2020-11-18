@@ -30,7 +30,7 @@ public class LawsuitController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
         Lawsuit lawsuit = new Lawsuit();
-        model.addAttribute("lawsuits", lawsuit);
+        model.addAttribute("lawsuit", lawsuit);
         return "lawsuits/add-lawsuit-form";
     }
 
