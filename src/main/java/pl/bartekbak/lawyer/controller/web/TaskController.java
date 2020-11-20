@@ -29,7 +29,7 @@ public class TaskController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
         Task task = new Task();
-        model.addAttribute("tasks", task);
+        model.addAttribute("task", task);
         return "tasks/add-task-form";
     }
 
