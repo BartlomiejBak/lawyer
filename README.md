@@ -8,7 +8,7 @@ Crm system for individual lawyer
 4. [Status](#Status)
 
 
-##General info
+## General info
 The purpose of this app is to simplify and improve the work of individual lawyers by organizing
 all data related to their tasks. 
 
