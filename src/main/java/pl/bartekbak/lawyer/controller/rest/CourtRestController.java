@@ -44,7 +44,7 @@ public class CourtRestController {
         return court;
     }
 
-    @DeleteMapping("courts/{courtId}")
+    @DeleteMapping("/courts/{courtId}")
     public String deleteCourt(@PathVariable int courtId) {
         Court court = service.findCourtById(courtId);
         if (court == null) {

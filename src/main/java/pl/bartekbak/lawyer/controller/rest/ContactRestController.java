@@ -45,7 +45,7 @@ public class ContactRestController {
         return contact;
     }
 
-    @DeleteMapping("contacts/{contactId}")
+    @DeleteMapping("/contacts/{contactId}")
     public String deleteContact(@PathVariable int contactId) {
         Contact contact = contactService.findContactById(contactId);
         if (contact == null) {

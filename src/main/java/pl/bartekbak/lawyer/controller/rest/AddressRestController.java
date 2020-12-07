@@ -45,7 +45,7 @@ public class AddressRestController {
         return address;
     }
 
-    @DeleteMapping("addresses/{addressId}")
+    @DeleteMapping("/addresses/{addressId}")
     public String deleteAddress(@PathVariable int addressId) {
         Address address = addressService.findAddressById(addressId);
         if (address == null) {

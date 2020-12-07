@@ -45,7 +45,7 @@ public class LawsuitRestController {
         return lawsuit;
     }
 
-    @DeleteMapping("lawsuits/{lawsuitId}")
+    @DeleteMapping("/lawsuits/{lawsuitId}")
     public String deleteLawsuit(@PathVariable int lawsuitId) {
         Lawsuit lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {

@@ -44,7 +44,7 @@ public class NoteRestController {
         return note;
     }
 
-    @DeleteMapping("notes/{noteId}")
+    @DeleteMapping("/notes/{noteId}")
     public String deleteNote(@PathVariable int noteId) {
         Note note = noteService.findNoteById(noteId);
         if (note == null) {
