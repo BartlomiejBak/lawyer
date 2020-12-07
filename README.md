@@ -1,7 +1,7 @@
 # Lawyer
 Crm system for individual lawyer
 
-##Table of Contents
+## Table of Contents
 1. [General info](#General-info)
 2. [Technologies](#Technologies)
 3. [Setup](#Setup)
@@ -12,7 +12,7 @@ Crm system for individual lawyer
 The purpose of this app is to simplify and improve the work of individual lawyers by organizing
 all data related to their tasks. 
 
-##Technologies
+## Technologies
 - Java 11 
 ####
 - Spring Boot 2.3.5 Release
@@ -22,11 +22,11 @@ all data related to their tasks.
 - Lombok
 - JUnit5
 ####
-##Setup
+## Setup
 The application is developed in IntelliJ IDEA Ultimate Edition.
 Can be run via IDE. 
 
-##Status
+## Status
 In progress...
 
 To do/to be completed:
