@@ -8,7 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/court")
 public class CourtRestController {
     CourtServiceSpringData service;
 
@@ -17,12 +17,12 @@ public class CourtRestController {
         this.service = service;
     }
 
-    @GetMapping("/courts")
+    @GetMapping("/all")
     public List<Court> getAllCourts() {
         return service.findAllCourts();
     }
 
-    @GetMapping("/courts/{courtId}")
+    @GetMapping("/id/{courtId}")
     public Court getCourt(@PathVariable int courtId) {
         Court court = service.findCourtById(courtId);
         if (court == null) {
@@ -31,20 +31,20 @@ public class CourtRestController {
         return court;
     }
 
-    @PostMapping("/courts")
+    @PostMapping("/register")
     public Court addCourt(@RequestBody Court court) {
         court.setCourtId(0);
         service.saveCourt(court);
         return court;
     }
 
-    @PutMapping("/courts")
+    @PutMapping("/register")
     public Court updateCourt(@RequestBody Court court) {
         service.saveCourt(court);
         return court;
     }
 
-    @DeleteMapping("/courts/{courtId}")
+    @DeleteMapping("/remove/{courtId}")
     public String deleteCourt(@PathVariable int courtId) {
         Court court = service.findCourtById(courtId);
         if (court == null) {

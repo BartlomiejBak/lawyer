@@ -8,7 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/contact")
 public class ContactRestController {
 
     ContactServiceSpringData contactService;
@@ -18,12 +18,12 @@ public class ContactRestController {
         this.contactService = contactService;
     }
 
-    @GetMapping("/contacts")
+    @GetMapping("/all")
     public List<Contact> getAllContacts() {
         return contactService.findAllContacts();
     }
 
-    @GetMapping("/contacts/{contactId}")
+    @GetMapping("/id/{contactId}")
     public Contact getContact(@PathVariable int contactId) {
         Contact contact = contactService.findContactById(contactId);
         if (contact == null) {
@@ -32,20 +32,20 @@ public class ContactRestController {
         return contact;
     }
 
-    @PostMapping("/contacts")
+    @PostMapping("/register")
     public Contact addContact(@RequestBody Contact contact) {
         contact.setId(0);
         contactService.saveContact(contact);
         return contact;
     }
 
-    @PutMapping("/contacts")
+    @PutMapping("/register")
     public Contact updateContact(@RequestBody Contact contact) {
         contactService.saveContact(contact);
         return contact;
     }
 
-    @DeleteMapping("/contacts/{contactId}")
+    @DeleteMapping("/remove/{contactId}")
     public String deleteContact(@PathVariable int contactId) {
         Contact contact = contactService.findContactById(contactId);
         if (contact == null) {

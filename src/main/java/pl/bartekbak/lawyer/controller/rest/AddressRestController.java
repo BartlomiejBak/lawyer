@@ -8,7 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/address")
 public class AddressRestController {
 
     AddressServiceSpringData addressService;
@@ -18,12 +18,12 @@ public class AddressRestController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/all")
     public List<Address> getAllAddresses() {
         return addressService.findAllAddresses();
     }
 
-    @GetMapping("/addresses/{addressId}")
+    @GetMapping("/id/{addressId}")
     public Address getAgreement(@PathVariable int addressId) {
         Address agreement = addressService.findAddressById(addressId);
         if (agreement == null) {
@@ -32,20 +32,20 @@ public class AddressRestController {
         return agreement;
     }
 
-    @PostMapping("/addresses")
+    @PostMapping("/register")
     public Address addAddress(@RequestBody Address address) {
         address.setId(0);
         addressService.saveAddress(address);
         return address;
     }
 
-    @PutMapping("/addresses")
+    @PutMapping("/register")
     public Address updateAddress(@RequestBody Address address) {
         addressService.saveAddress(address);
         return address;
     }
 
-    @DeleteMapping("/addresses/{addressId}")
+    @DeleteMapping("/remove/{addressId}")
     public String deleteAddress(@PathVariable int addressId) {
         Address address = addressService.findAddressById(addressId);
         if (address == null) {

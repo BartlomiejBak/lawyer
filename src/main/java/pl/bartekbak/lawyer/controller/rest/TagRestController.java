@@ -8,7 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/tag")
 public class TagRestController {
     TagServiceSpringData service;
 
@@ -17,12 +17,12 @@ public class TagRestController {
         this.service = service;
     }
 
-    @GetMapping("/tags")
+    @GetMapping("/all")
     public List<Tag> getAllTags() {
         return service.findAllTags();
     }
 
-    @GetMapping("/tags/{tagId}")
+    @GetMapping("/id/{tagId}")
     public Tag getTag(@PathVariable int tagId) {
         Tag tag = service.findTagById(tagId);
         if (tag == null) {
@@ -31,20 +31,20 @@ public class TagRestController {
         return tag;
     }
 
-    @PostMapping("/tags")
+    @PostMapping("/register")
     public Tag addTag(@RequestBody Tag tag) {
         tag.setId(0);
         service.saveTag(tag);
         return tag;
     }
 
-    @PutMapping("/tags")
+    @PutMapping("/register")
     public Tag updateTag(@RequestBody Tag tag) {
         service.saveTag(tag);
         return tag;
     }
 
-    @DeleteMapping("/tags/{tagId}")
+    @DeleteMapping("/remove/{tagId}")
     public String deleteTag(@PathVariable int tagId) {
         Tag tag = service.findTagById(tagId);
         if (tag == null) {

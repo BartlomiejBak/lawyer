@@ -8,7 +8,7 @@ import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/note")
 public class NoteRestController {
     NoteServiceSpringData noteService;
 
@@ -17,12 +17,12 @@ public class NoteRestController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/notes")
+    @GetMapping("/all")
     public List<Note> getAllNotes() {
         return noteService.findAllNotes();
     }
 
-    @GetMapping("/notes/{noteId}")
+    @GetMapping("/id/{noteId}")
     public Note getNote(@PathVariable int noteId) {
         Note note = noteService.findNoteById(noteId);
         if (note == null) {
@@ -31,20 +31,20 @@ public class NoteRestController {
         return note;
     }
 
-    @PostMapping("/notes")
+    @PostMapping("/register")
     public Note addNote(@RequestBody Note note) {
         note.setId(0);
         noteService.saveNote(note);
         return note;
     }
 
-    @PutMapping("/notes")
+    @PutMapping("/register")
     public Note updateNote(@RequestBody Note note) {
         noteService.saveNote(note);
         return note;
     }
 
-    @DeleteMapping("/notes/{noteId}")
+    @DeleteMapping("/remove/{noteId}")
     public String deleteNote(@PathVariable int noteId) {
         Note note = noteService.findNoteById(noteId);
         if (note == null) {
