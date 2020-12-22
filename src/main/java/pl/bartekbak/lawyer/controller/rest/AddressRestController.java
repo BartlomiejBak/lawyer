@@ -24,7 +24,7 @@ public class AddressRestController {
     }
 
     @GetMapping("/id/{addressId}")
-    public Address getAgreement(@PathVariable int addressId) {
+    public Address getAddress(@PathVariable int addressId) {
         Address agreement = addressService.findAddressById(addressId);
         if (agreement == null) {
             throw new RuntimeException("No such Id in database");
