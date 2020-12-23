@@ -21,6 +21,7 @@ all data related to their tasks.
 - H2 database
 - Lombok
 - JUnit5
+- Mockito
 ####
 ## Setup
 The application is developed in IntelliJ IDEA Ultimate Edition.
