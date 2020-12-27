@@ -13,131 +13,123 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Court;
-import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
+import pl.bartekbak.lawyer.entity.Note;
+import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-class LawsuitRestControllerTest {
+class NoteRestControllerTest {
 
-    private final Court firstCourt = Court.builder()
-            .courtId(100)
-            .name("court")
-            .build();
-    private final Court secondCourt = Court.builder()
-            .courtId(101)
-            .name("court")
-            .build();
-    private final Court thirdCourt = Court.builder()
-            .courtId(102)
-            .name("court")
-            .build();
-    private final List<Court> courts = List.of(firstCourt, secondCourt, thirdCourt);
+    private final Note firstNote = new Note(100,"1 note", "1000000");
+    private final Note secondNote = new Note(101,"2 note", "1000001");
+    private final Note thirdNote = new Note(102,"3 note", "1000002");
+    private final List<Note> notes = List.of(firstNote, secondNote, thirdNote);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private CourtRestController courtRestController;
+    private NoteRestController noteRestController;
 
     @Mock
-    private CourtServiceSpringData courtService;
+    private NoteServiceSpringData noteService;
 
     @BeforeEach
     void setUp() {
-        courtRestController = new CourtRestController(courtService);
-        final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(courtRestController);
+        noteRestController = new NoteRestController(noteService);
+        final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(noteRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
     }
 
     @Test
-    void getAllLawsuits_shouldReturnLawsuits() throws Exception {
+    void getAllNotes_shouldReturnNotes() throws Exception {
         //given
-        when(courtService.findAllCourts()).thenReturn(courts);
+        when(noteService.findAllNotes()).thenReturn(notes);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/all")
+                        .get("/api/note/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Court> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Court>>() {
+        final List<Note> result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Note>>() {
                 });
-        assertEquals(courts, result);
+        assertEquals(notes, result);
     }
 
     @Test
-    void getLawsuit_shouldReturnFirstLawsuit() throws Exception {
+    void getNote_shouldReturnFirstNote() throws Exception {
         //given
-        when(courtService.findCourtById(100)).thenReturn(firstCourt);
+        when(noteService.findNoteById(100)).thenReturn(firstNote);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/id/100")
+                        .get("/api/note/id/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Court result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Court>() {
+        final Note result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Note>() {
                 });
-        assertEquals(firstCourt, result);
+        assertEquals(firstNote, result);
     }
 
     @Test
-    void addLawsuit_shouldInvokePostSaveLawsuitOnce() throws Exception {
+    void addNote_shouldInvokePostSaveNoteOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(noteService).saveNote(any(Note.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/court/register")
-                        .content(objectMapper.writeValueAsString(firstCourt))
+                        .post("/api/note/register")
+                        .content(objectMapper.writeValueAsString(firstNote))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(noteService, times(1)).saveNote(any(Note.class));
     }
 
     @Test
-    void updateLawsuit_shouldInvokePutSaveLawsuitOnce() throws Exception {
+    void updateNote_shouldInvokePutSaveNoteOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(noteService).saveNote(any(Note.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/api/court/register")
-                        .content(objectMapper.writeValueAsString(firstCourt))
+                        .put("/api/note/register")
+                        .content(objectMapper.writeValueAsString(firstNote))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(noteService, times(1)).saveNote(any(Note.class));
     }
 
     @Test
-    void deleteLawsuit_shouldInvokeDeleteLawsuitByIdOnce() throws Exception {
+    void deleteNote_shouldInvokeDeleteNoteByIdOnce() throws Exception {
         //given
-        doNothing().when(courtService).deleteCourtById(anyInt());
-        when(courtService.findCourtById(anyInt())).thenReturn(firstCourt);
+        doNothing().when(noteService).deleteNoteById(anyInt());
+        when(noteService.findNoteById(anyInt())).thenReturn(firstNote);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/api/court/remove/100")
+                        .delete("/api/note/remove/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).deleteCourtById(anyInt());
+        verify(noteService, times(1)).deleteNoteById(anyInt());
     }
 }
