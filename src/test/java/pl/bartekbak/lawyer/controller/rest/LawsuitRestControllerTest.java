@@ -13,44 +13,43 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Court;
-import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
+import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class LawsuitRestControllerTest {
-
-    private final Court firstCourt = Court.builder()
-            .courtId(100)
-            .name("court")
+    private final Lawsuit firstLawsuit = Lawsuit.builder()
+            .id(100)
+            .name("1 lawsuit")
             .build();
-    private final Court secondCourt = Court.builder()
-            .courtId(101)
-            .name("court")
+    private final Lawsuit secondLawsuit = Lawsuit.builder()
+            .id(101)
+            .name("2 lawsuit")
             .build();
-    private final Court thirdCourt = Court.builder()
-            .courtId(102)
-            .name("court")
+    private final Lawsuit thirdLawsuit = Lawsuit.builder()
+            .id(102)
+            .name("3 lawsuit")
             .build();
-    private final List<Court> courts = List.of(firstCourt, secondCourt, thirdCourt);
+    private final List<Lawsuit> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private CourtRestController courtRestController;
+    private LawsuitRestController lawsuitRestController;
 
     @Mock
-    private CourtServiceSpringData courtService;
+    private LawsuitServiceSpringData lawsuitService;
 
     @BeforeEach
     void setUp() {
-        courtRestController = new CourtRestController(courtService);
-        final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(courtRestController);
+        lawsuitRestController = new LawsuitRestController(lawsuitService);
+        final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(lawsuitRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
     }
@@ -58,86 +57,86 @@ class LawsuitRestControllerTest {
     @Test
     void getAllLawsuits_shouldReturnLawsuits() throws Exception {
         //given
-        when(courtService.findAllCourts()).thenReturn(courts);
+        when(lawsuitService.findAllLawsuits()).thenReturn(lawsuits);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/all")
+                        .get("/api/lawsuit/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Court> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Court>>() {
+        final List<Lawsuit> result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Lawsuit>>() {
                 });
-        assertEquals(courts, result);
+        assertEquals(lawsuits, result);
     }
 
     @Test
     void getLawsuit_shouldReturnFirstLawsuit() throws Exception {
         //given
-        when(courtService.findCourtById(100)).thenReturn(firstCourt);
+        when(lawsuitService.findLawsuitById(100)).thenReturn(firstLawsuit);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/id/100")
+                        .get("/api/lawsuit/id/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Court result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Court>() {
+        final Lawsuit result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Lawsuit>() {
                 });
-        assertEquals(firstCourt, result);
+        assertEquals(firstLawsuit, result);
     }
 
     @Test
     void addLawsuit_shouldInvokePostSaveLawsuitOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/court/register")
-                        .content(objectMapper.writeValueAsString(firstCourt))
+                        .post("/api/lawsuit/register")
+                        .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(lawsuitService, times(1)).saveLawsuit(any(Lawsuit.class));
     }
 
     @Test
     void updateLawsuit_shouldInvokePutSaveLawsuitOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/api/court/register")
-                        .content(objectMapper.writeValueAsString(firstCourt))
+                        .put("/api/lawsuit/register")
+                        .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(lawsuitService, times(1)).saveLawsuit(any(Lawsuit.class));
     }
 
     @Test
     void deleteLawsuit_shouldInvokeDeleteLawsuitByIdOnce() throws Exception {
         //given
-        doNothing().when(courtService).deleteCourtById(anyInt());
-        when(courtService.findCourtById(anyInt())).thenReturn(firstCourt);
+        doNothing().when(lawsuitService).deleteLawsuitById(anyInt());
+        when(lawsuitService.findLawsuitById(anyInt())).thenReturn(firstLawsuit);
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/api/court/remove/100")
+                        .delete("/api/lawsuit/remove/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).deleteCourtById(anyInt());
+        verify(lawsuitService, times(1)).deleteLawsuitById(anyInt());
     }
 }

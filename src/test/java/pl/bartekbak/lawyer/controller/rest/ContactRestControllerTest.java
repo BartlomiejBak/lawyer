@@ -119,7 +119,7 @@ class ContactRestControllerTest {
         //when
          final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/contact/register")
+                        .put("/api/contact/register")
                         .content(objectMapper.writeValueAsString(firstContact))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
