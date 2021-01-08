@@ -20,6 +20,7 @@ public class Note {
     @Column(name = "title")
     private String title;
     @Column(name = "text")
+    @Lob
     private String text;
 
     public Note(String title, String text) {

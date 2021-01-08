@@ -26,6 +26,7 @@ public class Task {
     @Column(name = "deadline")
     private LocalDateTime deadline;
     @Column(name = "description")
+    @Lob
     private String description;
 
     @ManyToMany(mappedBy = "taskList")

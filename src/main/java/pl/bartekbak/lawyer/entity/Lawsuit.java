@@ -34,6 +34,7 @@ public class Lawsuit {
     @Column(name = "claim_amount")
     private double claimAmount;
     @Column(name = "add_info")
+    @Lob
     private String additionalInfo;
 
     @ManyToMany(mappedBy = "lawsuitList")
