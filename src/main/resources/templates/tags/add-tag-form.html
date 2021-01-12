@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <meta charset="UTF-8">
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
     <title>Dodaj tag</title>
 </head>
 <body>
@@ -17,9 +9,9 @@
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
     <div class="container">
-
+        <br>
         <h3>Dodaj tag</h3>
-        <hr>
+
 
         <p class="h4 mb-4">Zapisz tag</p>
         <form action="#" th:action="@{/tags/save}"

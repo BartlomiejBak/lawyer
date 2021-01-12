@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <meta charset="UTF-8">
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
     <title>Lista sądów</title>
 </head>
 <body>
@@ -17,15 +9,8 @@
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
 <div class="container">
+    <br>
     <h3>Lista sądów</h3>
-    <hr>
-
-    <!-- Add a button -->
-    <a th:href="@{/courts/showFormForAdd}"
-    class="btn btn-primary btn-sm mb-3">
-        Dodaj sąd
-    </a>
-
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
@@ -55,7 +40,11 @@
         </tr>
         </tbody>
     </table>
-
+    <!-- Add a button -->
+    <a th:href="@{/courts/showFormForAdd}"
+       class="btn btn-primary btn-sm mb-3">
+        Dodaj sąd
+    </a>
     <hr>
     <a th:href="@{/main/menu}">Powrót do menu</a>
 </div>
