@@ -25,6 +25,7 @@ public class Court {
     private Address address;
     @Column(name = "description")
     private String description;
+    private String phone;
 
     public Court(String name, Address address, String description) {
         this.name = name;

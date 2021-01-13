@@ -50,10 +50,16 @@ public class Contact {
     private LocalDate dateCreated;
     @Column(name = "modified")
     private LocalDate dateModified;
+   /* @Column(name = "representation")
+    private Set<Representation> representation;*/
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    private Address correspondenceAddress;
 
     @ManyToMany
     @JoinTable(

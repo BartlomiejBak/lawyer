@@ -23,5 +23,10 @@ public class Payment {
     private double paymentValue;
     @Column(name = "payment_date")
     private LocalDate paymentDate;
+    /*private boolean paid = false;
+    private LocalDate paidDate;
+    private String comment;
+    private boolean us;
+    private boolean incoming;*/
 
 }

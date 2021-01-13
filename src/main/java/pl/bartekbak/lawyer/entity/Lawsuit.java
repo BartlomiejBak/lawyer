@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -52,6 +53,9 @@ public class Lawsuit {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "lawsuit_id_defendant")
     private List<Contact> defendant;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "lawsuit_id_event")
+    private Set<Event> eventSet;
 
     public Lawsuit(int id, String name, String caseSide) {
         this.id = id;
