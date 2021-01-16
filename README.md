@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/BartlomiejBak/lawyer.svg?style=svg)](https://circleci.com/gh/BartlomiejBak/lawyer)
+
 # Lawyer
 Crm system for individual lawyer
 
