@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
 @Entity
 @Table(name = "event")
 public class Event {
@@ -18,7 +17,7 @@ public class Event {
     private LocalDateTime dateTime;
     @Column(name = "description")
     private String description;
-    @Column(name = "related")
     @ManyToOne
+    @JoinColumn(name = "lawsuit_event_id", referencedColumnName = "case_id")
     private Lawsuit relatedLawsuit;
 }

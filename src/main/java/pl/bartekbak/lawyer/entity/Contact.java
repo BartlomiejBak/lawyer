@@ -58,7 +58,7 @@ public class Contact {
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    @JoinColumn(name = "secondary_address_id", referencedColumnName = "address_id")
     private Address correspondenceAddress;
 
     @ManyToMany

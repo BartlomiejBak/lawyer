@@ -25,13 +25,15 @@ class CourtServiceSpringDataTest {
     @Mock
     CourtRepository repository;
 
+    Court courtOne = Court.builder().courtId(1).name("name1").address(new Address()).description("desc1").build();
+
     @Test
     void findAllCourtsTest() {
         //given
         List<Court> list = new ArrayList<>();
-        Court courtOne = new Court(1,"name1", new Address(), "desc1");
-        Court courtTwo = new Court(2,"name2", new Address(), "desc2");
-        Court courtThree = new Court(3,"name3", new Address(), "desc3");
+
+        Court courtTwo = Court.builder().courtId(2).name("name2").address(new Address()).description("desc2").build();
+        Court courtThree = Court.builder().courtId(3).name("name3").address(new Address()).description("desc3").build();
 
         list.add(courtOne);
         list.add(courtTwo);
@@ -51,7 +53,7 @@ class CourtServiceSpringDataTest {
         //given
         //when
         when(repository.findById(1))
-                .thenReturn(Optional.of(new Court(1,"name1", new Address(), "desc1")));
+                .thenReturn(Optional.of(courtOne));
         Court result = service.findCourtById(1);
         //then
         assertEquals("name1", result.getName());
@@ -60,13 +62,11 @@ class CourtServiceSpringDataTest {
 
     @Test
     void saveCourtTest() {
-        //given
-        Court court = new Court(1,"name1", new Address(), "desc1");
         //when
-        service.saveCourt(court);
+        service.saveCourt(courtOne);
         service.saveCourt(new Court());
         //then
-        verify(repository, times(1)).save(court);
+        verify(repository, times(1)).save(courtOne);
         verify(repository, times(2)).save(any());
     }
 
