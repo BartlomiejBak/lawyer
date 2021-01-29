@@ -36,8 +36,8 @@ class AddressServiceSpringDataTest {
         list.add(addressTwo);
         list.add(addressThree);
 
-        //when
         when(repository.findAllByOrderByIdAsc()).thenReturn(list);
+        //when
         List<Address> result = service.findAllAddresses();
 
         //then
@@ -48,9 +48,9 @@ class AddressServiceSpringDataTest {
     @Test
     void findAddressByIdTest() {
         //given
-        //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(new Address(1, "s1", "z1", "c1", "c1")));
+        //when
         Address result = service.findAddressById(1);
         //then
         assertEquals("s1", result.getStreet());
