@@ -24,13 +24,14 @@ class TaskServiceSpringDataTest {
     @Mock
     TaskRepository repository;
 
+    Task taskOne = Task.builder().id(1).description("description 1").build();
+
     @Test
     void findAllTasks() {
         //given
         List<Task> list = new ArrayList<>();
-        Task taskOne = new Task(1, "description 1");
-        Task taskTwo = new Task(2, "description 2");
-        Task taskThree = new Task(3, "description 3");
+        Task taskTwo = Task.builder().id(2).description("description 2").build();
+        Task taskThree = Task.builder().id(3).description("description 3").build();
 
         list.add(taskOne);
         list.add(taskTwo);
@@ -50,21 +51,20 @@ class TaskServiceSpringDataTest {
         //given
         //when
         when(repository.findById(1))
-                .thenReturn(Optional.of(new Task(1, "desc")));
+                .thenReturn(Optional.of(taskOne));
         Task result = service.findTaskById(1);
         //then
-        assertEquals("desc", result.getDescription());
+        assertEquals("description 1", result.getDescription());
     }
 
     @Test
     void saveTask() {
         //given
-        Task task = new Task(1,"desc");
         //when
-        service.saveTask(task);
+        service.saveTask(taskOne);
         service.saveTask(new Task());
         //then
-        verify(repository, times(1)).save(task);
+        verify(repository, times(1)).save(taskOne);
         verify(repository, times(2)).save(any());
     }
 
