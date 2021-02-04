@@ -24,13 +24,27 @@ class LawsuitServiceSpringDataTest {
     @Mock
     LawsuitRepository repository;
 
+    Lawsuit lawsuitOne = Lawsuit.builder()
+            .id(1)
+            .name("name1")
+            .caseSide("side1")
+            .build();
+
     @Test
     void findAllLawsuitsTest() {
         //given
         List<Lawsuit> list = new ArrayList<>();
-        Lawsuit lawsuitOne = new Lawsuit(1, "name1", "side1");
-        Lawsuit lawsuitTwo = new Lawsuit(2, "name2", "side2");
-        Lawsuit lawsuitThree = new Lawsuit(3, "name3", "side3");
+
+        Lawsuit lawsuitTwo = Lawsuit.builder()
+                .id(2)
+                .name("name2")
+                .caseSide("side2")
+                .build();
+        Lawsuit lawsuitThree = Lawsuit.builder()
+                .id(3)
+                .name("name3")
+                .caseSide("side3")
+                .build();
 
         list.add(lawsuitOne);
         list.add(lawsuitTwo);
@@ -50,7 +64,7 @@ class LawsuitServiceSpringDataTest {
         //given
         //when
         when(repository.findById(1))
-                .thenReturn(Optional.of(new Lawsuit(1, "name1", "side1")));
+                .thenReturn(Optional.of(lawsuitOne));
         Lawsuit result = service.findLawsuitById(1);
         //then
         assertEquals("name1", result.getName());
@@ -60,12 +74,11 @@ class LawsuitServiceSpringDataTest {
     @Test
     void saveLawsuitTest() {
         //given
-        Lawsuit lawsuit = new Lawsuit(1, "name1", "side1");
         //when
-        service.saveLawsuit(lawsuit);
+        service.saveLawsuit(lawsuitOne);
         service.saveLawsuit(new Lawsuit());
         //then
-        verify(repository, times(1)).save(lawsuit);
+        verify(repository, times(1)).save(lawsuitOne);
         verify(repository, times(2)).save(any());
     }
 
