@@ -1,6 +1,7 @@
 package pl.bartekbak.lawyer.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "TAG")
 public class Tag {
 
@@ -17,10 +19,7 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
     private int id;
+
     @Column(name = "name")
     private String name;
-
-    public Tag(String name) {
-        this.name = name;
-    }
 }
