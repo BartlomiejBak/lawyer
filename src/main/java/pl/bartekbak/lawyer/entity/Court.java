@@ -18,18 +18,18 @@ public class Court {
     @Column(name = "court_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int courtId;
+
     @Column(name = "name")
     private String name;
+
     @OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
+
     @Column(name = "description")
     private String description;
+
+    @Column(name = "phone")
     private String phone;
 
-    public Court(String name, Address address, String description) {
-        this.name = name;
-        this.address = address;
-        this.description = description;
-    }
 }
