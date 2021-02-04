@@ -24,13 +24,29 @@ class ContactServiceSpringDataTest {
     @Mock
     ContactRepository repository;
 
+    Contact contactOne = Contact.builder()
+            .id(1)
+            .name("n1")
+            .firstName("fn1")
+            .lastName("ln1")
+            .build();
+
     @Test
     void findAllContactsTest() {
         //given
         List<Contact> list = new ArrayList<>();
-        Contact contactOne = new Contact(1, "n1", "fn1","ln1");
-        Contact contactTwo = new Contact(2, "n2", "fn2","ln2");
-        Contact contactThree = new Contact(3, "n3", "fn3","ln3");
+        Contact contactTwo = Contact.builder()
+                .id(2)
+                .name("n2")
+                .firstName("fn2")
+                .lastName("ln2")
+                .build();
+        Contact contactThree = Contact.builder()
+                .id(3)
+                .name("n3")
+                .firstName("fn3")
+                .lastName("ln3")
+                .build();
 
 
         list.add(contactOne);
@@ -51,22 +67,21 @@ class ContactServiceSpringDataTest {
         //given
         //when
         when(repository.findById(1))
-                .thenReturn(Optional.of(new Contact(1, "N", "FN", "LN")));
+                .thenReturn(Optional.of(contactOne));
         Contact result = service.findContactById(1);
         //then
-        assertEquals("FN", result.getFirstName());
-        assertEquals("LN", result.getLastName());
+        assertEquals("fn1", result.getFirstName());
+        assertEquals("ln1", result.getLastName());
     }
 
     @Test
     void saveContactTest() {
         //given
-        Contact contact = new Contact(1, "N", "FN", "LN");
         //when
-        service.saveContact(contact);
+        service.saveContact(contactOne);
         service.saveContact(new Contact());
         //then
-        verify(repository, times(1)).save(contact);
+        verify(repository, times(1)).save(contactOne);
         verify(repository, times(2)).save(any());
     }
 
