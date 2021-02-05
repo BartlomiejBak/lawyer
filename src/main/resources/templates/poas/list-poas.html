@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Lista poa</title>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<div class="container">
+    <br>
+    <h3>Lista poa</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Typ</th>
+            <th>Płatność</th>
+            <th>kpc</th>
+            <th>wypowiedzenie</th>
+            <th>start</th>
+            <th>koniec</th>
+            <th>notyfikacja o wypowiedzeniu</th>
+            <th>zanotyfikowano</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempPoa : ${poas}">
+            <td th:text="${tempPoa.type}"/>
+            <td th:text="${tempPoa.payment}"/>
+            <td th:text="${tempPoa.kpc}"/>
+            <td th:text="${tempPoa.termination}"/>
+            <td th:text="${tempPoa.startDate}"/>
+            <td th:text="${tempPoa.endDate}"/>
+            <td th:text="${tempPoa.terminationNotificationDuty}"/>
+            <td th:text="${tempPoa.terminationNotificationDutyCompleted}"/>
+            <!-- add button -->
+            <td>
+                <a th:href="@{/poas/showFormForUpdate(poaId=${tempPoa.poaId})}"
+                class="btn btn-info btn-sm">
+                    Zaktualizuj
+                </a>
+                <a th:href="@{/poas/delete(poaId=${tempPoa.poaId})}"
+                class="btn btn-danger btn-sm"
+                onclick="if (!(confirm('Czy chcesz usunąć to poa?'))) return false">
+                    Usuń
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Add a button -->
+    <a th:href="@{/poas/showFormForAdd}"
+       class="btn btn-primary btn-sm mb-3">
+        Dodaj poa
+    </a>
+    <hr>
+    <a th:href="@{/main/menu}">Powrót do menu</a>
+</div>
+</body>
+</html>
