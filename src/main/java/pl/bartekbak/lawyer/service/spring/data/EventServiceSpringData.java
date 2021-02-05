@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.service.spring.data;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.EventRepository;
 import pl.bartekbak.lawyer.entity.Event;
@@ -10,10 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class EventServiceSpringData implements EventService {
 
     EventRepository eventRepository;
+
+    public EventServiceSpringData(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @Override
     public List<Event> findAllCourts() {
