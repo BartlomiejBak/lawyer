@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Add Payment</title>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+    <div class="container">
+        <br>
+        <h3>Dodaj płatność</h3>
+
+
+        <p class="h4 mb-4">Zapisz płatność</p>
+        <form action="#" th:action="@{/payments/save}"
+        th:object="${payment}" method="post">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{paymentId}"/>
+
+            <input type="text" th:field="*{paymentValue}" class="form-control mb-4 col-4"
+            placeholder="wartość">
+            <input type="datetime-local" th:field="*{paymentDate}" class="form-control mb-4 col-4"
+            placeholder="termin">
+
+            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+
+        </form>
+
+        <hr>
+        <a th:href="@{/payments/list}">Powrót do listy płatności</a>
+        <br>
+        <a th:href="@{/main/menu}">Powrót do menu</a>
+
+
+    </div>
+
+</body>
+</html>
