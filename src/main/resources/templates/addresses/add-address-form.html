@@ -11,33 +11,33 @@
 
     <div class="container">
 
-        <h3>Dodaj adres</h3>
+        <h3 th:text="#{address.add}"></h3>
         <hr>
 
-        <p class="h4 mb-4">Zapisz adres</p>
+        <p class="h4 mb-4" th:text="#{address.save}"></p>
         <form action="#" th:action="@{/addresses/save}"
         th:object="${address}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>
 
-            <input type="text" th:field="*{street}" class="form-control mb-4 col-4"
-            placeholder="ulica">
-            <input type="text" th:field="*{zipCode}" class="form-control mb-4 col-4"
-            placeholder="kod pocztowy">
-            <input type="text" th:field="*{city}" class="form-control mb-4 col-4"
-            placeholder="miasto">
-            <input type="text" th:field="*{country}" class="form-control mb-4 col-4"
-            placeholder="kraj">
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <p th:text="#{address.street} + ':'"></p>
+            <input type="text" th:field="*{street}" class="form-control mb-4 col-4">
+            <p th:text="#{address.postal} + ':'"></p>
+            <input type="text" th:field="*{zipCode}" class="form-control mb-4 col-4">
+            <p th:text="#{address.city} + ':'"></p>
+            <input type="text" th:field="*{city}" class="form-control mb-4 col-4">
+            <p th:text="#{address.country} + ':'"></p>
+            <input type="text" th:field="*{country}" class="form-control mb-4 col-4">
+
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/addresses/list}">Powrót do listy adresów</a>
+        <a th:href="@{/addresses/list}" th:text="#{address.backToAddressList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
-
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
     </div>
 
