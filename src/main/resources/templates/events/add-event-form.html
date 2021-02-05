@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Add Event</title>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+    <div class="container">
+        <br>
+        <h3>Dodaj event</h3>
+
+
+        <p class="h4 mb-4">Zapisz event</p>
+        <form action="#" th:action="@{/events/save}"
+        th:object="${event}" method="post">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{eventId}"/>
+
+            <input type="text" th:field="*{title}" class="form-control mb-4 col-4"
+            placeholder="nazwa">
+            <input type="text" th:field="*{dateTime}" class="form-control mb-4 col-4"
+            placeholder="termin">
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4"
+            placeholder="opis">
+            <input type="text" th:field="*{relatedLawsuit}" class="form-control mb-4 col-4"
+            placeholder="powiązana sprawa">
+
+            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+
+        </form>
+
+        <hr>
+        <a th:href="@{/events/list}">Powrót do listy eventów</a>
+        <br>
+        <a th:href="@{/main/menu}">Powrót do menu</a>
+
+
+    </div>
+
+</body>
+</html>
