@@ -47,8 +47,8 @@
             <td th:text="${tempContact.regon}"/>
             <td th:text="${tempContact.krs}"/>
             <td th:text="${tempContact.address}"/>
-            <td th:text="${tempContact.taskList}"/>
-            <td th:text="${tempContact.lawsuitList}"/>
+            <td><span th:each="task : ${tempContact.taskList}" th:text="${task.description}"/></td>
+            <td><span th:each="lawsuit : ${tempContact.lawsuitList}" th:text="${lawsuit.name}"/></td>
             <!-- add button -->
             <td>
                 <a th:href="@{/contacts/showFormForUpdate(contactId=${tempContact.id})}"

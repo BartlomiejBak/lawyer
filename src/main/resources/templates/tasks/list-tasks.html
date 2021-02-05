@@ -27,8 +27,8 @@
             <td th:text="${tempTask.priority}"/>
             <td th:text="${tempTask.deadline}"/>
             <td th:text="${tempTask.description}"/>
-            <td th:text="${tempTask.lawsuitList}"/>
-            <td th:text="${tempTask.contactList}"/>
+            <td><span th:each="lawsuit : ${tempTask.lawsuitList}" th:text="${lawsuit.name}"/>
+            <td><span th:each="contact : ${tempTask.contactList}" th:text="${contact.name}"/>
             <!-- add button -->
             <td>
                 <a th:href="@{/tasks/showFormForUpdate(taskId=${tempTask.id})}"

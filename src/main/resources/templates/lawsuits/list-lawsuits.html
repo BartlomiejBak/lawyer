@@ -25,6 +25,7 @@
             <th>Zadania</th>
             <th>Powód</th>
             <th>Pozwany</th>
+            <th>Eventy</th>
         </tr>
         </thead>
 
@@ -37,10 +38,12 @@
             <td th:text="${tempLawsuit.signature}"/>
             <td th:text="${tempLawsuit.claimAmount}"/>
             <td th:text="${tempLawsuit.additionalInfo}"/>
-            <td th:text="${tempLawsuit.getContactList()}"/>
-            <td th:text="${tempLawsuit.taskList}"/>
-            <td th:text="${tempLawsuit.plaintiff}"/>
-            <td th:text="${tempLawsuit.defendant}"/>
+            <td><span th:each="contact : ${tempLawsuit.contactList}" th:text="${contact.name}"/></td>
+            <td><span th:each="task : ${tempLawsuit.taskList}" th:text="${task.description}"/></td>
+            <td><span th:each="plaintiff : ${tempLawsuit.plaintiff}" th:text="${plaintiff.name}"/></td>
+            <td><span th:each="defendant : ${tempLawsuit.defendant}" th:text="${defendant.name}"/></td>
+            <td><span th:each="event : ${tempLawsuit.eventSet}" th:text="${event.description}"/></td>
+
             <!-- add button -->
             <td>
                 <a th:href="@{/lawsuits/showFormForUpdate(lawsuitId=${tempLawsuit.id})}"
