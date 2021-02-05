@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PoaRepository extends JpaRepository<Poa, Integer> {
 
-    public List<Poa> findAllByOrderByIdAsc();
+    public List<Poa> findAllByOrderByPoaIdAsc();
 }

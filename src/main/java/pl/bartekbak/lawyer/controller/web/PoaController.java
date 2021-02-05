@@ -40,7 +40,7 @@ public class PoaController {
     }
 
     @PostMapping("/save")
-    public String savePoa(@ModelAttribute("poa") Poa poa) {
+    public String savePoa(@ModelAttribute("poaId") Poa poa) {
         service.savePoa(poa);
         return "redirect:list";
     }

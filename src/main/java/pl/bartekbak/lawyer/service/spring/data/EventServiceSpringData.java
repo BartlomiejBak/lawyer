@@ -18,7 +18,7 @@ public class EventServiceSpringData implements EventService {
     }
 
     @Override
-    public List<Event> findAllCourts() {
+    public List<Event> findAllEvents() {
         return eventRepository.findAllByOrderByDateTimeAsc();
     }
 

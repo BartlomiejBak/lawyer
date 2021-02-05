@@ -29,14 +29,14 @@ public class PaymentController {
     public String showFormForAdd(Model model) {
         Payment payment = new Payment();
         model.addAttribute("payment", payment);
-        return "payments/add-note-form";
+        return "payments/add-payment-form";
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("paymentId") int id, Model model) {
         Payment payment = service.findPaymentById(id);
         model.addAttribute(payment);
-        return "payments/update-payment-form";
+        return "payments/add-payment-form";
     }
 
     @PostMapping("/save")

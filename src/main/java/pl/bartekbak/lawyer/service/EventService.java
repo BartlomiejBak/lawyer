@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EventService {
 
-    List<Event> findAllCourts();
+    List<Event> findAllEvents();
 
     Event findEventById(int id);
 

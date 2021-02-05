@@ -19,7 +19,7 @@ public class PoaServiceSpringData implements PoaService {
 
     @Override
     public List<Poa> findAllPoa() {
-        return repository.findAllByOrderByIdAsc();
+        return repository.findAllByOrderByPoaIdAsc();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PoaServiceSpringData implements PoaService {
         } else {
             throw new RuntimeException("Id not found");
         }
-        return null;
+        return poa;
     }
 
     @Override

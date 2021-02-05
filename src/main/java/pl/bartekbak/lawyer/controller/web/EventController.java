@@ -15,14 +15,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/events")
-@RequiredArgsConstructor
 public class EventController {
 
     private EventService service;
 
+    public EventController(EventService service) {
+        this.service = service;
+    }
+
     @GetMapping("/list")
     public String listAllEvents(Model model) {
-        List<Event> eventList = service.findAllCourts();
+        List<Event> eventList = service.findAllEvents();
         model.addAttribute("events", eventList);
         return "events/list-events";
     }

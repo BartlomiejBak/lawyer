@@ -19,7 +19,7 @@ public class Poa {
     @Id
     @Column(name = "poa_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int poaId;
 
     @Column(name = "type")
     private String type;

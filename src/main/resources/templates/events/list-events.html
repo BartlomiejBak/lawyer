@@ -26,16 +26,16 @@
             <td th:text="${tempEvent.title}"/>
             <td th:text="${tempEvent.dateTime}"/>
             <td th:text="${tempEvent.description}"/>
-            <td th:text="${tempEvent.relatedLawsuit.name}"/>
+            <td th:text="${tempEvent.relatedLawsuit}"/>
             <!-- add button -->
             <td>
-                <a th:href="@{/events/showFormForUpdate(eventId=${tempEvent.id})}"
+                <a th:href="@{/events/showFormForUpdate(eventId=${tempEvent.eventId})}"
                 class="btn btn-info btn-sm">
                     Zaktualizuj
                 </a>
-                <a th:href="@{/courts/delete(courtId=${tempEvent.id})}"
+                <a th:href="@{/events/delete(eventId=${tempEvent.eventId})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć ten sąd?'))) return false">
+                onclick="if (!(confirm('Czy chcesz usunąć ten event?'))) return false">
                     Usuń
                 </a>
             </td>
@@ -43,9 +43,9 @@
         </tbody>
     </table>
     <!-- Add a button -->
-    <a th:href="@{/courts/showFormForAdd}"
+    <a th:href="@{/events/showFormForAdd}"
        class="btn btn-primary btn-sm mb-3">
-        Dodaj sąd
+        Dodaj event
     </a>
     <hr>
     <a th:href="@{/main/menu}">Powrót do menu</a>

@@ -19,7 +19,7 @@ public class Payment {
     @Id
     @Column(name = "payment_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int paymentId;
 
     @Column(name = "payment_value")
     private double paymentValue;
