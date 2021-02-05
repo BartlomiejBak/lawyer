@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Add Poa</title>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+    <div class="container">
+        <br>
+        <h3>Dodaj poa</h3>
+
+
+        <p class="h4 mb-4">Zapisz poa</p>
+        <form action="#" th:action="@{/poas/save}"
+        th:object="${poa}" method="post">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{poaId}"/>
+
+            <input type="text" th:field="*{type}" class="form-control mb-4 col-4"
+            placeholder="typ">
+            <input type="text" th:field="*{payment}" class="form-control mb-4 col-4"
+            placeholder="płatność">
+            <input type="text" th:field="*{kpc}" class="form-control mb-4 col-4"
+            placeholder="kpc">
+            <input type="text" th:field="*{termination}" class="form-control mb-4 col-4"
+                   placeholder="wypowiedzenie">
+            <input type="date" th:field="*{startDate}" class="form-control mb-4 col-4"
+                   placeholder="rozpoczęcie">
+            <input type="date" th:field="*{endDate}" class="form-control mb-4 col-4"
+                   placeholder="zakończenie">
+            <input type="text" th:field="*{terminationNotificationDuty}" class="form-control mb-4 col-4"
+                   placeholder="obowiązek powiadomienia o wypowiedzenie">
+            <input type="text" th:field="*{terminationNotificationDutyCompleted}" class="form-control mb-4 col-4"
+                   placeholder="obowiązek wypełniony">
+
+            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+
+        </form>
+
+        <hr>
+        <a th:href="@{/poas/list}">Powrót do listy poa</a>
+        <br>
+        <a th:href="@{/main/menu}">Powrót do menu</a>
+
+
+    </div>
+
+</body>
+</html>
