@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista kontaktów</title>
+    <title>Contact list</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 
 <div class="container">
     <br>
-    <h3>Lista kontaktów</h3>
+    <h3 th:text="#{contact.list}"></h3>
 
 
 
@@ -18,47 +18,47 @@
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Nazwa</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Telefon</th>
-            <th>Email</th>
-            <th>Firma spółki</th>
-            <th>PESEL</th>
-            <th>NIP</th>
-            <th>REGON</th>
-            <th>KRS</th>
-            <th>Adres</th>
-            <th>Lista zadań</th>
-            <th>Lista spraw</th>
+            <th th:text="#{contact.name}"></th>
+            <th th:text="#{contact.firstName}"></th>
+            <th th:text="#{contact.lastName}"></th>
+            <th th:text="#{contact.phone}"></th>
+            <th th:text="Email"></th>
+            <th th:text="#{contact.companyName}"></th>
+            <th th:text="PESEL"></th>
+            <th th:text="NIP"></th>
+            <th th:text="REGON"></th>
+            <th th:text="KRS"></th>
+            <th th:text="#{contact.address}"></th>
+            <th th:text="#{contact.taskList}"></th>
+            <th th:text="#{contact.lawsuitList}"></th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:each="tempContact : ${contacts}">
-            <td th:text="${tempContact.name}"/>
-            <td th:text="${tempContact.firstName}"/>
-            <td th:text="${tempContact.lastName}"/>
-            <td th:text="${tempContact.phone} + ' ' + ${tempContact.altPhone}"/>
-            <td th:text="${tempContact.email} + ' ' + ${tempContact.altEmail}"/>
-            <td th:text="${tempContact.companyName}"/>
-            <td th:text="${tempContact.pesel}"/>
-            <td th:text="${tempContact.nip}"/>
-            <td th:text="${tempContact.regon}"/>
-            <td th:text="${tempContact.krs}"/>
-            <td th:text="${tempContact.address}"/>
-            <td><span th:each="task : ${tempContact.taskList}" th:text="${task.description}"/></td>
-            <td><span th:each="lawsuit : ${tempContact.lawsuitList}" th:text="${lawsuit.name}"/></td>
+            <td th:text="${tempContact.name}"></td>
+            <td th:text="${tempContact.firstName}"></td>
+            <td th:text="${tempContact.lastName}"></td>
+            <td th:text="${tempContact.phone} + ' ' + ${tempContact.altPhone}"></td>
+            <td th:text="${tempContact.email} + ' ' + ${tempContact.altEmail}"></td>
+            <td th:text="${tempContact.companyName}"></td>
+            <td th:text="${tempContact.pesel}"></td>
+            <td th:text="${tempContact.nip}"></td>
+            <td th:text="${tempContact.regon}"></td>
+            <td th:text="${tempContact.krs}"></td>
+            <td th:text="${tempContact.address}"></td>
+            <td><span th:each="task : ${tempContact.taskList}" th:text="${task.description}"></span></td>
+            <td><span th:each="lawsuit : ${tempContact.lawsuitList}" th:text="${lawsuit.name}"></span></td>
             <!-- add button -->
             <td>
                 <a th:href="@{/contacts/showFormForUpdate(contactId=${tempContact.id})}"
-                   class="btn btn-info btn-sm">
-                    Zaktualizuj
+                   class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/contacts/delete(contactId=${tempContact.id})}"
                    class="btn btn-danger btn-sm"
-                   onclick="if (!(confirm('Czy chcesz usunąć ten kontakt?'))) return false">
-                    Usuń
+                   th:data-confirm-delete="#{contact.deleteConfirm}"
+                   onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                    th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -66,11 +66,11 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/contacts/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj kontakt
+       class="btn btn-primary btn-sm mb-3"
+        th:text="#{contact.add}">
     </a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>

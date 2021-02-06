@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Dodaj kontakt</title>
+    <title>Add Contact</title>
 </head>
 <body>
 
@@ -10,51 +10,51 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj kontakt</h3>
+        <h3 th:text="#{contact.add}"></h3>
 
 
-        <p class="h4 mb-4">Zapisz kontakt</p>
+        <p class="h4 mb-4" th:text="#{contact.save}"></p>
         <form action="#" th:action="@{/contacts/save}"
         th:object="${contact}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>
 
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
-            placeholder="nazwa">
-            <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4"
-            placeholder="imię">
-            <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4"
-            placeholder="nazwisko">
-            <input type="text" th:field="*{email}" class="form-control mb-4 col-4"
-            placeholder="email">
-            <input type="text" th:field="*{altEmail}" class="form-control mb-4 col-4"
-            placeholder="email 2">
-            <input type="text" th:field="*{phone}" class="form-control mb-4 col-4"
-            placeholder="tel">
-            <input type="text" th:field="*{altPhone}" class="form-control mb-4 col-4"
-            placeholder="tel 2">
-            <input type="text" th:field="*{companyName}" class="form-control mb-4 col-4"
-            placeholder="firma spółki">
-            <input type="text" th:field="*{pesel}" class="form-control mb-4 col-4"
-            placeholder="PESEL">
-            <input type="text" th:field="*{nip}" class="form-control mb-4 col-4"
-            placeholder="NIP">
-            <input type="text" th:field="*{regon}" class="form-control mb-4 col-4"
-            placeholder="REGON">
-            <input type="text" th:field="*{krs}" class="form-control mb-4 col-4"
-            placeholder="KRS">
-            <input type="text" th:field="*{address}" class="form-control mb-4 col-4"
-            placeholder="Adres">
+            <p th:text="#{contact.name}"></p>
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.firstName}"></p>
+            <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.lastName}"></p>
+            <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4"/>
+            <p th:text="Email"></p>
+            <input type="text" th:field="*{email}" class="form-control mb-4 col-4"/>
+            <p th:text="Email + ' 2'"></p>
+            <input type="text" th:field="*{altEmail}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.phone}"></p>
+            <input type="text" th:field="*{phone}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.phone} + ' 2'"></p>
+            <input type="text" th:field="*{altPhone}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.companyName}"></p>
+            <input type="text" th:field="*{companyName}" class="form-control mb-4 col-4"/>
+            <p th:text="PESEL"></p>
+            <input type="text" th:field="*{pesel}" class="form-control mb-4 col-4"/>
+            <p th:text="NIP"></p>
+            <input type="text" th:field="*{nip}" class="form-control mb-4 col-4"/>
+            <p th:text="REGON"></p>
+            <input type="text" th:field="*{regon}" class="form-control mb-4 col-4"/>
+            <p th:text="KRS"></p>
+            <input type="text" th:field="*{krs}" class="form-control mb-4 col-4"/>
+            <p th:text="#{contact.address}"></p>
+            <input type="text" th:field="*{address}" class="form-control mb-4 col-4"/>
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/contacts/list}">Powrót do listy kontaktów</a>
+        <a th:href="@{/contacts/list}" th:text="#{contact.backToContactList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}"th:text="#{command.backToMenu}"></a>
 
 
     </div>
