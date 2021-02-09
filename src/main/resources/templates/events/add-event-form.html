@@ -10,33 +10,33 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj event</h3>
+        <h3 th:text="#{event.add}"></h3>
 
 
-        <p class="h4 mb-4">Zapisz event</p>
+        <p class="h4 mb-4" th:text="#{event.save}"></p>
         <form action="#" th:action="@{/events/save}"
         th:object="${event}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{eventId}"/>
 
-            <input type="text" th:field="*{title}" class="form-control mb-4 col-4"
-            placeholder="nazwa">
-            <input type="datetime-local" th:field="*{dateTime}" class="form-control mb-4 col-4"
-            placeholder="termin">
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4"
-            placeholder="opis">
-            <input type="text" th:field="*{relatedLawsuit}" class="form-control mb-4 col-4"
-            placeholder="powiązana sprawa">
+            <p th:text="#{event.name}"></p>
+            <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+            <p th:text="#{event.date}"></p>
+            <input type="datetime-local" th:field="*{dateTime}" class="form-control mb-4 col-4">
+            <p th:text="#{event.description}"></p>
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+            <p th:text="#{event.relatedCase}"></p>
+            <input type="text" th:field="*{relatedLawsuit}" class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/events/list}">Powrót do listy eventów</a>
+        <a th:href="@{/events/list}" th:text="#{event.backToEventList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>
