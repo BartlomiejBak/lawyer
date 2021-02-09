@@ -10,30 +10,30 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj sąd</h3>
+        <h3 th:text="#{court.add}"></h3>
 
 
-        <p class="h4 mb-4">Zapisz sąd</p>
+        <p class="h4 mb-4" th:text="#{court.save}"></p>
         <form action="#" th:action="@{/courts/save}"
         th:object="${court}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{courtId}"/>
 
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
-            placeholder="nazwa">
-            <input type="text" th:field="*{address}" class="form-control mb-4 col-4"
-            placeholder="adres">
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4"
-            placeholder="opis">
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <p th:text="#{court.name}"></p>
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+            <p th:text="#{court.address}"></p>
+            <input type="text" th:field="*{address}" class="form-control mb-4 col-4">
+            <p th:text="#{court.description}"></p>
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/courts/list}">Powrót do listy sądów</a>
+        <a th:href="@{/courts/list}" th:text="#{court.backToCourtList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>

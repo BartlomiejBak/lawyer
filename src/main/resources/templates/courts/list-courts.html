@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista sądów</title>
+    <title>Court list</title>
 </head>
 <body>
 
@@ -10,13 +10,13 @@
 
 <div class="container">
     <br>
-    <h3>Lista sądów</h3>
+    <h3 th:text="#{court.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Nazwa</th>
-            <th>Adres</th>
-            <th>Opis</th>
+            <th th:text="#{court.name}"></th>
+            <th th:text="#{court.address}"></th>
+            <th th:text="#{court.description}"></th>
         </tr>
         </thead>
 
@@ -28,25 +28,22 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/courts/showFormForUpdate(courtId=${tempCourt.courtId})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
-                </a>
+                   class="btn btn-info btn-sm" th:text="#{command.update}"></a>
                 <a th:href="@{/courts/delete(courtId=${tempCourt.courtId})}"
-                class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć ten sąd?'))) return false">
-                    Usuń
-                </a>
+                   class="btn btn-danger btn-sm"
+                   th:data-confirm-delete="#{court.deleteConfirm}"
+                   onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                   th:text="#{command.delete}"></a>
             </td>
         </tr>
         </tbody>
     </table>
     <!-- Add a button -->
     <a th:href="@{/courts/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj sąd
-    </a>
+       class="btn btn-primary btn-sm mb-3"
+        th:text="#{court.add}"></a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>
