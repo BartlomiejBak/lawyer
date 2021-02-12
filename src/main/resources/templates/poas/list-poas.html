@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista poa</title>
+    <title>Poas list</title>
 </head>
 <body>
 
@@ -10,18 +10,18 @@
 
 <div class="container">
     <br>
-    <h3>Lista poa</h3>
+    <h3 th:text="#{poa.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Typ</th>
-            <th>Płatność</th>
-            <th>kpc</th>
-            <th>wypowiedzenie</th>
-            <th>start</th>
-            <th>koniec</th>
-            <th>notyfikacja o wypowiedzeniu</th>
-            <th>zanotyfikowano</th>
+            <th th:text="#{poa.type}"></th>
+            <th th:text="#{poa.payment}"></th>
+            <th th:text="#{poa.kpc}"></th>
+            <th th:text="#{poa.termination}"></th>
+            <th th:text="#{poa.startDate}"></th>
+            <th th:text="#{poa.endDate}"></th>
+            <th th:text="#{poa.terminationNotificationDuty}"></th>
+            <th th:text="#{poa.terminationNotificationDutyCompleted}"></th>
         </tr>
         </thead>
 
@@ -38,13 +38,13 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/poas/showFormForUpdate(poaId=${tempPoa.poaId})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
+                class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/poas/delete(poaId=${tempPoa.poaId})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć to poa?'))) return false">
-                    Usuń
+                   th:data-confirm-delete="#{poa.deleteConfirm}"
+                onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -52,11 +52,11 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/poas/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj poa
+       class="btn btn-primary btn-sm mb-3"
+    th:text="#{poa.add}">
     </a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>
