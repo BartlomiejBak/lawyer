@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Dodaj sprawę</title>
+    <title>Add lawsuit</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj sprawę</h3>
+        <h3 th:text="#{lawsuit.add}"></h3>
 
 
         <p class="h4 mb-4">Zapisz sprawę</p>
@@ -20,37 +20,37 @@
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>
 
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4"
-            placeholder="nazwa">
-            <input type="text" th:field="*{caseSide}" class="form-control mb-4 col-4"
-            placeholder="reprezentowana strona">
-            <input type="date" th:field="*{inputDate}" class="form-control mb-4 col-4"
-            placeholder="data wpisu">
-            <input type="date" th:field="*{deadline}" class="form-control mb-4 col-4"
-            placeholder="deadline">
-            <input type="text" th:field="*{signature}" class="form-control mb-4 col-4"
-            placeholder="sygnatura">
-            <input type="text" th:field="*{claimAmount}" class="form-control mb-4 col-4"
-            placeholder="wartość sporu">
-            <input type="text" th:field="*{additionalInfo}" class="form-control mb-4 col-4"
-            placeholder="dodatkowe informacje">
-            <!--<input type="text" th:field="*{contactList}" class="form-control mb-4 col-4"
-            placeholder="kontakty">
-            <input type="text" th:field="*{taskList}" class="form-control mb-4 col-4"
-            placeholder="zadania">
-            <input type="text" th:field="*{plaintiff}" class="form-control mb-4 col-4"
-            placeholder="powód">
-            <input type="text" th:field="*{defendant}" class="form-control mb-4 col-4"
-            placeholder="pozwany">-->
+            <p th:text="#{lawsuit.name}"></p>
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.caseSide}"></p>
+            <input type="text" th:field="*{caseSide}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.inputDate}"></p>
+            <input type="date" th:field="*{inputDate}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.deadline}"></p>
+            <input type="date" th:field="*{deadline}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.signature}"></p>
+            <input type="text" th:field="*{signature}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.claimAmount}"></p>
+            <input type="text" th:field="*{claimAmount}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.additionalInfo}"></p>
+            <input type="text" th:field="*{additionalInfo}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.contactList}"></p>
+            <input type="text" th:field="*{contactList}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.taskList}"></p>
+            <input type="text" th:field="*{taskList}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.plaintiff}"></p>
+            <input type="text" th:field="*{plaintiff}" class="form-control mb-4 col-4">
+            <p th:text="#{lawsuit.defendant}"></p>
+            <input type="text" th:field="*{defendant}" class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{lawsuit.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/lawsuits/list}">Powrót do listy spraw</a>
+        <a th:href="@{/lawsuits/list}" th:text="#{lawsuit.backToCaseList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista spraw</title>
+    <title>Lawsuit list</title>
 </head>
 <body>
 
@@ -10,22 +10,22 @@
 
 <div class="container">
     <br>
-    <h3>Lista spraw</h3>
+    <h3 th:text="#{lawsuit.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
             <th>Nazwa</th>
-            <th>Reprezentowana strona</th>
-            <th>Data wpisu</th>
-            <th>Deadline</th>
-            <th>Sygnatura</th>
-            <th>Wartość sporu</th>
-            <th>Dodatkowe informacje</th>
-            <th>Kontakty</th>
-            <th>Zadania</th>
-            <th>Powód</th>
-            <th>Pozwany</th>
-            <th>Eventy</th>
+            <th th:text="#{lawsuit.caseSide}"></th>
+            <th th:text="#{lawsuit.inputDate}"></th>
+            <th th:text="#{lawsuit.deadline}"></th>
+            <th th:text="#{lawsuit.signature}"></th>
+            <th th:text="#{lawsuit.claimAmount}"></th>
+            <th th:text="#{lawsuit.additionalInfo}"></th>
+            <th th:text="#{lawsuit.contactList}"></th>
+            <th th:text="#{lawsuit.taskList}"></th>
+            <th th:text="#{lawsuit.plaintiff}"></th>
+            <th th:text="#{lawsuit.defendant}"></th>
+            <th th:text="#{lawsuit.eventList}"></th>
         </tr>
         </thead>
 
@@ -47,13 +47,13 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/lawsuits/showFormForUpdate(lawsuitId=${tempLawsuit.id})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
+                class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/lawsuits/delete(lawsuitId=${tempLawsuit.id})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć ten wpis?'))) return false">
-                    Usuń
+                   th:data-confirm-delete="#{lawsuit.deleteConfirm}"
+                onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -61,11 +61,11 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/lawsuits/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj sprawę
+       class="btn btn-primary btn-sm mb-3"
+    th:text="#{lawsuit.add}">
     </a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>
