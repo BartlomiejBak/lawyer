@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista tagów</title>
+    <title>Tag list</title>
 </head>
 <body>
 
@@ -10,11 +10,11 @@
 
 <div class="container">
     <br>
-    <h3>Lista tagów</h3>
+    <h3 th:text="#{tag.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Tag</th>
+            <th th:text="#{tag.tag}"></th>
         </tr>
         </thead>
 
@@ -24,13 +24,14 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/tags/showFormForUpdate(tagId=${tempTag.id})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
+                class="btn btn-info btn-sm"
+                th:text="#{command.update}">
                 </a>
                 <a th:href="@{/tags/delete(tagId=${tempTag.id})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć ten tag?'))) return false">
-                    Usuń
+                   th:data-confirm-delete="#{tag.deleteConfirm}"
+                onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -38,11 +39,11 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/tags/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj tag
+       class="btn btn-primary btn-sm mb-3"
+    th:text="#{tag.add}">
     </a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>
