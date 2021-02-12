@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista notatek</title>
+    <title>Note list</title>
 </head>
 <body>
 
@@ -10,12 +10,12 @@
 
 <div class="container">
     <br>
-    <h3>Lista notatek</h3>
+    <h3 th:text="#{note.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Tytuł</th>
-            <th>Zawartość</th>
+            <th th:text="#{note.title}"></th>
+            <th th:text="#{note.content}"></th>
         </tr>
         </thead>
 
@@ -26,13 +26,13 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/notes/showFormForUpdate(noteId=${tempNote.id})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
+                class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/notes/delete(noteId=${tempNote.id})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć tą notatkę?'))) return false">
-                    Usuń
+                th:data-confirm-delete="#{note.deleteConfirm}"
+                   onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -40,12 +40,12 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/notes/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj notatkę
+       class="btn btn-primary btn-sm mb-3"
+    th:text="#{note.add}">
     </a>
 
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>

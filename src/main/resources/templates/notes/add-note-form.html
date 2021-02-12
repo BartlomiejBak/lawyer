@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Dodaj notatkę</title>
+    <title>Add note</title>
 </head>
 <body>
 
@@ -10,29 +10,29 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj notatkę</h3>
+        <h3 th:text="#{note.add}"></h3>
 
 
-        <p class="h4 mb-4">Zapisz notatkę</p>
+        <p class="h4 mb-4" th:text="#{note.save}"></p>
         <form action="#" th:action="@{/notes/save}"
         th:object="${note}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>
 
-            <input type="text" th:field="*{title}" class="form-control mb-4 col-4"
-            placeholder="tytuł">
-            <input type="text" th:field="*{text}" class="form-control mb-4 col-4"
-            placeholder="zawartość">
+            <p th:text="#{note.title}"></p>
+            <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+            <p th:text="#{note.content}"></p>
+            <input type="text" th:field="*{text}" class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{note.save}">Zapisz</button>
 
         </form>
 
         <hr>
-        <a th:href="@{/notes/list}">Powrót do listy notatek</a>
+        <a th:href="@{/notes/list}" th:text="#{note.backToNoteList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>
