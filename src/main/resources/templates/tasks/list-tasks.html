@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Lista zadań</title>
+    <title>Task list</title>
 </head>
 <body>
 
@@ -10,15 +10,15 @@
 
 <div class="container">
     <br>
-    <h3>Lista zadań</h3>
+    <h3 th:text="#{task.list}"></h3>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-            <th>Priorytetowe</th>
-            <th>Deadline</th>
-            <th>Opis</th>
-            <th>Powiązane sprawy</th>
-            <th>Powiązane kontakty</th>
+            <th th:text="#{task.priority}"></th>
+            <th th:text="#{task.deadline}"></th>
+            <th th:text="#{task.description}"></th>
+            <th th:text="#{task.lawsuitList}"></th>
+            <th th:text="#{task.contactList}"></th>
         </tr>
         </thead>
 
@@ -32,13 +32,14 @@
             <!-- add button -->
             <td>
                 <a th:href="@{/tasks/showFormForUpdate(taskId=${tempTask.id})}"
-                class="btn btn-info btn-sm">
-                    Zaktualizuj
+                class="btn btn-info btn-sm"
+                th:text="#{command.update}">
                 </a>
                 <a th:href="@{/tasks/delete(taskId=${tempTask.id})}"
                 class="btn btn-danger btn-sm"
-                onclick="if (!(confirm('Czy chcesz usunąć to zadanie?'))) return false">
-                    Usuń
+                   th:data-confirm-delete="#{task.deleteConfirm}"
+                onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"
+                th:text="#{command.delete}">
                 </a>
             </td>
         </tr>
@@ -46,11 +47,11 @@
     </table>
     <!-- Add a button -->
     <a th:href="@{/tasks/showFormForAdd}"
-       class="btn btn-primary btn-sm mb-3">
-        Dodaj zadanie
+       class="btn btn-primary btn-sm mb-3"
+    th:text="#{task.add}">
     </a>
     <hr>
-    <a th:href="@{/main/menu}">Powrót do menu</a>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </div>
 </body>
 </html>

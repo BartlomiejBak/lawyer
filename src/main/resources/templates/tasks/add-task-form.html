@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Dodaj zadanie</title>
+    <title>Add task</title>
 </head>
 <body>
 
@@ -10,29 +10,29 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj zadanie</h3>
-        <p class="h4 mb-4">Zapisz zadanie</p>
+        <h3 th:text="#{task.add}"></h3>
+        <p class="h4 mb-4" th:text="#{task.save}"></p>
         <form action="#" th:action="@{/tasks/save}"
         th:object="${task}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}"/>
 
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4"
-            placeholder="opis">
-            <input type="datetime-local" th:field="*{deadline}" class="form-control mb-4 col-4"
-            placeholder="deadline">
-            <input type="text" th:field="*{priority}" class="form-control mb-4 col-4"
-            placeholder="priorytet" value="priorytet">
+            <p th:text="#{task.priority}"></p>
+            <input type="text" th:field="*{priority}" class="form-control mb-4 col-4">
+            <p th:text="#{task.deadline}"></p>
+            <input type="datetime-local" th:field="*{deadline}" class="form-control mb-4 col-4">
+            <p th:text="#{task.description}"></p>
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/tasks/list}">Powrót do listy zadań</a>
+        <a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>
