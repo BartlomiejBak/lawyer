@@ -10,29 +10,29 @@
 
     <div class="container">
         <br>
-        <h3>Dodaj płatność</h3>
+        <h3 th:text="#{payment.add}"></h3>
 
 
-        <p class="h4 mb-4">Zapisz płatność</p>
+        <p class="h4 mb-4" th:text="#{payment.save}"></p>
         <form action="#" th:action="@{/payments/save}"
         th:object="${payment}" method="post">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{paymentId}"/>
 
-            <input type="text" th:field="*{paymentValue}" class="form-control mb-4 col-4"
-            placeholder="wartość">
-            <input type="datetime-local" th:field="*{paymentDate}" class="form-control mb-4 col-4"
-            placeholder="termin">
+            <p th:text="#{payment.value}"></p>
+            <input type="text" th:field="*{paymentValue}" class="form-control mb-4 col-4">
+            <p th:text="#{payment.date}"></p>
+            <input type="datetime-local" th:field="*{paymentDate}" class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Zapisz</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>
 
         <hr>
-        <a th:href="@{/payments/list}">Powrót do listy płatności</a>
+        <a th:href="@{/payments/list}" th:text="#{payment.backToPaymentList}"></a>
         <br>
-        <a th:href="@{/main/menu}">Powrót do menu</a>
+        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
     </div>
