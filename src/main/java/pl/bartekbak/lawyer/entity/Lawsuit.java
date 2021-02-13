@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Currency;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class Lawsuit {
     private String signature;
 
     @Column(name = "claim_amount")
-    @Currency({"PLN", "EUR", "USD", "CHF", "GBP"})
+    @Positive
     private double claimAmount;
 
     @Column(name = "add_info")

@@ -1,15 +1,19 @@
 package pl.bartekbak.lawyer.controller.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Task;
 import pl.bartekbak.lawyer.service.TaskService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/tasks")
 public class TaskController {
     private TaskService service;
@@ -41,10 +45,14 @@ public class TaskController {
     }
 
     @PostMapping("/save")
-    public String saveTask(@ModelAttribute("task") Task task) {
+    public String saveTask(@Valid @ModelAttribute("task") Task task, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "tasks/add-task-form";
+        }
         service.saveTask(task);
-
-        //redirect prevents multiple saving
         return "redirect:list";
     }
 

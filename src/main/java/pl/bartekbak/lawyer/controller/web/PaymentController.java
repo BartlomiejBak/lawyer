@@ -1,14 +1,18 @@
 package pl.bartekbak.lawyer.controller.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.service.PaymentService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/payments")
 public class PaymentController {
 
@@ -40,7 +44,13 @@ public class PaymentController {
     }
 
     @PostMapping("/save")
-    public String savePayment(@ModelAttribute("payment") Payment payment) {
+    public String savePayment(@Valid @ModelAttribute("payment") Payment payment, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "payments/add-payment-form";
+        }
         service.savePayment(payment);
         return "redirect:list";
     }

@@ -75,8 +75,8 @@ public class DataLoader implements CommandLineRunner {
                 .address(firstAddress)
                 .email("1email@example.com")
                 .phone("555 222 222")
-                .dateCreated(LocalDate.now())
-                .pesel("123123312321321")
+                .dateCreated(LocalDateTime.now())
+                .pesel("12345678901")
                 .build();
         Contact secondContact = Contact.builder()
                 .name("2 contact")
@@ -85,8 +85,8 @@ public class DataLoader implements CommandLineRunner {
                 .address(secondAddress)
                 .email("2email@example.com")
                 .phone("555 222 223")
-                .dateCreated(LocalDate.now())
-                .pesel("123123312321322")
+                .dateCreated(LocalDateTime.now())
+                .pesel("12345678901")
                 .build();
         Contact thirdContact = Contact.builder()
                 .name("3 contact")
@@ -95,8 +95,8 @@ public class DataLoader implements CommandLineRunner {
                 .address(thirdAddress)
                 .email("3email@example.com")
                 .phone("555 222 224")
-                .dateCreated(LocalDate.now())
-                .pesel("123123312321323")
+                .dateCreated(LocalDateTime.now())
+                .pesel("12345678901")
                 .build();
 
         Court firstCourt = Court.builder()

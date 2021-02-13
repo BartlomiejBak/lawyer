@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -23,5 +24,6 @@ public class Tag {
 
     @Column(name = "name")
     @NotBlank
+    @Size(min = 2, max = 50)
     private String name;
 }

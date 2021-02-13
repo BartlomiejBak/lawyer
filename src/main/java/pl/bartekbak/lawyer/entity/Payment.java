@@ -27,7 +27,6 @@ public class Payment {
     private int paymentId;
 
     @Column(name = "payment_value")
-    @Currency({"PLN", "EUR", "USD", "CHF", "GBP"})
     @Positive
     private double paymentValue;
 
@@ -43,7 +42,7 @@ public class Payment {
     private LocalDate paidDate;
 
     @Column(name = "comment")
-    @Size(max = 150)
+    @Size(max = 255)
     private String comment;
 
     @Column(name = "us")

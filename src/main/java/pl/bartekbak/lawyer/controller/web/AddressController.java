@@ -1,15 +1,19 @@
 package pl.bartekbak.lawyer.controller.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.service.AddressService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/addresses")
 public class AddressController {
 
@@ -42,10 +46,15 @@ public class AddressController {
     }
 
     @PostMapping("/save")
-    public String saveAddress(@ModelAttribute("address") Address address) {
-        addressService.saveAddress(address);
+    public String saveAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "addresses/add-address-form";
+        }
 
-        //redirect prevents multiple saving
+        addressService.saveAddress(address);
         return "redirect:list";
     }
 

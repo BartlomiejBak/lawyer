@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.pl.NIP;
-import org.hibernate.validator.constraints.pl.PESEL;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -67,23 +64,23 @@ public class Contact {
     private String altPhone;
 
     @Column(name = "company_name")
-    @Size(max = 100)
+    @Size(max = 255)
     private String companyName;
 
     @Column(name = "pesel")
-    @PESEL
+    @Size(min = 11, max = 11)
     private String pesel;
 
     @Column(name = "nip")
-    @NIP
+    @Size(max = 20)
     private String nip;
 
     @Column(name = "regon")
-    @REGON
+    @Size(max = 20)
     private String regon;
 
     @Column(name = "krs")
-    @Size(max = 10)
+    @Size(max = 20)
     private String krs;
 
     @Column(name = "date_created")

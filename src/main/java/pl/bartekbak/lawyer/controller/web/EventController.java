@@ -1,8 +1,10 @@
 package pl.bartekbak.lawyer.controller.web;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.bartekbak.lawyer.entity.Event;
 import pl.bartekbak.lawyer.service.EventService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/events")
 public class EventController {
 
@@ -45,7 +49,14 @@ public class EventController {
     }
 
     @PostMapping("/save")
-    public String saveEvent(@ModelAttribute("event") Event event) {
+    public String saveEvent(@Valid @ModelAttribute("event") Event event, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "events/add-event-form";
+        }
+
         service.saveEvent(event);
         return "redirect:list";
     }

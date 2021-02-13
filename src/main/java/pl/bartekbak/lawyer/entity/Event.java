@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -39,6 +40,7 @@ public class Event {
     private LocalDateTime dateTime;
 
     @Column(name = "description")
+    @Lob
     @Size(max = 1500)
     private String description;
 

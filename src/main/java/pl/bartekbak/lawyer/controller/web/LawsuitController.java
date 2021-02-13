@@ -1,15 +1,19 @@
 package pl.bartekbak.lawyer.controller.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Lawsuit;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/lawsuits")
 public class LawsuitController {
 
@@ -42,10 +46,14 @@ public class LawsuitController {
     }
 
     @PostMapping("/save")
-    public String saveLawsuit(@ModelAttribute("lawsuit") Lawsuit lawsuit) {
+    public String saveLawsuit(@Valid @ModelAttribute("lawsuit") Lawsuit lawsuit, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "lawsuits/add-lawsuit-form";
+        }
         lawsuitService.saveLawsuit(lawsuit);
-
-        //redirect prevents multiple saving
         return "redirect:list";
     }
 
