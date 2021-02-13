@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -29,12 +31,15 @@ public class Event {
     private int eventId;
 
     @Column(name = "title")
+    @Size(min = 2, max = 50)
     private String title;
 
     @Column(name = "date_time")
+    @DateTimeFormat
     private LocalDateTime dateTime;
 
     @Column(name = "description")
+    @Size(max = 1500)
     private String description;
 
     @ManyToOne

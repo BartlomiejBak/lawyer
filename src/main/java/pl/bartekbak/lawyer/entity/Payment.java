@@ -4,8 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Currency;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -22,15 +27,29 @@ public class Payment {
     private int paymentId;
 
     @Column(name = "payment_value")
+    @Currency({"PLN", "EUR", "USD", "CHF", "GBP"})
+    @Positive
     private double paymentValue;
 
     @Column(name = "payment_date")
+    @Future
     private LocalDate paymentDate;
 
-    /*private boolean paid = false;
+    @Column(name = "paid")
+    private boolean paid = false;
+
+    @Column(name = "paid_date")
+    @Past
     private LocalDate paidDate;
+
+    @Column(name = "comment")
+    @Size(max = 150)
     private String comment;
+
+    @Column(name = "us")
     private boolean us;
-    private boolean incoming;*/
+
+    @Column(name = "incoming")
+    private boolean incoming;
 
 }

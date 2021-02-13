@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -20,6 +21,7 @@ public class Court {
     private int courtId;
 
     @Column(name = "name")
+    @Size(min = 2, max = 50)
     private String name;
 
     @OneToOne
@@ -27,9 +29,11 @@ public class Court {
     private Address address;
 
     @Column(name = "description")
+    @Size(max = 255)
     private String description;
 
     @Column(name = "phone")
+    @Size(max = 20)
     private String phone;
 
 }

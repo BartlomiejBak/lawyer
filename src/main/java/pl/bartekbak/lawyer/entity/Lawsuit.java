@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Currency;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,25 +29,32 @@ public class Lawsuit {
     private int id;
 
     @Column(name = "name")
+    @Size(min = 2, max = 50)
     private String name;
 
     @Column(name = "cas_side")
+    @Size(min = 2, max = 50)
     private String caseSide;
 
     @Column(name = "input_date")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate inputDate;
 
     @Column(name = "deadline")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate deadline;
 
     @Column(name = "signature")
+    @Size(min = 2, max = 50)
     private String signature;
 
     @Column(name = "claim_amount")
+    @Currency({"PLN", "EUR", "USD", "CHF", "GBP"})
     private double claimAmount;
 
     @Column(name = "add_info")
     @Lob
+    @Size
     private String additionalInfo;
 
     @ManyToMany(mappedBy = "lawsuitList")
