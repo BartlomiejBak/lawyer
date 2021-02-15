@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.service.AddressService;
 
@@ -62,5 +63,12 @@ public class AddressController {
     public String delete(@RequestParam("addressId") int id) {
         addressService.deleteAddressById(id);
         return "redirect:list";
+    }
+
+    @GetMapping("/{addressId}")
+    public ModelAndView showAddress(@PathVariable int addressId) {
+        ModelAndView mav = new ModelAndView("addresses/address-details");
+        mav.addObject(addressService.findAddressById(addressId));
+        return mav;
     }
 }

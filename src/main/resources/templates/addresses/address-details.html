@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{address.details}"></h2>
+
+<table class="table table-striped" th:object="${address}">
+    <tr>
+        <th th:text="#{address.street}"></th>
+        <td><b th:text="*{street}"></b></td>
+    </tr>
+    <tr>
+        <th th:text="#{address.postal}"></th>
+        <td th:text="*{zipCode}" /></td>
+    </tr>
+    <tr>
+        <th th:text="#{address.city}"></th>
+        <td th:text="*{city}" /></td>
+    </tr>
+    <tr>
+        <th th:text="#{address.country}"></th>
+        <td th:text="*{country}" /></td>
+    </tr>
+</table>
+
+<a th:href="@{{id}/edit(id=${address.id})}" class="btn btn-default" th:text="#{command.update}"></a>
+
+
+</body>
+</html>
