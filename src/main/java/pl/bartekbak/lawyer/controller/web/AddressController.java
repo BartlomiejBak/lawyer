@@ -39,9 +39,9 @@ public class AddressController {
         return "addresses/add-address-form";
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("addressId") int id, Model model) {
-        Address address = addressService.findAddressById(id);
+    @GetMapping("/{addressId}/edit")
+    public String showFormForUpdate(@PathVariable("addressId") int addressId, Model model) {
+        Address address = addressService.findAddressById(addressId);
         model.addAttribute(address);
         return "addresses/add-address-form";
     }

@@ -23,13 +23,13 @@
 
         <tbody>
         <tr th:each="tempAddress : ${addresses}">
-            <td th:text="${tempAddress.street}"></td>
+            <td><a th:href="@{/addresses/__${tempAddress.id}__}" th:text="${tempAddress.street}"></a></td>
             <td th:text="${tempAddress.zipCode}"></td>
             <td th:text="${tempAddress.city}"></td>
             <td th:text="${tempAddress.country}"></td>
             <!-- add button -->
             <td>
-                <a th:href="@{/addresses/showFormForUpdate(addressId=${tempAddress.id})}"
+                <a th:href="@{/addresses/{id}/edit(id=${tempAddress.id})}"
                    class="btn btn-info btn-sm" th:text="#{command.update}"></a>
 
                 <a th:href="@{/addresses/delete(addressId=${tempAddress.id})}"
