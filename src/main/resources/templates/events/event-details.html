@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{event.details}"></h2>
+
+<table class="table table-striped" th:object="${event}" th:text="#{event.details}">
+    <tr>
+        <th th:text="#{event.name}"></th>
+        <td><b th:text="*{title}"></b></td>
+    </tr>
+    <tr>
+        <th th:text="#{event.date}"></th>
+        <td th:text="*{dateTime}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{event.description}"></th>
+        <td th:text="*{description}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{event.relatedCase}"></th>
+        <td th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
+    </tr>
+
+</table>
+
+<hr>
+<a th:href="@{/events/list}" th:text="#{event.backToEventList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</body>
+</html>
