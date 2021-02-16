@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{court.details}"></h2>
+
+<table class="table table-striped" th:object="${court}">
+    <tr>
+        <th th:text="#{court.name}"></th>
+        <td><b th:text="*{name}"></b></td>
+    </tr>
+    <tr>
+        <th th:text="#{court.address}"></th>
+        <td th:text="*{address.street + ' ' + address.zipCode + ' ' + address.city}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{court.phone}"></th>
+        <td th:text="*{phone}"></td>
+    </tr>
+
+    <tr>
+        <th th:text="#{court.description}"></th>
+        <td th:text="*{description}"></td>
+    </tr>
+</table>
+<hr>
+<a th:href="@{/courts/list}" th:text="#{court.backToCourtList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</body>
+</html>
