@@ -5,7 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.entity.Lawsuit;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
@@ -17,7 +23,8 @@ import java.util.List;
 @RequestMapping("/lawsuits")
 public class LawsuitController {
 
-    private LawsuitService lawsuitService;
+    private final LawsuitService lawsuitService;
+    private static final String LAWSUIT_ADD_FORM = "lawsuits/add-lawsuit-form";
 
     @Autowired
     public LawsuitController(LawsuitService lawsuitService) {
@@ -35,23 +42,22 @@ public class LawsuitController {
     public String showFormForAdd(Model model) {
         Lawsuit lawsuit = new Lawsuit();
         model.addAttribute("lawsuit", lawsuit);
-        return "lawsuits/add-lawsuit-form";
+        return LAWSUIT_ADD_FORM;
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("lawsuitId") int id, Model model) {
-        Lawsuit lawsuit = lawsuitService.findLawsuitById(id);
+    @GetMapping("/{lawsuitId}/edit")
+    public String showFormForUpdate(@PathVariable int lawsuitId, Model model) {
+        Lawsuit lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         model.addAttribute(lawsuit);
-        return "lawsuits/add-lawsuit-form";
+        return LAWSUIT_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveLawsuit(@Valid @ModelAttribute("lawsuit") Lawsuit lawsuit, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "lawsuits/add-lawsuit-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return LAWSUIT_ADD_FORM;
         }
         lawsuitService.saveLawsuit(lawsuit);
         return "redirect:list";
@@ -62,4 +68,12 @@ public class LawsuitController {
         lawsuitService.deleteLawsuitById(id);
         return "redirect:list";
     }
+
+    @GetMapping("/{lawsuitId}")
+    public ModelAndView showLawsuit(@PathVariable int lawsuitId) {
+        ModelAndView mav = new ModelAndView("lawsuits/lawsuit-details");
+        mav.addObject(lawsuitService.findLawsuitById(lawsuitId));
+        return mav;
+    }
+
 }
