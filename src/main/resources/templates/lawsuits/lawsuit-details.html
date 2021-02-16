@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{lawsuit.details}"></h2>
+
+<table class="table table-striped" th:object="${lawsuit}">
+    <tr></tr>
+    <td>
+        <table class="table table-striped">
+            <tr>
+                <th th:text="#{lawsuit.name}"></th>
+                <td><b th:text="*{name}"></b></td>
+            </tr>
+            <tr>
+                <th th:text="#{lawsuit.caseSide}"></th>
+                <td th:text="*{caseSide}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{lawsuit.signature}"></th>
+                <td th:text="*{signature}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{lawsuit.claimAmount}"></th>
+                <td th:text="*{claimAmount}"></td>
+            </tr>
+        </table>
+    </td>
+    <td>
+        <table class="table table-striped">
+            <tr>
+                <th th:text="#{lawsuit.additionalInfo}"></th>
+                <td th:text="*{additionalInfo}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{lawsuit.deadline}"></th>
+                <td th:text="*{deadline}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{lawsuit.inputDate}"></th>
+                <td th:text="*{inputDate}"></td>
+            </tr>
+        </table>
+    </td>
+</table>
+<a th:href="@{{id}/edit(id=${lawsuit.id})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
+
+<br/>
+<h2 th:text="#{lawsuit.contactList}"></h2>
+<table class="table table-striped">
+    <tr th:each="contact : ${lawsuit.contactList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{contact.name}"></dt>
+                <dd th:text="${contact.name + ' ' + contact.firstName + ' ' + contact.lastName}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h2 th:text="#{lawsuit.plaintiff}"></h2>
+<table class="table table-striped">
+    <tr th:each="contact : ${lawsuit.plaintiff}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{contact.name}"></dt>
+                <dd th:text="${contact.name + ' ' + contact.firstName + ' ' + contact.lastName}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h2 th:text="#{lawsuit.defendant}"></h2>
+<table class="table table-striped">
+    <tr th:each="contact : ${lawsuit.defendant}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{contact.name}"></dt>
+                <dd th:text="${contact.name + ' ' + contact.firstName + ' ' + contact.lastName}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h2 th:text="#{lawsuit.taskList}"></h2>
+<table class="table table-striped">
+    <tr th:each="task : ${lawsuit.taskList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{task.description}"></dt>
+                <dd th:text="${task.description + ' ' + task.deadline}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h2 th:text="#{lawsuit.eventList}"></h2>
+<table class="table table-striped">
+    <tr th:each="event : ${lawsuit.eventSet}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{event.description}"></dt>
+                <dd th:text="${event.description + ' ' + event.dateTime}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<hr>
+<a th:href="@{/lawsuits/list}" th:text="#{lawsuit.backToCaseList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</body>
+</html>
