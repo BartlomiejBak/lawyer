@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.entity.Contact;
 import pl.bartekbak.lawyer.service.ContactService;
 
@@ -17,16 +18,17 @@ import java.util.List;
 @RequestMapping("/contacts")
 public class ContactController {
 
-    private ContactService service;
+    private final ContactService contactService;
+    private static final String CONTACT_ADD_FORM = "contacts/add-contact-form";
 
     @Autowired
-    public ContactController(ContactService service) {
-        this.service = service;
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
     }
 
     @GetMapping("/list")
     public String listAllContacts(Model model) {
-        List<Contact> contactList = service.findAllContacts();
+        List<Contact> contactList = contactService.findAllContacts();
         model.addAttribute("contacts", contactList);
         return "contacts/list-contacts";
     }
@@ -35,32 +37,38 @@ public class ContactController {
     public String showFormForAdd(Model model) {
         Contact contact = new Contact();
         model.addAttribute("contact", contact);
-        return "contacts/add-contact-form";
+        return CONTACT_ADD_FORM;
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("contactId") int id, Model model) {
-        Contact contact = service.findContactById(id);
+    @GetMapping("/{contactId}/edit}")
+    public String showFormForUpdate(@PathVariable int contactId, Model model) {
+        Contact contact = contactService.findContactById(contactId);
         model.addAttribute(contact);
-        return "contacts/add-contact-form";
+        return CONTACT_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "contacts/add-contact-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return CONTACT_ADD_FORM;
         }
-        service.saveContact(contact);
+        contactService.saveContact(contact);
         return "redirect:list";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("contactId") int id) {
-        service.deleteContactById(id);
+        contactService.deleteContactById(id);
         return "redirect:list";
+    }
+
+    @GetMapping("/{contactId}")
+    public ModelAndView showContact(@PathVariable int contactId) {
+        ModelAndView mav = new ModelAndView("contacts/contact-details");
+        mav.addObject(contactService.findContactById(contactId));
+        return mav;
     }
 
 }
