@@ -17,16 +17,17 @@ import java.util.List;
 @RequestMapping("/tags")
 public class TagController {
 
-    private TagService service;
+    private final TagService tagService;
+    private static final String TAG_ADD_FORM = "tags/add-tag-form";
 
     @Autowired
-    public TagController(TagService service) {
-        this.service = service;
+    public TagController(TagService tagService) {
+        this.tagService = tagService;
     }
 
     @GetMapping("/list")
     public String listAllTags(Model model) {
-        List<Tag> tagList = service.findAllTags();
+        List<Tag> tagList = tagService.findAllTags();
         model.addAttribute("tags", tagList);
         return "tags/list-tags";
     }
@@ -35,31 +36,30 @@ public class TagController {
     public String showFormForAdd(Model model) {
         Tag tag = new Tag();
         model.addAttribute("tag", tag);
-        return "tags/add-tag-form";
+        return TAG_ADD_FORM;
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("tagId") int id, Model model) {
-        Tag tag = service.findTagById(id);
+        Tag tag = tagService.findTagById(id);
         model.addAttribute(tag);
-        return "tags/add-tag-form";
+        return TAG_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "tags/add-tag-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return TAG_ADD_FORM;
         }
-        service.saveTag(tag);
+        tagService.saveTag(tag);
         return "redirect:list";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("tagId") int id) {
-        service.deleteTagById(id);
+        tagService.deleteTagById(id);
         return "redirect:list";
     }
 
