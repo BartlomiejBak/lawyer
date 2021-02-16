@@ -1,15 +1,16 @@
 package pl.bartekbak.lawyer.controller.web;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.entity.Event;
 import pl.bartekbak.lawyer.service.EventService;
 
@@ -21,15 +22,16 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
-    private EventService service;
+    private final EventService eventService;
+    private static final String EVENT_ADD_FORM = "events/add-event-form";
 
-    public EventController(EventService service) {
-        this.service = service;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
 
     @GetMapping("/list")
     public String listAllEvents(Model model) {
-        List<Event> eventList = service.findAllEvents();
+        List<Event> eventList = eventService.findAllEvents();
         model.addAttribute("events", eventList);
         return "events/list-events";
     }
@@ -38,32 +40,38 @@ public class EventController {
     public String showFormForAdd(Model model) {
         Event event = new Event();
         model.addAttribute("event", event);
-        return "events/add-event-form";
+        return EVENT_ADD_FORM;
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("eventId") int id, Model model) {
-        Event event = service.findEventById(id);
+    @GetMapping("/{eventId}/edit")
+    public String showFormForUpdate(@PathVariable int eventId, Model model) {
+        Event event = eventService.findEventById(eventId);
         model.addAttribute(event);
-        return "events/add-event-form";
+        return EVENT_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveEvent(@Valid @ModelAttribute("event") Event event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "events/add-event-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return EVENT_ADD_FORM;
         }
 
-        service.saveEvent(event);
+        eventService.saveEvent(event);
         return "redirect:list";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("eventId") int id) {
-        service.deleteEventById(id);
+        eventService.deleteEventById(id);
         return "redirect:list";
+    }
+
+    @GetMapping("/{eventId}")
+    public ModelAndView showEvent(@PathVariable int eventId) {
+        ModelAndView mav = new ModelAndView("events/event-details");
+        mav.addObject(eventService.findEventById(eventId));
+        return mav;
     }
 }
