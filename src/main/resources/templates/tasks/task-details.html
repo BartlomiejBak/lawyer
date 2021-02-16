@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{task.details}"></h2>
+
+<table class="table table-striped" th:object="${task}" th:text="#{task.details}">
+    <tr>
+        <th th:text="#{task.priority}"></th>
+        <td th:text="*{priority}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{task.deadline}"></th>
+        <td th:text="*{deadline}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{task.description}"></th>
+        <td th:text="*{description}"></td>
+    </tr>
+</table>
+
+<h2 th:text="#{task.lawsuitList}"></h2>
+<table class="table table-striped">
+    <tr th:each="lawsuit : ${task.lawsuitList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{lawsuit.name}"></dt>
+                <dd th:text="${lawsuit.name}"></dd>
+                <dt th:text="#{lawsuit.caseSide}"></dt>
+                <dd th:text="${lawsuit.caseSide}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<h2 th:text="#{task.contactList}"></h2>
+<table class="table table-striped">
+    <tr th:each="contact : ${task.contactList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{contact.name}"></dt>
+                <dd th:text="${contact.name + ' ' + contact.firstName + ' ' + contact.lastName}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<hr>
+<a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</body>
+</html>
