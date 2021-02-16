@@ -40,7 +40,7 @@ public class ContactController {
         return CONTACT_ADD_FORM;
     }
 
-    @GetMapping("/{contactId}/edit}")
+    @GetMapping("/{contactId}/edit")
     public String showFormForUpdate(@PathVariable int contactId, Model model) {
         Contact contact = contactService.findContactById(contactId);
         model.addAttribute(contact);
