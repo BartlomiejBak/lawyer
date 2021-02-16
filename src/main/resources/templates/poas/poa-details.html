@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{poa.details}"></h2>
+
+<table class="table table-striped" th:object="${poa}" th:text="#{poa.details}">
+    <tr>
+        <th th:text="#{poa.type}"></th>
+        <td th:text="*{type}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.payment}"></th>
+        <td th:text="*{payment}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.kpc}"></th>
+        <td th:text="*{kpc}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.termination}"></th>
+        <td th:text="*{termination}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.startDate}"></th>
+        <td th:text="*{startDate}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.endDate}"></th>
+        <td th:text="*{endDate}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.terminationNotificationDuty}"></th>
+        <td th:text="*{terminationNotificationDuty}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{poa.terminationNotificationDutyCompleted}"></th>
+        <td th:text="*{terminationNotificationDutyCompleted}"></td>
+    </tr>
+
+</table>
+<hr>
+<a th:href="@{/poas/list}" th:text="#{poa.backToPoaList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</body>
+</html>
