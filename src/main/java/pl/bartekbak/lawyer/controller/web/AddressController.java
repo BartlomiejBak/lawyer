@@ -18,7 +18,8 @@ import java.util.List;
 @RequestMapping("/addresses")
 public class AddressController {
 
-    private AddressService addressService;
+    private final AddressService addressService;
+    private static final String ADDRESS_ADD_FORM = "addresses/add-address-form";
 
     @Autowired
     public AddressController(AddressService addressService) {
@@ -36,23 +37,22 @@ public class AddressController {
     public String showFormForAdd(Model model) {
         Address address = new Address();
         model.addAttribute("address", address);
-        return "addresses/add-address-form";
+        return ADDRESS_ADD_FORM;
     }
 
     @GetMapping("/{addressId}/edit")
-    public String showFormForUpdate(@PathVariable("addressId") int addressId, Model model) {
+    public String showFormForUpdate(@PathVariable int addressId, Model model) {
         Address address = addressService.findAddressById(addressId);
         model.addAttribute(address);
-        return "addresses/add-address-form";
+        return ADDRESS_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "addresses/add-address-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return ADDRESS_ADD_FORM;
         }
 
         addressService.saveAddress(address);
