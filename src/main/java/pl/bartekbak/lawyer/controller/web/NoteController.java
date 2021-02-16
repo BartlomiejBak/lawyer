@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.entity.Note;
 import pl.bartekbak.lawyer.service.NoteService;
 
@@ -16,7 +17,8 @@ import java.util.List;
 @RequestMapping("/notes")
 public class NoteController {
 
-    private NoteService noteService;
+    private final NoteService noteService;
+    private static final String NOTE_ADD_FORM = "notes/add-note-form";
 
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
@@ -33,23 +35,22 @@ public class NoteController {
     public String showFormForAdd(Model model) {
         Note note = new Note();
         model.addAttribute("note", note);
-        return "notes/add-note-form";
+        return NOTE_ADD_FORM;
     }
 
-    @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("noteId") int id, Model model) {
-        Note note = noteService.findNoteById(id);
+    @GetMapping("/{noteId}/edit")
+    public String showFormForUpdate(@PathVariable int noteId, Model model) {
+        Note note = noteService.findNoteById(noteId);
         model.addAttribute(note);
-        return "notes/add-note-form";
+        return NOTE_ADD_FORM;
     }
 
     @PostMapping("/save")
     public String saveNote(@Valid @ModelAttribute("note") Note note, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "notes/add-note-form";
+            bindingResult.getAllErrors().forEach(objectError ->
+                log.debug(objectError.toString()));
+            return NOTE_ADD_FORM;
         }
         noteService.saveNote(note);
         return "redirect:list";
@@ -59,5 +60,12 @@ public class NoteController {
     public String delete(@RequestParam("noteId") int id) {
         noteService.deleteNoteById(id);
         return "redirect:list";
+    }
+
+    @GetMapping("/{noteId}")
+    public ModelAndView showNote(@PathVariable int noteId) {
+        ModelAndView mav = new ModelAndView("notes/note-details");
+        mav.addObject(noteService.findNoteById(noteId));
+        return mav;
     }
 }
