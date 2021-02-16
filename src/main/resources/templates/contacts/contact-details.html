@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/setup-links :: cssSetup"></div>
+    <title>Contact details</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navigationBar"></div>
+
+<h2 th:text="#{contact.details}"></h2>
+
+<table class="table table-striped" th:object="${contact}">
+    <tr></tr>
+    <td>
+        <table class="table table-striped">
+            <tr>
+                <th th:text="#{contact.name}"></th>
+                <td><b th:text="*{name}"></b></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.firstName}"></th>
+                <td th:text="*{firstName}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.lastName}"></th>
+                <td th:text="*{lastName}"></td>
+            </tr>
+            <tr>
+                <th th:text="Email"></th>
+                <td th:text="*{email}"></td>
+            </tr>
+            <tr>
+                <th th:text="Email + ' 2'"></th>
+                <td th:text="*{altEmail}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.phone}"></th>
+                <td th:text="*{phone}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.phone} + ' 2'"></th>
+                <td th:text="*{altPhone}"></td>
+            </tr>
+            <tr>
+                <th th:text="PESEL"></th>
+                <td th:text="*{pesel}"></td>
+            </tr>
+        </table></td>
+    <td>
+        <table class="table table-striped">
+            <tr>
+                <th th:text="#{contact.companyName}"></th>
+                <td><b th:text="*{companyName}"></b></td>
+            </tr>
+            <tr>
+                <th th:text="NIP"></th>
+                <td th:text="*{nip}"></td>
+            </tr>
+            <tr>
+                <th th:text="REGON"></th>
+                <td th:text="*{regon}"></td>
+            </tr>
+            <tr>
+                <th th:text="KRS"></th>
+                <td th:text="*{krs}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{command.created}"></th>
+                <td th:text="*{dateCreated}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{command.modified}"></th>
+                <td th:text="*{dateModified}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.address}"></th>
+                <td th:text="*{address.city + ' ' + address.street}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{contact.correspondenceAddress}"></th>
+                <td th:if="*{correspondenceAddress != null}"
+                    th:text="*{correspondenceAddress.city + ' ' + correspondenceAddress.street}"></td>
+                <td th:if="*{correspondenceAddress == null}"
+                    th:text="*{address.city + ' ' + address.street}"></td>
+            </tr>
+        </table>
+    </td>
+
+</table>
+<a th:href="@{{id}/edit(id=${contact.id})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
+
+<br/>
+<br/>
+<br/>
+<h2 th:text="#{contact.taskList}"></h2>
+
+<table class="table table-striped">
+    <tr th:each="task : ${contact.taskList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{task.description}"></dt>
+                <dd th:text="${task.description}"></dd>
+                <dt th:text="#{task.deadline}"></dt>
+                <dd th:text="${task.deadline}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+
+<h2 th:text="#{contact.lawsuitList}"></h2>
+<table class="table table-striped">
+    <tr th:each="lawsuit : ${contact.lawsuitList}">
+        <td>
+            <dl class="dl-horizontal">
+                <dt th:text="#{lawsuit.name}"></dt>
+                <dd th:text="${lawsuit.name}"></dd>
+                <dt th:text="#{lawsuit.caseSide}"></dt>
+                <dd th:text="${lawsuit.caseSide}"></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
+<hr>
+<a th:href="@{/contacts/list}" th:text="#{contact.backToContactList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+
+
+</body>
+</html>
