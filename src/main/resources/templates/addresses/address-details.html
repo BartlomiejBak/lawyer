@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <div th:replace="fragments/setup-links :: cssSetup"></div>
-    <title>Title</title>
+    <title>Address details</title>
 </head>
 <body>
 <div th:replace="fragments/navbar :: navigationBar"></div>
@@ -17,15 +16,15 @@
     </tr>
     <tr>
         <th th:text="#{address.postal}"></th>
-        <td th:text="*{zipCode}" /></td>
+        <td th:text="*{zipCode}"></td>
     </tr>
     <tr>
         <th th:text="#{address.city}"></th>
-        <td th:text="*{city}" /></td>
+        <td th:text="*{city}"></td>
     </tr>
     <tr>
         <th th:text="#{address.country}"></th>
-        <td th:text="*{country}" /></td>
+        <td th:text="*{country}"></td>
     </tr>
 </table>
 
@@ -34,4 +33,6 @@
 
 
 </body>
+
+
 </html>
