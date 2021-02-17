@@ -9,7 +9,7 @@
 
 <h2 th:text="#{payment.details}"></h2>
 
-<table class="table table-striped" th:object="${payment}" th:text="#{payment.details}">
+<table class="table table-striped" th:object="${payment}">
     <tr>
         <th th:text="#{payment.value}"></th>
         <td th:text="*{paymentValue}"></td>

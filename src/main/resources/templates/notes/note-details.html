@@ -8,7 +8,7 @@
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
 <h2 th:text="#{note.details}"></h2>
-<table class="table table-striped" th:object="${note}" th:text="#{note.details}">
+<table class="table table-striped" th:object="${note}">
     <tr>
         <th th:text="#{note.title}"></th>
         <td th:text="*{title}"></td>

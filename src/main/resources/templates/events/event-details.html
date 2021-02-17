@@ -9,7 +9,7 @@
 
 <h2 th:text="#{event.details}"></h2>
 
-<table class="table table-striped" th:object="${event}" th:text="#{event.details}">
+<table class="table table-striped" th:object="${event}">
     <tr>
         <th th:text="#{event.name}"></th>
         <td><b th:text="*{title}"></b></td>

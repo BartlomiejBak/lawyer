@@ -9,7 +9,7 @@
 
 <h2 th:text="#{task.details}"></h2>
 
-<table class="table table-striped" th:object="${task}" th:text="#{task.details}">
+<table class="table table-striped" th:object="${task}">
     <tr>
         <th th:text="#{task.priority}"></th>
         <td th:text="*{priority}"></td>
