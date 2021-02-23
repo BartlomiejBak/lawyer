@@ -1,37 +1,99 @@
 package pl.bartekbak.lawyer.controller.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.entity.Court;
+import pl.bartekbak.lawyer.service.CourtService;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@ExtendWith(MockitoExtension.class)
 class CourtControllerTest {
+
+    @Mock
+    CourtService service;
+    @InjectMocks
+    CourtController controller;
+
+    ObjectMapper objectMapper;
+    MockMvc mockMvc;
+    private static final String COURT_ADD_FORM = "courts/add-court-form";
+    Court court;
 
     @BeforeEach
     void setUp() {
+        court = Court.builder().courtId(1).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        objectMapper = new ObjectMapper();
     }
 
     @Test
-    void listAllContacts() {
+    void listAllContactsTest() throws Exception {
+        mockMvc.perform(get("/courts/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("courts/list-courts"))
+                .andExpect(model().attributeExists("courts"));
     }
 
     @Test
-    void showFormForAdd() {
+    void showFormForAddTest() throws Exception {
+        mockMvc.perform(get("/courts/showFormForAdd"))
+                .andExpect(status().isOk())
+                .andExpect(view().name(COURT_ADD_FORM))
+                .andExpect(model().attributeExists("court"));
     }
 
     @Test
-    void showFormForUpdate() {
+    void showFormForUpdateTest() throws Exception {
+        //given
+        when(service.findCourtById(anyInt())).thenReturn(court);
+        //when
+        mockMvc.perform(get("/courts/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name(COURT_ADD_FORM))
+                .andExpect(model().attributeExists("court"));
     }
 
     @Test
-    void saveCourt() {
+    void saveCourtTest() throws Exception {
+        mockMvc.perform(post("/courts/save")
+                .content(objectMapper.writeValueAsString(court)))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:list"));
     }
 
     @Test
-    void delete() {
+    void deleteTest() throws Exception {
+        mockMvc.perform(get("/courts/delete")
+                .param("courtId", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:list"));
     }
 
     @Test
-    void showCourt() {
+    void showCourtTest() throws Exception {
+        //given
+        when(service.findCourtById(anyInt())).thenReturn(court);
+        //when
+        mockMvc.perform(get("/courts/1"))
+                .andExpect(status().isOk());
+        ModelAndView result = controller.showCourt(1);
+        //then
+        assertFalse(result.isEmpty());
     }
 }
