@@ -43,17 +43,15 @@ class AddressControllerTest {
     }
 
     @Test
-    void listAddresses() throws Exception {
+    void listAddressesTest() throws Exception {
         mockMvc.perform(get("/addresses/list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("addresses/list-addresses"))
                 .andExpect(model().attributeExists("addresses"));
-
     }
 
     @Test
-    void showFormForAdd() throws Exception {
-        //when
+    void showFormForAddTest() throws Exception {
         mockMvc.perform(get("/addresses/showFormForAdd"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADDRESS_ADD_FORM))
@@ -61,7 +59,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void showFormForUpdate() throws Exception {
+    void showFormForUpdateTest() throws Exception {
         //given
         when(service.findAddressById(anyInt())).thenReturn(address);
         //when
@@ -72,7 +70,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void saveAddress_validObject() throws Exception {
+    void saveAddress_validObjectTest() throws Exception {
         mockMvc.perform(post("/addresses/save")
                     .content(objectMapper.writeValueAsString(address)))
                 .andExpect(status().is3xxRedirection())
@@ -80,8 +78,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
-        //when
+    void deleteTest() throws Exception {
         mockMvc.perform(get("/addresses/delete")
                     .param("addressId", "1"))
                 .andExpect(status().is3xxRedirection())
@@ -89,7 +86,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void showAddress() throws Exception {
+    void showAddressTest() throws Exception {
         //given
         when(service.findAddressById(anyInt())).thenReturn(address);
         //when
