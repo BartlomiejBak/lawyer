@@ -25,7 +25,7 @@ class LawsuitServiceSpringDataTest {
     LawsuitRepository repository;
 
     Lawsuit lawsuitOne = Lawsuit.builder()
-            .id(1)
+            .lawsuitId(1)
             .name("name1")
             .caseSide("side1")
             .build();
@@ -36,12 +36,12 @@ class LawsuitServiceSpringDataTest {
         List<Lawsuit> list = new ArrayList<>();
 
         Lawsuit lawsuitTwo = Lawsuit.builder()
-                .id(2)
+                .lawsuitId(2)
                 .name("name2")
                 .caseSide("side2")
                 .build();
         Lawsuit lawsuitThree = Lawsuit.builder()
-                .id(3)
+                .lawsuitId(3)
                 .name("name3")
                 .caseSide("side3")
                 .build();

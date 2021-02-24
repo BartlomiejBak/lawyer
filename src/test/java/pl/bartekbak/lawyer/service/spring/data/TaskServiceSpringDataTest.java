@@ -24,14 +24,14 @@ class TaskServiceSpringDataTest {
     @Mock
     TaskRepository repository;
 
-    Task taskOne = Task.builder().id(1).description("description 1").build();
+    Task taskOne = Task.builder().taskId(1).description("description 1").build();
 
     @Test
     void findAllTasks() {
         //given
         List<Task> list = new ArrayList<>();
-        Task taskTwo = Task.builder().id(2).description("description 2").build();
-        Task taskThree = Task.builder().id(3).description("description 3").build();
+        Task taskTwo = Task.builder().taskId(2).description("description 2").build();
+        Task taskThree = Task.builder().taskId(3).description("description 3").build();
 
         list.add(taskOne);
         list.add(taskTwo);

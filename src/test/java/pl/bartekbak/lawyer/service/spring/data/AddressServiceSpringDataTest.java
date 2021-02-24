@@ -36,13 +36,13 @@ class AddressServiceSpringDataTest {
         list.add(addressTwo);
         list.add(addressThree);
 
-        when(repository.findAllByOrderByIdAsc()).thenReturn(list);
+        when(repository.findAllByOrderByAddressIdAsc()).thenReturn(list);
         //when
         List<Address> result = service.findAllAddresses();
 
         //then
         assertEquals(3, result.size());
-        verify(repository, times(1)).findAllByOrderByIdAsc();
+        verify(repository, times(1)).findAllByOrderByAddressIdAsc();
     }
 
     @Test

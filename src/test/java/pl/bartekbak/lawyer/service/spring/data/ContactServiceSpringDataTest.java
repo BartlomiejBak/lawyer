@@ -25,7 +25,7 @@ class ContactServiceSpringDataTest {
     ContactRepository repository;
 
     Contact contactOne = Contact.builder()
-            .id(1)
+            .contactId(1)
             .name("n1")
             .firstName("fn1")
             .lastName("ln1")
@@ -36,13 +36,13 @@ class ContactServiceSpringDataTest {
         //given
         List<Contact> list = new ArrayList<>();
         Contact contactTwo = Contact.builder()
-                .id(2)
+                .contactId(2)
                 .name("n2")
                 .firstName("fn2")
                 .lastName("ln2")
                 .build();
         Contact contactThree = Contact.builder()
-                .id(3)
+                .contactId(3)
                 .name("n3")
                 .firstName("fn3")
                 .lastName("ln3")
