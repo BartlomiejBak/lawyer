@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Lawsuit {
     @Id
     @Column(name = "case_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int lawsuitId;
 
     @Column(name = "name")
     @Size(min = 2, max = 50)
@@ -60,7 +61,7 @@ public class Lawsuit {
     private String signature;
 
     @Column(name = "claim_amount")
-    @Positive
+    @PositiveOrZero
     private double claimAmount;
 
     @Column(name = "add_info")

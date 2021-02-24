@@ -33,7 +33,7 @@ public class Contact {
     @Id
     @Column(name = "contact_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int contactId;
 
     @Column(name = "name")
     @Size(min = 2, max = 50)

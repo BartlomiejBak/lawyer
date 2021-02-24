@@ -30,7 +30,7 @@ public class Task {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int taskId;
 
     @Column(name = "priority")
     private boolean priority;

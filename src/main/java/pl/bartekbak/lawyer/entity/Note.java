@@ -19,7 +19,7 @@ public class Note {
     @Id
     @Column(name = "note_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int noteId;
 
     @Column(name = "title")
     @Size(min = 2, max = 50)

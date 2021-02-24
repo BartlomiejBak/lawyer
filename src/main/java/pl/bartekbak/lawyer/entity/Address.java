@@ -16,7 +16,7 @@ public class Address {
     @Id
     @Column(name = "address_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int addressId;
 
     @Column(name = "street")
     @Size(min = 2, max = 50)
