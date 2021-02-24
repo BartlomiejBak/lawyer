@@ -37,7 +37,7 @@ class AddressControllerTest {
 
     @BeforeEach
     void setUp() {
-        address = Address.builder().id(1).build();
+        address = Address.builder().addressId(1).build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

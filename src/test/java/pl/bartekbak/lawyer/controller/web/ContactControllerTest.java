@@ -37,7 +37,7 @@ class ContactControllerTest {
 
     @BeforeEach
     void setUp() {
-        contact = Contact.builder().id(1).build();
+        contact = Contact.builder().contactId(1).build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

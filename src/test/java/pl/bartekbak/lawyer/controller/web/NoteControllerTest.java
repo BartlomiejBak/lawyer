@@ -37,7 +37,7 @@ class NoteControllerTest {
 
     @BeforeEach
     void setUp() {
-        note = Note.builder().id(1).build();
+        note = Note.builder().noteId(1).build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

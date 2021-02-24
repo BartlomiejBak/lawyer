@@ -37,7 +37,7 @@ class TaskControllerTest {
 
     @BeforeEach
     void setUp() {
-        task = Task.builder().id(1).build();
+        task = Task.builder().taskId(1).build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
