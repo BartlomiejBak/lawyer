@@ -19,7 +19,7 @@ public class AddressServiceSpringData implements AddressService {
 
     @Override
     public List<Address> findAllAddresses() {
-        return addressRepository.findAllByOrderByIdAsc();
+        return addressRepository.findAllByOrderByAddressIdAsc();
     }
 
     @Override
