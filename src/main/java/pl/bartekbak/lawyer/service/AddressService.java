@@ -5,11 +5,11 @@ import pl.bartekbak.lawyer.entity.Address;
 import java.util.List;
 
 public interface AddressService {
-    public List<Address> findAllAddresses();
+    List<Address> findAllAddresses();
 
-    public Address findAddressById(int id);
+    Address findAddressById(int id);
 
-    public void saveAddress(Address address);
+    void saveAddress(Address address);
 
-    public void deleteAddressById(int id);
+    void deleteAddressById(int id);
 }
