@@ -26,29 +26,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class LawsuitRestControllerTest {
     private final Lawsuit firstLawsuit = Lawsuit.builder()
-            .id(100)
+            .lawsuitId(100)
             .name("1 lawsuit")
             .build();
     private final Lawsuit secondLawsuit = Lawsuit.builder()
-            .id(101)
+            .lawsuitId(101)
             .name("2 lawsuit")
             .build();
     private final Lawsuit thirdLawsuit = Lawsuit.builder()
-            .id(102)
+            .lawsuitId(102)
             .name("3 lawsuit")
             .build();
     private final List<Lawsuit> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private LawsuitRestController lawsuitRestController;
 
     @Mock
     private LawsuitServiceSpringData lawsuitService;
 
     @BeforeEach
     void setUp() {
-        lawsuitRestController = new LawsuitRestController(lawsuitService);
+        LawsuitRestController lawsuitRestController = new LawsuitRestController(lawsuitService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(lawsuitRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -67,7 +66,7 @@ class LawsuitRestControllerTest {
                 .andReturn();
         //then
         final List<Lawsuit> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Lawsuit>>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(lawsuits, result);
     }
@@ -85,7 +84,7 @@ class LawsuitRestControllerTest {
                 .andReturn();
         //then
         final Lawsuit result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Lawsuit>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstLawsuit, result);
     }
@@ -95,8 +94,7 @@ class LawsuitRestControllerTest {
         //given
         doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/lawsuit/register")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -112,8 +110,7 @@ class LawsuitRestControllerTest {
         //given
         doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/lawsuit/register")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,8 +127,7 @@ class LawsuitRestControllerTest {
         doNothing().when(lawsuitService).deleteLawsuitById(anyInt());
         when(lawsuitService.findLawsuitById(anyInt())).thenReturn(firstLawsuit);
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/lawsuit/remove/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

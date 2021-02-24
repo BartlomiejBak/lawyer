@@ -27,17 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ContactRestControllerTest {
 
     private final Contact firstContact = Contact.builder()
-            .id(100)
+            .contactId(100)
             .firstName("First")
             .lastName("Contact")
             .build();
     private final Contact secondContact = Contact.builder()
-            .id(101)
+            .contactId(101)
             .firstName("Second")
             .lastName("Contact")
             .build();
     private final Contact thirdContact = Contact.builder()
-            .id(102)
+            .contactId(102)
             .firstName("Third")
             .lastName("Contact")
             .build();
@@ -46,14 +46,13 @@ class ContactRestControllerTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private ContactRestController contactRestController;
 
     @Mock
     private ContactServiceSpringData contactService;
 
     @BeforeEach
     void setUp() {
-        contactRestController = new ContactRestController(contactService);
+        ContactRestController contactRestController = new ContactRestController(contactService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(contactRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -72,7 +71,7 @@ class ContactRestControllerTest {
                 .andReturn();
         //then
         final List<Contact> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Contact>>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(contacts, result);
     }
@@ -90,7 +89,7 @@ class ContactRestControllerTest {
                 .andReturn();
         //then
         final Contact result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Contact>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstContact, result);
     }
@@ -100,8 +99,7 @@ class ContactRestControllerTest {
         //given
         doNothing().when(contactService).saveContact(any(Contact.class));
         //when
-         final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/contact/register")
                         .content(objectMapper.writeValueAsString(firstContact))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -117,8 +115,7 @@ class ContactRestControllerTest {
         //given
         doNothing().when(contactService).saveContact(any(Contact.class));
         //when
-         final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/contact/register")
                         .content(objectMapper.writeValueAsString(firstContact))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,8 +133,7 @@ class ContactRestControllerTest {
         when(contactService.findContactById(anyInt())).thenReturn(firstContact);
         //when
 
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/contact/remove/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

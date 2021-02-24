@@ -27,17 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AddressRestControllerTest {
 
     private final Address firstAddress = Address.builder()
-            .id(100)
+            .addressId(100)
             .city("Warsaw")
             .country("Poland")
             .build();
     private final Address secondAddress = Address.builder()
-            .id(101)
+            .addressId(101)
             .city("Berlin")
             .country("Germany")
             .build();
     private final Address thirdAddress = Address.builder()
-            .id(102)
+            .addressId(102)
             .city("Madrid")
             .country("Spain")
             .build();

@@ -27,29 +27,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TaskRestControllerTest {
 
     private final Task firstTask = Task.builder()
-            .id(100)
+            .taskId(100)
             .description("1 task to do")
             .build();
     private final Task secondTask = Task.builder()
-            .id(101)
+            .taskId(101)
             .description("2 task to do")
             .build();
     private final Task thirdTask = Task.builder()
-            .id(102)
+            .taskId(102)
             .description("3 task to do")
             .build();
     private final List<Task> tasks = List.of(firstTask, secondTask, thirdTask);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private TaskRestController taskRestController;
 
     @Mock
     private TaskServiceSpringData taskService;
 
     @BeforeEach
     void setUp() {
-        taskRestController = new TaskRestController(taskService);
+        TaskRestController taskRestController = new TaskRestController(taskService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(taskRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -68,7 +67,7 @@ class TaskRestControllerTest {
                 .andReturn();
         //then
         final List<Task> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Task>>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(tasks, result);
     }
@@ -86,7 +85,7 @@ class TaskRestControllerTest {
                 .andReturn();
         //then
         final Task result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Task>() {
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstTask, result);
     }
@@ -96,8 +95,7 @@ class TaskRestControllerTest {
         //given
         doNothing().when(taskService).saveTask(any(Task.class));
         //when
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/task/register")
                         .content(objectMapper.writeValueAsString(firstTask))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -113,8 +111,7 @@ class TaskRestControllerTest {
         //given
         doNothing().when(taskService).saveTask(any(Task.class));
         //when
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/task/register")
                         .content(objectMapper.writeValueAsString(firstTask))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -131,8 +128,7 @@ class TaskRestControllerTest {
         doNothing().when(taskService).deleteTaskById(anyInt());
         when(taskService.findTaskById(anyInt())).thenReturn(firstTask);
         //when
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/task/remove/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
