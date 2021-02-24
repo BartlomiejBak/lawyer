@@ -16,7 +16,7 @@
         th:object="${task}" method="post">
 
             <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{taskId}"/>
 
             <p th:text="#{task.priority}"></p>
             <input type="text" th:field="*{priority}" class="form-control mb-4 col-4">

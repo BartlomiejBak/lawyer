@@ -19,7 +19,7 @@
         th:object="${address}" method="post">
 
             <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{addressId}"/>
 
             <p th:text="#{address.street} + ':'"></p>
             <input type="text" th:field="*{street}" class="form-control mb-4 col-4">
