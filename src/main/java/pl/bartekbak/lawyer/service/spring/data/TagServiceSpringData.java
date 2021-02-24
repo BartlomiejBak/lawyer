@@ -26,7 +26,7 @@ public class TagServiceSpringData implements TagService {
     @Override
     public Tag findTagById(int id) {
         Optional<Tag> result = tagRepository.findById(id);
-        Tag tag = null;
+        Tag tag;
         if (result.isPresent()) {
             tag = result.get();
         } else {

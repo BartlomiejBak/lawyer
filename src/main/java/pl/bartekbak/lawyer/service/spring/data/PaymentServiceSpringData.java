@@ -25,7 +25,7 @@ public class PaymentServiceSpringData implements PaymentService {
     @Override
     public Payment findPaymentById(int id) {
         Optional<Payment> result = repository.findById(id);
-        Payment payment = null;
+        Payment payment;
         if (result.isPresent()) {
             payment = result.get();
         } else {

@@ -26,7 +26,7 @@ public class TaskServiceSpringData implements TaskService {
     @Override
     public Task findTaskById(int id) {
         Optional<Task> result = taskRepository.findById(id);
-        Task task = null;
+        Task task;
         if (result.isPresent()) {
             task = result.get();
         } else {

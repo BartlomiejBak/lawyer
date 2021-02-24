@@ -27,7 +27,7 @@ public class CourtServiceSpringData implements CourtService {
     @Override
     public Court findCourtById(int id) {
         Optional<Court> result = courtRepository.findById(id);
-        Court court = null;
+        Court court;
         if (result.isPresent()){
             court = result.get();
         } else {

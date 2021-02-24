@@ -25,7 +25,7 @@ public class EventServiceSpringData implements EventService {
     @Override
     public Event findEventById(int id) {
         Optional<Event> result = eventRepository.findById(id);
-        Event event = null;
+        Event event;
         if (result.isPresent()) {
             event = result.get();
         } else {

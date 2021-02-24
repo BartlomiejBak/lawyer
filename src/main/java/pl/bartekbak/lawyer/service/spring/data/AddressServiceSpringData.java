@@ -25,7 +25,7 @@ public class AddressServiceSpringData implements AddressService {
     @Override
     public Address findAddressById(int id) {
         Optional<Address> result = addressRepository.findById(id);
-        Address address = null;
+        Address address;
         if (result.isPresent()) {
             address = result.get();
         } else {

@@ -26,7 +26,7 @@ public class LawsuitServiceSpringData implements LawsuitService {
     @Override
     public Lawsuit findLawsuitById(int id) {
         Optional<Lawsuit> result = lawsuitRepository.findById(id);
-        Lawsuit lawsuit = null;
+        Lawsuit lawsuit;
         if (result.isPresent()){
             lawsuit = result.get();
         } else {

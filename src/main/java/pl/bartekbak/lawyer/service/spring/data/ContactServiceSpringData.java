@@ -26,7 +26,7 @@ public class ContactServiceSpringData implements ContactService {
     @Override
     public Contact findContactById(int id) {
         Optional<Contact> result = contactRepository.findById(id);
-        Contact contact = null;
+        Contact contact;
         if (result.isPresent()) {
             contact = result.get();
         } else {

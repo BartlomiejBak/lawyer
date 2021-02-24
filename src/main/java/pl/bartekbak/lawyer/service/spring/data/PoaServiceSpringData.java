@@ -25,7 +25,7 @@ public class PoaServiceSpringData implements PoaService {
     @Override
     public Poa findPoaById(int id) {
         Optional<Poa> result = repository.findById(id);
-        Poa poa = null;
+        Poa poa;
         if (result.isPresent()) {
             poa = result.get();
         } else {

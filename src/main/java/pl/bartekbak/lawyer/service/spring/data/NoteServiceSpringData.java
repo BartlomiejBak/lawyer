@@ -26,7 +26,7 @@ public class NoteServiceSpringData implements NoteService {
     @Override
     public Note findNoteById(int id) {
         Optional<Note> result = noteRepository.findById(id);
-        Note note = null;
+        Note note;
         if (result.isPresent()) {
             note = result.get();
         } else {
