@@ -18,7 +18,7 @@ import java.util.List;
 public class PoaController {
 
     private final PoaService poaService;
-    private static final String POA_ADD_FORM = "poas/list-poas";
+    private static final String POA_ADD_FORM = "poas/add-poa-form";
 
     public PoaController(PoaService poaService) {
         this.poaService = poaService;
@@ -28,7 +28,7 @@ public class PoaController {
     public String listAllPoa(Model model) {
         List<Poa> poaList = poaService.findAllPoa();
         model.addAttribute("poas", poaList);
-        return POA_ADD_FORM;
+        return "poas/list-poas";
     }
 
     @GetMapping("/showFormForAdd")
@@ -50,7 +50,7 @@ public class PoaController {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
-            return "poas/add-poa-form";
+            return POA_ADD_FORM;
         }
         poaService.savePoa(poa);
         return "redirect:list";
