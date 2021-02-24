@@ -33,7 +33,7 @@ public class TagRestController {
 
     @PostMapping("/register")
     public Tag addTag(@RequestBody Tag tag) {
-        tag.setId(0);
+        tag.setTagId(0);
         service.saveTag(tag);
         return tag;
     }

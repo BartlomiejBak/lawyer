@@ -34,7 +34,7 @@ public class LawsuitRestController {
 
     @PostMapping("/register")
     public Lawsuit addLawsuit(@RequestBody Lawsuit lawsuit) {
-        lawsuit.setId(0);
+        lawsuit.setLawsuitId(0);
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }

@@ -33,7 +33,7 @@ public class NoteRestController {
 
     @PostMapping("/register")
     public Note addNote(@RequestBody Note note) {
-        note.setId(0);
+        note.setNoteId(0);
         noteService.saveNote(note);
         return note;
     }

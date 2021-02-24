@@ -34,7 +34,7 @@ public class ContactRestController {
 
     @PostMapping("/register")
     public Contact addContact(@RequestBody Contact contact) {
-        contact.setId(0);
+        contact.setContactId(0);
         contactService.saveContact(contact);
         return contact;
     }

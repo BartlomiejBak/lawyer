@@ -33,7 +33,7 @@ public class TaskRestController {
 
     @PostMapping("/register")
     public Task addTask(@RequestBody Task task) {
-        task.setId(0);
+        task.setTaskId(0);
         service.saveTask(task);
         return task;
     }

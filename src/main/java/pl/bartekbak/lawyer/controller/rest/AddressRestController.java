@@ -34,7 +34,7 @@ public class AddressRestController {
 
     @PostMapping("/register")
     public Address addAddress(@RequestBody Address address) {
-        address.setId(0);
+        address.setAddressId(0);
         addressService.saveAddress(address);
         return address;
     }
