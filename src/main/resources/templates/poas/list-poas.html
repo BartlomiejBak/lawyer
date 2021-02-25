@@ -27,17 +27,17 @@
 
         <tbody>
         <tr th:each="tempPoa : ${poas}">
-            <td th:text="${tempPoa.type}"/>
-            <td th:text="${tempPoa.payment}"/>
-            <td th:text="${tempPoa.kpc}"/>
-            <td th:text="${tempPoa.termination}"/>
-            <td th:text="${tempPoa.startDate}"/>
-            <td th:text="${tempPoa.endDate}"/>
-            <td th:text="${tempPoa.terminationNotificationDuty}"/>
-            <td th:text="${tempPoa.terminationNotificationDutyCompleted}"/>
+            <td><a th:href="@{/poas/__${tempPoa.poaId}__}" th:text="${tempPoa.type}"></a></td>
+            <td th:text="${tempPoa.payment}"></td>
+            <td th:text="${tempPoa.kpc}"></td>
+            <td th:text="${tempPoa.termination}"></td>
+            <td th:text="${tempPoa.startDate}"></td>
+            <td th:text="${tempPoa.endDate}"></td>
+            <td th:text="${tempPoa.terminationNotificationDuty}"></td>
+            <td th:text="${tempPoa.terminationNotificationDutyCompleted}"></td>
             <!-- add button -->
             <td>
-                <a th:href="@{/poas/showFormForUpdate(poaId=${tempPoa.poaId})}"
+                <a th:href="@{/poas/{id}/edit(id=${tempPoa.poaId})}"
                 class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/poas/delete(poaId=${tempPoa.poaId})}"

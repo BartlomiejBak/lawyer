@@ -23,13 +23,13 @@
 
         <tbody>
         <tr th:each="tempEvent : ${events}">
-            <td th:text="${tempEvent.title}"/>
-            <td th:text="${tempEvent.dateTime}"/>
-            <td th:text="${tempEvent.description}"/>
-            <td th:text="${tempEvent.relatedLawsuit}"/>
+            <td><a th:href="@{/events/__${tempEvent.eventId}__}" th:text="${tempEvent.title}"></a></td>
+            <td th:text="${tempEvent.dateTime}"></td>
+            <td th:text="${tempEvent.description}"></td>
+            <td th:text="${tempEvent.relatedLawsuit}"></td>
             <!-- add button -->
             <td>
-                <a th:href="@{/events/showFormForUpdate(eventId=${tempEvent.eventId})}"
+                <a th:href="@{/events/{id}/edit(id=${tempEvent.eventId})}"
                    class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/events/delete(eventId=${tempEvent.eventId})}"

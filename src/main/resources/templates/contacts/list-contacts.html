@@ -11,10 +11,6 @@
 <div class="container">
     <br>
     <h3 th:text="#{contact.list}"></h3>
-
-
-
-
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
@@ -24,37 +20,23 @@
             <th th:text="#{contact.phone}"></th>
             <th th:text="Email"></th>
             <th th:text="#{contact.companyName}"></th>
-            <th th:text="PESEL"></th>
-            <th th:text="NIP"></th>
-            <th th:text="REGON"></th>
-            <th th:text="KRS"></th>
-            <th th:text="#{contact.address}"></th>
-            <th th:text="#{contact.taskList}"></th>
-            <th th:text="#{contact.lawsuitList}"></th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:each="tempContact : ${contacts}">
-            <td th:text="${tempContact.name}"></td>
+            <td><a th:href="@{/contacts/__${tempContact.contactId}__}" th:text="${tempContact.name}"></a></td>
             <td th:text="${tempContact.firstName}"></td>
             <td th:text="${tempContact.lastName}"></td>
-            <td th:text="${tempContact.phone} + ' ' + ${tempContact.altPhone}"></td>
-            <td th:text="${tempContact.email} + ' ' + ${tempContact.altEmail}"></td>
+            <td th:text="${tempContact.phone}"></td>
+            <td th:text="${tempContact.email}"></td>
             <td th:text="${tempContact.companyName}"></td>
-            <td th:text="${tempContact.pesel}"></td>
-            <td th:text="${tempContact.nip}"></td>
-            <td th:text="${tempContact.regon}"></td>
-            <td th:text="${tempContact.krs}"></td>
-            <td th:text="${tempContact.address}"></td>
-            <td><span th:each="task : ${tempContact.taskList}" th:text="${task.description}"></span></td>
-            <td><span th:each="lawsuit : ${tempContact.lawsuitList}" th:text="${lawsuit.name}"></span></td>
             <!-- add button -->
             <td>
-                <a th:href="@{/contacts/showFormForUpdate(contactId=${tempContact.id})}"
+                <a th:href="@{/contacts/{id}/edit(id=${tempContact.contactId})}"
                    class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
-                <a th:href="@{/contacts/delete(contactId=${tempContact.id})}"
+                <a th:href="@{/contacts/delete(contactId=${tempContact.contactId})}"
                    class="btn btn-danger btn-sm"
                    th:data-confirm-delete="#{contact.deleteConfirm}"
                    onclick="if (!(confirm(this.getAttribute('data-confirm-delete')))) return false"

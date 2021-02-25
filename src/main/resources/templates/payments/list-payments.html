@@ -21,11 +21,11 @@
 
         <tbody>
         <tr th:each="tempPayment : ${payments}">
-            <td th:text="${tempPayment.paymentValue}"/>
-            <td th:text="${tempPayment.paymentDate}"/>
+            <td><a th:href="@{/payments/__${tempPayment.paymentId}__}" th:text="${tempPayment.paymentValue}"></a></td>
+            <td th:text="${tempPayment.paymentDate}"></td>
             <!-- add button -->
             <td>
-                <a th:href="@{/payments/showFormForUpdate(paymentId=${tempPayment.paymentId})}"
+                <a th:href="@{/payments/{id}/edit(id=${tempPayment.paymentId})}"
                 class="btn btn-info btn-sm" th:text="#{command.update}">
                 </a>
                 <a th:href="@{/payments/delete(paymentId=${tempPayment.paymentId})}"

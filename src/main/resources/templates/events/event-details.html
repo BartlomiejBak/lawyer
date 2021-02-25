@@ -24,7 +24,7 @@
     </tr>
     <tr>
         <th th:text="#{event.relatedCase}"></th>
-        <td th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
+        <td th:unless="${event.relatedLawsuit == null}" th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
     </tr>
 
 </table>
