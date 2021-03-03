@@ -11,7 +11,42 @@
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
 <table class="table table-striped">
+    <tr>
+    </tr>
+    <td>
+        <table class="table table-striped" th:object="${tasks}">
+            <thead class="thead-dark"><h2 th:text="#{task.list}"></h2></thead>
+            <tbody>
+            <tr th:each="tempTask : ${tasks}">
+                <td><a th:href="@{/tasks/__${tempTask.taskId}__}"
+                       th:text="${tempTask.deadline + ' ' + tempTask.description}"></a></td>
+            </tr>
+            </tbody>
 
+        </table>
+    </td>
+    <td>
+        <table class="table table-striped" th:object="${lawsuits}">
+            <thead class="thead-dark"><h2 th:text="#{lawsuit.list}"></h2></thead>
+            <tbody>
+            <tr th:each="tempLawsuit : ${lawsuits}">
+                <td><a th:href="@{/lawsuits/__${tempLawsuit.lawsuitId}__}"
+                       th:text="${tempLawsuit.name + ' ' + tempLawsuit.deadline}"></a></td>
+            </tr></tbody>
+        </table>
+    </td>
+    <td>
+        <table class="table table-striped" th:object="${payments}">
+        <thead class="thead-dark"><h2 th:text="#{payment.list}"></h2></thead>
+        <tbody>
+        <tr th:each="tempPayment : ${payments}">
+            <td><a th:href="@{/payments/__${tempPayment.paymentId}__}"
+                   th:text="${tempPayment.paymentDate + ' ' + tempPayment.paymentValue +  ' '
+                   + tempPayment.comment}"></a></td>
+        </tr>
+        </tbody>
+        </table>
+    </td>
 
 </table>
 
