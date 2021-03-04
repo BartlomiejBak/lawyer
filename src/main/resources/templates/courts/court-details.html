@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <th th:text="#{court.address}"></th>
-        <td th:text="*{address.street + ' ' + address.zipCode + ' ' + address.city}"></td>
+        <td th:text="*{address.street + ', ' + address.zipCode + ' ' + address.city}"></td>
     </tr>
     <tr>
         <th th:text="#{court.phone}"></th>
@@ -28,6 +28,8 @@
         <td th:text="*{description}"></td>
     </tr>
 </table>
+<a th:href="@{{id}/edit(id=${court.courtId})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/courts/list}" th:text="#{court.backToCourtList}"></a>
 <br>
