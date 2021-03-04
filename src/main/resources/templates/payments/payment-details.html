@@ -35,7 +35,8 @@
         <td th:text="*{incoming}"></td>
     </tr>
 </table>
-
+<a th:href="@{{id}/edit(id=${payment.paymentId})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/payments/list}" th:text="#{payment.backToPaymentList}"></a>
 <br>
