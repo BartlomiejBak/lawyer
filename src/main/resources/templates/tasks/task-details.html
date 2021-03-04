@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <th th:text="#{task.deadline}"></th>
-        <td th:text="*{deadline}"></td>
+        <td th:text="*{#temporals.format(deadline, 'dd-MM-yyyy HH:mm')}"></td>
     </tr>
     <tr>
         <th th:text="#{task.description}"></th>
@@ -50,7 +50,8 @@
         </td>
     </tr>
 </table>
-
+<a th:href="@{{id}/edit(id=${task.taskId})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>
 <br>
