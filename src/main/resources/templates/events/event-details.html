@@ -26,9 +26,9 @@
         <th th:text="#{event.relatedCase}"></th>
         <td th:unless="${event.relatedLawsuit == null}" th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
     </tr>
-
 </table>
-
+<a th:href="@{{id}/edit(id=${event.eventId})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/events/list}" th:text="#{event.backToEventList}"></a>
 <br>
