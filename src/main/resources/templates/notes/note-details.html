@@ -17,13 +17,12 @@
         <th th:text="#{note.content}"></th>
         <td th:text="*{text}"></td>
     </tr>
-
-    <hr>
-    <a th:href="@{/notes/list}" th:text="#{note.backToNoteList}"></a>
-    <br>
-    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
-
 </table>
-
+<a th:href="@{{id}/edit(id=${note.noteId})}" class="btn btn-info btn-sm"
+   th:text="#{command.update}"></a>
+<hr>
+<a th:href="@{/notes/list}" th:text="#{note.backToNoteList}"></a>
+<br>
+<a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 </body>
 </html>
