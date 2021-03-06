@@ -3,6 +3,7 @@ package pl.bartekbak.lawyer.controller.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class AddressRestController {
     public Address getAddress(@PathVariable int addressId) {
         Address agreement = addressService.findAddressById(addressId);
         if (agreement == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         return agreement;
     }
@@ -49,7 +50,7 @@ public class AddressRestController {
     public String deleteAddress(@PathVariable int addressId) {
         Address address = addressService.findAddressById(addressId);
         if (address == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         addressService.deleteAddressById(addressId);
         return "Address successfully deleted";

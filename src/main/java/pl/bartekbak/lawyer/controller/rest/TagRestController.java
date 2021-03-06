@@ -3,6 +3,7 @@ package pl.bartekbak.lawyer.controller.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class TagRestController {
     public Tag getTag(@PathVariable int tagId) {
         Tag tag = service.findTagById(tagId);
         if (tag == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         return tag;
     }
@@ -48,7 +49,7 @@ public class TagRestController {
     public String deleteTag(@PathVariable int tagId) {
         Tag tag = service.findTagById(tagId);
         if (tag == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         service.deleteTagById(tagId);
         return "Tag successfully deleted";

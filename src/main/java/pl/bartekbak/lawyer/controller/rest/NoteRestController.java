@@ -3,6 +3,7 @@ package pl.bartekbak.lawyer.controller.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Note;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class NoteRestController {
     public Note getNote(@PathVariable int noteId) {
         Note note = noteService.findNoteById(noteId);
         if (note == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         return note;
     }
@@ -48,7 +49,7 @@ public class NoteRestController {
     public String deleteNote(@PathVariable int noteId) {
         Note note = noteService.findNoteById(noteId);
         if (note == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         noteService.deleteNoteById(noteId);
         return "Note successfully deleted";

@@ -3,6 +3,7 @@ package pl.bartekbak.lawyer.controller.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ContactRestController {
     public Contact getContact(@PathVariable int contactId) {
         Contact contact = contactService.findContactById(contactId);
         if (contact == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         return contact;
     }
@@ -49,7 +50,7 @@ public class ContactRestController {
     public String deleteContact(@PathVariable int contactId) {
         Contact contact = contactService.findContactById(contactId);
         if (contact == null) {
-            throw new RuntimeException("No such Id in database");
+            throw new ResourceNotFoundException("No such Id in database");
         }
         contactService.deleteContactById(contactId);
         return "Contact successfully deleted";
