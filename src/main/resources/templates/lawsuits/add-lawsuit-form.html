@@ -11,29 +11,103 @@
     <div class="container">
         <br>
         <h3 th:text="#{lawsuit.add}"></h3>
+        <hr>
 
 
-        <p class="h4 mb-4">Zapisz sprawę</p>
-        <form action="#" th:action="@{/lawsuits/save}"
-        th:object="${lawsuit}" method="post">
+        <p class="h4 mb-4" th:text="#{lawsuit.save}"></p>
+        <form action="#" th:action="@{/lawsuits/save}" th:object="${lawsuit}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{command.correctErrors}"></p>
+            </div>
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{lawsuitId}"/>
 
+
+            <div th:class="${#fields.hasErrors('name')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.name}"></p>
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+                <label>
+            <input type="text" th:field="*{name}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('name')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('caseSide')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.caseSide}"></p>
-            <input type="text" th:field="*{caseSide}" class="form-control mb-4 col-4">
+                <label>
+            <input type="text" th:field="*{caseSide}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('caseSide')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('caseSide')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('inputDate')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.inputDate}"></p>
-            <input type="date" th:field="*{inputDate}" class="form-control mb-4 col-4">
+                <label>
+            <input type="date" th:field="*{inputDate}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('inputDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('inputDate')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('deadline')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.deadline}"></p>
-            <input type="date" th:field="*{deadline}" class="form-control mb-4 col-4">
+                <label>
+            <input type="date" th:field="*{deadline}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('deadline')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('deadline')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('signature')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.signature}"></p>
-            <input type="text" th:field="*{signature}" class="form-control mb-4 col-4">
+                <label>
+            <input type="text" th:field="*{signature}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('signature')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('signature')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('claimAmount')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.claimAmount}"></p>
-            <input type="text" th:field="*{claimAmount}" class="form-control mb-4 col-4">
+                <label>
+            <input type="text" th:field="*{claimAmount}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('claimAmount')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('claimAmount')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('additionalInfo')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{lawsuit.additionalInfo}"></p>
-            <input type="text" th:field="*{additionalInfo}" class="form-control mb-4 col-4">
+                <label>
+            <input type="text" th:field="*{additionalInfo}" class="form-control" th:errorclass="has-error">
+            </label>
+                <span class="help-block" th:if="${#fields.hasErrors('additionalInfo')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('additionalInfo')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
 
             <button type="submit" class="btn btn-info col-2" th:text="#{lawsuit.save}"></button>
 
