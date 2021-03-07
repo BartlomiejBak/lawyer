@@ -11,23 +11,67 @@
     <div class="container">
         <br>
         <h3 th:text="#{event.add}"></h3>
-
+        <hr>
 
         <p class="h4 mb-4" th:text="#{event.save}"></p>
-        <form action="#" th:action="@{/events/save}"
-        th:object="${event}" method="post">
+        <form action="#" th:action="@{/events/save}" th:object="${event}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{command.correctErrors}"></p>
+            </div>
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{eventId}"/>
 
+            <div th:class="${#fields.hasErrors('title')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{event.name}"></p>
-            <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{title}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('dateTime')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{event.date}"></p>
-            <input type="datetime-local" th:field="*{dateTime}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="datetime-local" th:field="*{dateTime}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('dateTime')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('dateTime')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('description')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{event.description}"></p>
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{description}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('description')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('relatedLawsuit')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{event.relatedCase}"></p>
-            <input type="text" th:field="*{relatedLawsuit}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{relatedLawsuit}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('relatedLawsuit')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('relatedLawsuit')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+
 
             <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
