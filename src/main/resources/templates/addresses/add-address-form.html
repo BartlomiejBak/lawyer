@@ -9,37 +9,80 @@
 
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
-    <div class="container">
+<div class="container">
+    <br>
+    <h3 th:text="#{address.add}"></h3>
+    <hr>
 
-        <h3 th:text="#{address.add}"></h3>
-        <hr>
+    <p class="h4 mb-4" th:text="#{address.save}"></p>
+    <form action="#" th:action="@{/addresses/save}" th:object="${address}" method="post">
 
-        <p class="h4 mb-4" th:text="#{address.save}"></p>
-        <form action="#" th:action="@{/addresses/save}"
-        th:object="${address}" method="post">
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <p th:text="#{command.correctErrors}"></p>
+        </div>
 
-            <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{addressId}"/>
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{addressId}"/>
 
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{address.street} + ':'"></p>
-            <input type="text" th:field="*{street}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" class="form-control" th:field="*{street}" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('street')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('street')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('zipCode')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{address.postal} + ':'"></p>
-            <input type="text" th:field="*{zipCode}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" class="form-control" th:field="*{zipCode}"  th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('zipCode')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('zipCode')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('city')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{address.city} + ':'"></p>
-            <input type="text" th:field="*{city}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" class="form-control" th:field="*{city}"  th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('city')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('city')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('country')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{address.country} + ':'"></p>
-            <input type="text" th:field="*{country}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" class="form-control" th:field="*{country}"  th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('country')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('country')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
 
-            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
-        </form>
+        <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
-        <hr>
-        <a th:href="@{/addresses/list}" th:text="#{address.backToAddressList}"></a>
-        <br>
-        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+    </form>
 
-    </div>
+    <hr>
+    <a th:href="@{/addresses/list}" th:text="#{address.backToAddressList}"></a>
+    <br>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+
+</div>
 
 </body>
 </html>
