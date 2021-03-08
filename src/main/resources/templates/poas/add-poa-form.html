@@ -8,46 +8,130 @@
 
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
-    <div class="container">
-        <br>
-        <h3 th:text="#{poa.add}"></h3>
+<div class="container">
+    <br>
+    <h3 th:text="#{poa.add}"></h3>
+    <hr>
 
 
-        <p class="h4 mb-4" th:text="#{poa.save}"></p>
-        <form action="#" th:action="@{/poas/save}"
-        th:object="${poa}" method="post">
+    <p class="h4 mb-4" th:text="#{poa.save}"></p>
+    <form action="#" th:action="@{/poas/save}" th:object="${poa}" method="post">
 
-            <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{poaId}"/>
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <p th:text="#{command.correctErrors}"></p>
+        </div>
 
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{poaId}"/>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.type}"></p>
-            <input type="text" th:field="*{type}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{type}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('type')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('type')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.payment}"></p>
-            <input type="text" th:field="*{payment}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{payment}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('payment')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('payment')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.kpc}"></p>
-            <input type="text" th:field="*{kpc}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{kpc}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('kpc')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('kpc')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.termination}"></p>
-            <input type="text" th:field="*{termination}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{termination}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('termination')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('termination')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.startDate}"></p>
-            <input type="date" th:field="*{startDate}" class="form-control mb-4 col-4">
+            <label>
+                <input type="date" th:field="*{startDate}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('startDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.endDate}"></p>
-            <input type="date" th:field="*{endDate}" class="form-control mb-4 col-4">
+            <label>
+                <input type="date" th:field="*{endDate}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('endDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.terminationNotificationDuty}"></p>
-            <input type="text" th:field="*{terminationNotificationDuty}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{terminationNotificationDuty}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('terminationNotificationDuty')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('terminationNotificationDuty')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.terminationNotificationDutyCompleted}"></p>
-            <input type="text" th:field="*{terminationNotificationDutyCompleted}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{terminationNotificationDutyCompleted}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('terminationNotificationDutyCompleted')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('terminationNotificationDutyCompleted')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+        </div>
 
-            <button type="submit" class="btn btn-info col-2" th:text="#{poa.save}"></button>
 
-        </form>
+        <button type="submit" class="btn btn-info col-2" th:text="#{poa.save}"></button>
 
-        <hr>
-        <a th:href="@{/poas/list}" th:text="#{poa.backToPoaList}"></a>
-        <br>
-        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+    </form>
+
+    <hr>
+    <a th:href="@{/poas/list}" th:text="#{poa.backToPoaList}"></a>
+    <br>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
-    </div>
+</div>
 
 </body>
 </html>
