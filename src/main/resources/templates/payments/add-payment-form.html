@@ -11,19 +11,42 @@
     <div class="container">
         <br>
         <h3 th:text="#{payment.add}"></h3>
+        <hr>
 
 
         <p class="h4 mb-4" th:text="#{payment.save}"></p>
-        <form action="#" th:action="@{/payments/save}"
-        th:object="${payment}" method="post">
+        <form action="#" th:action="@{/payments/save}" th:object="${payment}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{command.correctErrors}"></p>
+            </div>
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{paymentId}"/>
 
+            <div th:class="${#fields.hasErrors('paymentValue')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{payment.value}"></p>
-            <input type="text" th:field="*{paymentValue}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{paymentValue}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('paymentValue')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('paymentValue')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
+
+            <div th:class="${#fields.hasErrors('paymentDate')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{payment.date}"></p>
-            <input type="datetime-local" th:field="*{paymentDate}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="datetime-local" th:field="*{paymentDate}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('paymentDate')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('paymentDate')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+            </div>
 
             <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
