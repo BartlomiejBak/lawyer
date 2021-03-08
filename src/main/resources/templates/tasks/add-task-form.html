@@ -8,34 +8,69 @@
 
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
-    <div class="container">
-        <br>
-        <h3 th:text="#{task.add}"></h3>
-        <p class="h4 mb-4" th:text="#{task.save}"></p>
-        <form action="#" th:action="@{/tasks/save}"
-        th:object="${task}" method="post">
+<div class="container">
+    <br>
+    <h3 th:text="#{task.add}"></h3>
+    <hr>
 
-            <!-- Add hidden form field to handle update -->
-            <input type="hidden" th:field="*{taskId}"/>
+    <p class="h4 mb-4" th:text="#{task.save}"></p>
+    <form action="#" th:action="@{/tasks/save}" th:object="${task}" method="post">
 
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <p th:text="#{command.correctErrors}"></p>
+        </div>
+
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{taskId}"/>
+
+        <div th:class="${#fields.hasErrors('priority')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{task.priority}"></p>
-            <input type="text" th:field="*{priority}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{priority}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('priority')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('priority')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('deadline')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{task.deadline}"></p>
-            <input type="datetime-local" th:field="*{deadline}" class="form-control mb-4 col-4">
+            <label>
+                <input type="datetime-local" th:field="*{deadline}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('deadline')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('deadline')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
+
+        <div th:class="${#fields.hasErrors('description')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{task.description}"></p>
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+            <label>
+                <input type="text" th:field="*{description}" class="form-control" th:errorclass="has-error">
+            </label>
+            <span class="help-block" th:if="${#fields.hasErrors('description')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                </ul>
+            </span>
+        </div>
 
-            <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
-        </form>
+        <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
-        <hr>
-        <a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>
-        <br>
-        <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
+    </form>
+
+    <hr>
+    <a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>
+    <br>
+    <a th:href="@{/main/menu}" th:text="#{command.backToMenu}"></a>
 
 
-    </div>
+</div>
 
 </body>
 </html>
