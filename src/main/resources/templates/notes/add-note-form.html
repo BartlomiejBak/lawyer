@@ -11,19 +11,43 @@
     <div class="container">
         <br>
         <h3 th:text="#{note.add}"></h3>
-
+        <hr>
 
         <p class="h4 mb-4" th:text="#{note.save}"></p>
-        <form action="#" th:action="@{/notes/save}"
-        th:object="${note}" method="post">
+        <form action="#" th:action="@{/notes/save}" th:object="${note}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{command.correctErrors}"></p>
+            </div>
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{noteId}"/>
 
+            <div th:class="${#fields.hasErrors('title')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{note.title}"></p>
-            <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{title}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+
+            </div>
+
+            <div th:class="${#fields.hasErrors('text')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{note.content}"></p>
-            <input type="text" th:field="*{text}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{text}" class="form-control" th:errorclass="has-error">
+                </label>
+                <span class="help-block" th:if="${#fields.hasErrors('text')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
+                    </ul>
+                </span>
+
+            </div>
 
             <button type="submit" class="btn btn-info col-2" th:text="#{note.save}"></button>
 
