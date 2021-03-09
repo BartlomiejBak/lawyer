@@ -23,7 +23,8 @@
         <tbody>
         <tr th:each="tempCourt : ${courts}">
             <td><a th:href="@{/courts/__${tempCourt.courtId}__}" th:text="${tempCourt.name}"></a></td>
-            <td th:text="${tempCourt.address}"></td>
+            <td th:text="${tempCourt.address.street + ', ' + tempCourt.address.zipCode + ' '
+            + tempCourt.address.city}"></td>
             <td th:text="${tempCourt.description}"></td>
             <!-- add button -->
             <td>
