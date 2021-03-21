@@ -27,7 +27,6 @@ public class Payment {
     private int paymentId;
 
     @Column(name = "payment_value")
-    @Positive
     private double paymentValue;
 
     @Column(name = "payment_date")
