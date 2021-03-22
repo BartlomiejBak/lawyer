@@ -61,12 +61,10 @@ public class Lawsuit {
     private String signature;
 
     @Column(name = "claim_amount")
-    @PositiveOrZero
     private double claimAmount;
 
     @Column(name = "add_info")
     @Lob
-    @Size
     private String additionalInfo;
 
     @ManyToMany(mappedBy = "lawsuitList")
