@@ -38,7 +38,7 @@ public class ContactDTO {
     @Size(max = 255)
     private String companyName;
 
-    @Size(min = 11, max = 11)
+    @Size(max = 11)
     private String pesel;
 
     @Size(max = 20)

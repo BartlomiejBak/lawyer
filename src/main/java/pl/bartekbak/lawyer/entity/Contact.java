@@ -68,7 +68,7 @@ public class Contact {
     private String companyName;
 
     @Column(name = "pesel")
-    @Size(min = 11, max = 11)
+    @Size(max = 11)
     private String pesel;
 
     @Column(name = "nip")
