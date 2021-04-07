@@ -1,9 +1,17 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Data
@@ -19,19 +27,34 @@ public class Address {
     private int addressId;
 
     @Column(name = "street")
-    @Size(min = 2, max = 50)
     private String street;
 
     @Column(name = "zip_code")
-    @Size(max = 10)
     private String zipCode;
 
     @Column(name = "city")
-    @Size(min = 2, max = 40)
     private String city;
 
     @Column(name = "country")
-    @Size(min = 2, max = 40)
     private String country;
 
+    public AddressDTO toDto() {
+        return AddressDTO.builder()
+                .addressId(getAddressId())
+                .street(getStreet())
+                .zipCode(getZipCode())
+                .city(getCity())
+                .country(getCountry())
+                .build();
+    }
+
+    public static Address fromDto(AddressDTO dto) {
+        return Address.builder()
+                .addressId(dto.getAddressId())
+                .street(dto.getStreet())
+                .zipCode(dto.getZipCode())
+                .city(dto.getCity())
+                .country(dto.getCountry())
+                .build();
+    }
 }
