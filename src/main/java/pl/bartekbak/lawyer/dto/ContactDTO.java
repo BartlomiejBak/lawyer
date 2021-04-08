@@ -1,15 +1,21 @@
 package pl.bartekbak.lawyer.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.bartekbak.lawyer.entity.Address;
-import pl.bartekbak.lawyer.entity.Lawsuit;
-import pl.bartekbak.lawyer.entity.Task;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class ContactDTO {
 
     private int contactId;
@@ -56,11 +62,33 @@ public class ContactDTO {
     @DateTimeFormat
     private LocalDateTime dateModified;
 
-    private Address address;
+    private AddressDTO address;
 
-    private Address correspondenceAddress;
+    private AddressDTO correspondenceAddress;
 
-    private List<Lawsuit> lawsuitList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    private List<Task> taskList;
+        ContactDTO that = (ContactDTO) o;
+
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+            return false;
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(that.getEmail()) : that.getEmail() != null) return false;
+        return getPhone() != null ? getPhone().equals(that.getPhone()) : that.getPhone() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        return result;
+    }
 }

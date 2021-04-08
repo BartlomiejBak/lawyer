@@ -4,23 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import pl.bartekbak.lawyer.dto.ContactDTO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -36,92 +32,97 @@ public class Contact {
     private int contactId;
 
     @Column(name = "name")
-    @Size(min = 2, max = 50)
     private String name;
 
     @Column(name = "first_name")
-    @Size(max = 50)
     private String firstName;
 
     @Column(name = "last_name")
-    @Size(max = 50)
     private String lastName;
 
     @Column(name = "email")
-    @Email
     private String email;
 
     @Column(name = "alt_email")
-    @Email
     private String altEmail;
 
     @Column(name = "phone")
-    @Size(max = 20)
     private String phone;
 
     @Column(name = "alt_phone")
-    @Size(max = 20)
     private String altPhone;
 
     @Column(name = "company_name")
-    @Size(max = 255)
     private String companyName;
 
     @Column(name = "pesel")
-    @Size(max = 11)
     private String pesel;
 
     @Column(name = "nip")
-    @Size(max = 20)
     private String nip;
 
     @Column(name = "regon")
-    @Size(max = 20)
     private String regon;
 
     @Column(name = "krs")
-    @Size(max = 20)
     private String krs;
 
     @Column(name = "date_created")
-    @DateTimeFormat
     private LocalDateTime dateCreated;
 
     @Column(name = "modified")
-    @DateTimeFormat
     private LocalDateTime dateModified;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "secondary_address_id", referencedColumnName = "address_id")
     private Address correspondenceAddress;
 
-    @ManyToMany
-    @JoinTable(
-            name = "contact_lawsuit",
-            joinColumns = @JoinColumn(name = "contact_id"),
-            inverseJoinColumns = @JoinColumn(name = "lawsuit_id")
-    )
-    @Builder.Default
-    private List<Lawsuit> lawsuitList = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "contact_task",
-            joinColumns = @JoinColumn(name = "contact_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
-    )
-    @Builder.Default
-    private List<Task> taskList = new ArrayList<>();
-
-    public void addLawsuit(Lawsuit lawsuit) {
-        this.lawsuitList.add(lawsuit);
+    public ContactDTO toDto() {
+        return ContactDTO.builder()
+                .contactId(contactId)
+                .name(name)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .altEmail(altEmail)
+                .phone(phone)
+                .altPhone(altPhone)
+                .companyName(companyName)
+                .pesel(pesel)
+                .nip(nip)
+                .regon(regon)
+                .krs(krs)
+                .dateCreated(dateCreated)
+                .dateModified(dateModified)
+                .address(address.toDto())
+                .correspondenceAddress(correspondenceAddress.toDto())
+                .build();
     }
 
-    public void addTask(Task task) {
-        this.taskList.add(task);
+    public static Contact fromDto(ContactDTO dto) {
+        return Contact.builder()
+                .contactId(dto.getContactId())
+                .name(dto.getName())
+                .firstName(dto.getName())
+                .lastName(dto.getLastName())
+                .email(dto.getEmail())
+                .altEmail(dto.getAltEmail())
+                .phone(dto.getPhone())
+                .altPhone(dto.getAltPhone())
+                .companyName(dto.getCompanyName())
+                .pesel(dto.getPesel())
+                .nip(dto.getNip())
+                .regon(dto.getRegon())
+                .krs(dto.getKrs())
+                .dateCreated(dto.getDateCreated())
+                .dateModified(dto.getDateModified())
+                .address(Address.fromDto(dto.getAddress()))
+                .correspondenceAddress(Address.fromDto(dto.getCorrespondenceAddress()))
+                .build();
     }
 }
