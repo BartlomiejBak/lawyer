@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import pl.bartekbak.lawyer.dto.EventDTO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -32,19 +32,36 @@ public class Event {
     private int eventId;
 
     @Column(name = "title")
-    @Size(min = 2, max = 50)
     private String title;
 
     @Column(name = "date_time")
-    @DateTimeFormat
     private LocalDateTime dateTime;
 
     @Column(name = "description")
     @Lob
-    @Size(max = 1500)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "lawsuit_event_id", referencedColumnName = "case_id")
     private Lawsuit relatedLawsuit;
+
+    public EventDTO toDto() {
+        return EventDTO.builder()
+                .eventId(eventId)
+                .title(title)
+                .dateTime(dateTime)
+                .description(description)
+                .relatedLawsuit(relatedLawsuit.toDto())
+                .build();
+    }
+
+    public static Event fromDto(EventDTO dto) {
+        return Event.builder()
+                .eventId(dto.getEventId())
+                .title(dto.getTitle())
+                .dateTime(dto.getDateTime())
+                .description(dto.getDescription())
+                .relatedLawsuit(Lawsuit.fromDto(dto.getRelatedLawsuit()))
+                .build();
+    }
 }
