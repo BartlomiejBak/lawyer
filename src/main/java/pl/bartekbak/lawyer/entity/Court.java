@@ -4,9 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Data
@@ -21,19 +29,36 @@ public class Court {
     private int courtId;
 
     @Column(name = "name")
-    @Size(min = 2, max = 50)
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
     @Column(name = "description")
-    @Size(max = 255)
     private String description;
 
     @Column(name = "phone")
-    @Size(max = 20)
     private String phone;
+
+    public CourtDTO toDto() {
+        return CourtDTO.builder()
+                .courtId(courtId)
+                .name(name)
+                .address(address.toDto())
+                .description(description)
+                .phone(phone)
+                .build();
+    }
+
+    public static Court fromDto(CourtDTO dto) {
+        return Court.builder()
+                .courtId(dto.getCourtId())
+                .name(dto.getName())
+                .address(Address.fromDto(dto.getAddress()))
+                .description(dto.getDescription())
+                .phone(dto.getPhone())
+                .build();
+    }
 
 }
