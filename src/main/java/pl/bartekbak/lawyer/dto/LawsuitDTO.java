@@ -1,17 +1,26 @@
 package pl.bartekbak.lawyer.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.bartekbak.lawyer.entity.Contact;
-import pl.bartekbak.lawyer.entity.Event;
-import pl.bartekbak.lawyer.entity.Task;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class LawsuitDTO {
 
     private int lawsuitId;
@@ -38,14 +47,54 @@ public class LawsuitDTO {
     @Size
     private String additionalInfo;
 
-    private List<Contact> contactList;
+    @Builder.Default
+    private List<ContactDTO> contactList = new ArrayList<>();
+    @Builder.Default
+    private List<TaskDTO> taskList = new ArrayList<>();
+    @Builder.Default
+    private List<ContactDTO> plaintiff = new ArrayList<>();
+    @Builder.Default
+    private List<ContactDTO> defendant = new ArrayList<>();
+    @Builder.Default
+    private Set<EventDTO> eventSet = new HashSet<>();
 
-    private List<Task> taskList;
+    public void addContact(ContactDTO contact) {
+        this.contactList.add(contact);
+    }
 
-    private List<Contact> plaintiff;
+    public void addTask(TaskDTO task) {
+        this.taskList.add(task);
+    }
 
-    private List<Contact> defendant;
+    public void addPlaintiff(ContactDTO contact) {
+        this.contactList.add(contact);
+    }
 
-    private Set<Event> eventSet;
+    public void addDefendant(ContactDTO contact) {
+        this.contactList.add(contact);
+    }
 
+    public void addEvent(EventDTO event) {
+        this.eventSet.add(event);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LawsuitDTO that = (LawsuitDTO) o;
+
+        if (getLawsuitId() != that.getLawsuitId()) return false;
+        if (!getName().equals(that.getName())) return false;
+        return getSignature() != null ? getSignature().equals(that.getSignature()) : that.getSignature() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getLawsuitId();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + (getSignature() != null ? getSignature().hashCode() : 0);
+        return result;
+    }
 }
