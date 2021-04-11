@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.bartekbak.lawyer.dto.TagDTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Data
@@ -22,6 +27,19 @@ public class Tag {
     private int tagId;
 
     @Column(name = "name")
-    @Size(min = 2, max = 50)
     private String name;
+
+    public TagDTO toDto() {
+        return TagDTO.builder()
+                .tagId(tagId)
+                .name(name)
+                .build();
+    }
+
+    public static Tag fromDto(TagDTO dto) {
+        return Tag.builder()
+                .tagId(dto.getTagId())
+                .name(dto.getName())
+                .build();
+    }
 }
