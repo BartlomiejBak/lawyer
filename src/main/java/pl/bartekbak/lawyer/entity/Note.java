@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.bartekbak.lawyer.dto.NoteDTO;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -22,11 +22,25 @@ public class Note {
     private int noteId;
 
     @Column(name = "title")
-    @Size(min = 2, max = 50)
     private String title;
 
     @Column(name = "text")
     @Lob
-    @Size(max = 1500)
     private String text;
+
+    public NoteDTO toDto() {
+        return NoteDTO.builder()
+                .noteId(noteId)
+                .title(title)
+                .text(text)
+                .build();
+    }
+
+    public static Note fromDto(NoteDTO dto) {
+        return Note.builder()
+                .noteId(dto.getNoteId())
+                .title(dto.getTitle())
+                .text(dto.getText())
+                .build();
+    }
 }
