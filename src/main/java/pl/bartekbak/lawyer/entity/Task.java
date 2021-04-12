@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -36,20 +37,44 @@ public class Task {
     private boolean priority;
 
     @Column(name = "deadline")
-    @Future
     private LocalDateTime deadline;
 
     @Column(name = "description")
     @Lob
-    @Size(max = 1500)
     private String description;
 
     @ManyToMany(mappedBy = "taskList")
     @Builder.Default
     private List<Lawsuit> lawsuitList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "taskList")
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<Contact> contactList = new ArrayList<>();
+
+    public void addContact(Contact contact) {
+        this.contactList.add(contact);
+    }
+
+    public TaskDTO toDto() {
+        return TaskDTO.builder()
+                .taskId(taskId)
+                .priority(priority)
+                .deadline(deadline)
+                .description(description)
+                .lawsuitList(lawsuitList.stream().map(Lawsuit::toDto).collect(Collectors.toCollection(ArrayList::new)))
+                .contactList(contactList.stream().map(Contact::toDto).collect(Collectors.toCollection(ArrayList::new)))
+                .build();
+    }
+
+    public static Task fromDto(TaskDTO dto) {
+        return Task.builder()
+                .taskId(dto.getTaskId())
+                .priority(dto.isPriority())
+                .deadline(dto.getDeadline())
+                .description(dto.getDescription())
+                .lawsuitList(dto.getLawsuitList().stream().map(Lawsuit::fromDto).collect(Collectors.toCollection(ArrayList::new)))
+                .contactList(dto.getContactList().stream().map(Contact::fromDto).collect(Collectors.toCollection(ArrayList::new)))
+                .build();
+    }
 
 }
