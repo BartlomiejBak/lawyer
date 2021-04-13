@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import pl.bartekbak.lawyer.dto.PoaDTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
@@ -24,11 +28,9 @@ public class Poa {
     private int poaId;
 
     @Column(name = "type")
-    @Size(max = 50)
     private String type;
 
     @Column(name = "payment")
-    @Size(max = 150)
     private String payment;
 
     @Column(name = "kpc")
@@ -38,11 +40,9 @@ public class Poa {
     private boolean termination;
 
     @Column(name = "start_date")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
 
     @Column(name = "end_date")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate endDate;
 
     @Column(name = "notification_duty")
@@ -50,4 +50,32 @@ public class Poa {
 
     @Column(name = "duty_completed")
     private boolean terminationNotificationDutyCompleted;
+
+    public PoaDTO toDto() {
+        return PoaDTO.builder()
+                .poaId(poaId)
+                .type(type)
+                .payment(payment)
+                .kpc(kpc)
+                .termination(termination)
+                .startDate(startDate)
+                .endDate(endDate)
+                .terminationNotificationDuty(terminationNotificationDuty)
+                .terminationNotificationDutyCompleted(terminationNotificationDutyCompleted)
+                .build();
+    }
+
+    public static Poa fromDto(PoaDTO dto) {
+        return Poa.builder()
+                .poaId(dto.getPoaId())
+                .type(dto.getType())
+                .payment(dto.getPayment())
+                .kpc(dto.isKpc())
+                .termination(dto.isTermination())
+                .startDate(dto.getStartDate())
+                .endDate(dto.getEndDate())
+                .terminationNotificationDuty(dto.isTerminationNotificationDuty())
+                .terminationNotificationDutyCompleted(dto.isTerminationNotificationDutyCompleted())
+                .build();
+    }
 }
