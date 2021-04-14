@@ -46,12 +46,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        int count = addressService.findAllAddresses().size();
-        if (count == 0) loadData();
-    }
-
-    private void loadData() {
-        Address firstAddress = Address.builder()
+        AddressDTO firstAddress = AddressDTO.builder()
                 .country("Poland")
                 .city("Warsaw")
                 .street("Puławska 1")
