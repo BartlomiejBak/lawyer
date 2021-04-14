@@ -3,16 +3,16 @@ package pl.bartekbak.lawyer.bootstrap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.bartekbak.lawyer.entity.Address;
-import pl.bartekbak.lawyer.entity.Contact;
-import pl.bartekbak.lawyer.entity.Court;
-import pl.bartekbak.lawyer.entity.Event;
-import pl.bartekbak.lawyer.entity.Lawsuit;
-import pl.bartekbak.lawyer.entity.Note;
-import pl.bartekbak.lawyer.entity.Payment;
-import pl.bartekbak.lawyer.entity.Poa;
-import pl.bartekbak.lawyer.entity.Tag;
-import pl.bartekbak.lawyer.entity.Task;
+import pl.bartekbak.lawyer.dto.AddressDTO;
+import pl.bartekbak.lawyer.dto.ContactDTO;
+import pl.bartekbak.lawyer.dto.CourtDTO;
+import pl.bartekbak.lawyer.dto.EventDTO;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
+import pl.bartekbak.lawyer.dto.NoteDTO;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
+import pl.bartekbak.lawyer.dto.PoaDTO;
+import pl.bartekbak.lawyer.dto.TagDTO;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.AddressService;
 import pl.bartekbak.lawyer.service.ContactService;
 import pl.bartekbak.lawyer.service.CourtService;
@@ -57,84 +57,87 @@ public class DataLoader implements CommandLineRunner {
                 .street("Puławska 1")
                 .zipCode("20-000")
                 .build();
-        Address secondAddress = Address.builder()
+        AddressDTO secondAddress = AddressDTO.builder()
                 .city("Warszawa")
                 .street("Niepodległości 2")
                 .zipCode("20-001")
                 .build();
-        Address thirdAddress = Address.builder()
+        AddressDTO thirdAddress = AddressDTO.builder()
                 .city("Varsowia")
                 .street("Mazowiecka 3")
                 .zipCode("20-003")
                 .build();
 
-        Contact firstContact = Contact.builder()
+        ContactDTO firstContact = ContactDTO.builder()
                 .name("1 contact")
                 .firstName("1 name")
                 .lastName("Doe")
                 .address(firstAddress)
+                .correspondenceAddress(firstAddress)
                 .email("1email@example.com")
                 .phone("555 222 222")
                 .dateCreated(LocalDateTime.now())
                 .pesel("12345678901")
                 .build();
-        Contact secondContact = Contact.builder()
+        ContactDTO secondContact = ContactDTO.builder()
                 .name("2 contact")
                 .firstName("2 name")
                 .lastName("Moe")
                 .address(secondAddress)
+                .correspondenceAddress(secondAddress)
                 .email("2email@example.com")
                 .phone("555 222 223")
                 .dateCreated(LocalDateTime.now())
                 .pesel("12345678901")
                 .build();
-        Contact thirdContact = Contact.builder()
+        ContactDTO thirdContact = ContactDTO.builder()
                 .name("3 contact")
                 .firstName("3 name")
                 .lastName("Foe")
                 .address(thirdAddress)
+                .correspondenceAddress(thirdAddress)
                 .email("3email@example.com")
                 .phone("555 222 224")
                 .dateCreated(LocalDateTime.now())
                 .pesel("12345678901")
                 .build();
 
-        Court firstCourt = Court.builder()
+        CourtDTO firstCourt = CourtDTO.builder()
                 .name("1 court")
                 .description("court number 555")
                 .address(firstAddress)
                 .phone("555-556-555")
                 .build();
-        Court secondCourt = Court.builder()
+        CourtDTO secondCourt = CourtDTO.builder()
                 .name("2 court")
                 .description("court number 556")
                 .address(secondAddress)
                 .phone("555-556-556")
                 .build();
-        Court thirdCourt = Court.builder()
+        CourtDTO thirdCourt = CourtDTO.builder()
                 .name("3 court")
                 .description("court number 557")
                 .address(firstAddress)
                 .phone("555-556-557")
                 .build();
 
-        Event firstEvent = Event.builder()
+        EventDTO firstEvent = EventDTO.builder()
                 .title("first event")
                 .dateTime(LocalDateTime.of(2021, 6, 14, 12, 30))
                 .description("some description 1")
                 .build();
-        Event secondEvent = Event.builder()
+        EventDTO secondEvent = EventDTO.builder()
                 .title("second event")
                 .dateTime(LocalDateTime.of(2021, 6, 14, 12, 31))
                 .description("some description 2")
                 .build();
-        Event thirdEvent = Event.builder()
+        EventDTO thirdEvent = EventDTO.builder()
                 .title("third event")
                 .dateTime(LocalDateTime.of(2021, 6, 14, 12, 32))
                 .description("some description 3")
                 .build();
 
-        Lawsuit firstLawsuit = Lawsuit.builder()
+        LawsuitDTO firstLawsuit = LawsuitDTO.builder()
                 .name("lawsuit no. 1223")
                 .caseSide("defendant")
                 .claimAmount(25000.2)
@@ -143,7 +146,7 @@ public class DataLoader implements CommandLineRunner {
                 .additionalInfo("no important info")
                 .inputDate(LocalDate.now())
                 .build();
-        Lawsuit secondLawsuit = Lawsuit.builder()
+        LawsuitDTO secondLawsuit = LawsuitDTO.builder()
                 .name("lawsuit no. 1224")
                 .caseSide("plaintiff")
                 .claimAmount(25000.2)
@@ -152,7 +155,7 @@ public class DataLoader implements CommandLineRunner {
                 .additionalInfo("additional info")
                 .inputDate(LocalDate.now())
                 .build();
-        Lawsuit thirdLawsuit = Lawsuit.builder()
+        LawsuitDTO thirdLawsuit = LawsuitDTO.builder()
                 .name("lawsuit no. 1225")
                 .caseSide("winner")
                 .claimAmount(25000.2)
@@ -162,34 +165,34 @@ public class DataLoader implements CommandLineRunner {
                 .inputDate(LocalDate.now())
                 .build();
 
-        Note firstNote = Note.builder()
+        NoteDTO firstNote = NoteDTO.builder()
                 .title("note no. 1")
                 .text("some notes 1... ")
                 .build();
-        Note secondNote = Note.builder()
+        NoteDTO secondNote = NoteDTO.builder()
                 .title("note no. 2")
                 .text("some notes 2... ")
                 .build();
-        Note thirdNote = Note.builder()
+        NoteDTO thirdNote = NoteDTO.builder()
                 .title("note no. 3")
                 .text("some notes 3... ")
                 .build();
 
-        Payment firstPayment = Payment.builder()
+        PaymentDTO firstPayment = PaymentDTO.builder()
                 .paymentDate(LocalDate.of(2021, 5, 11))
                 .paymentValue(1000.5)
                 .build();
-        Payment secondPayment = Payment.builder()
+        PaymentDTO secondPayment = PaymentDTO.builder()
                 .paymentDate(LocalDate.of(2021, 6, 11))
                 .paymentValue(1000.5)
                 .build();
-        Payment thirdPayment = Payment.builder()
+        PaymentDTO thirdPayment = PaymentDTO.builder()
                 .paymentDate(LocalDate.of(2021, 7, 11))
                 .paymentValue(1000.5)
                 .build();
 
 
-        Poa firstPoa = Poa.builder()
+        PoaDTO firstPoa = PoaDTO.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.of(2021, 5, 15))
                 .kpc(true)
@@ -200,7 +203,7 @@ public class DataLoader implements CommandLineRunner {
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();
-        Poa secondPoa = Poa.builder()
+        PoaDTO secondPoa = PoaDTO.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.of(2021, 6, 15))
                 .kpc(true)
@@ -211,7 +214,7 @@ public class DataLoader implements CommandLineRunner {
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();
-        Poa thirdPoa = Poa.builder()
+        PoaDTO thirdPoa = PoaDTO.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.of(2021, 7, 15))
                 .kpc(true)
@@ -224,49 +227,43 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
 
-        Tag firstTag = Tag.builder().name("cool tag 1").build();
-        Tag secondTag = Tag.builder().name("cool tag 2").build();
-        Tag thirdTag = Tag.builder().name("cool tag 3").build();
+        TagDTO firstTag = TagDTO.builder().name("cool tag 1").build();
+        TagDTO secondTag = TagDTO.builder().name("cool tag 2").build();
+        TagDTO thirdTag = TagDTO.builder().name("cool tag 3").build();
 
 
-        Task firstTask = Task.builder()
+        TaskDTO firstTask = TaskDTO.builder()
                 .description("do something 1")
-                .contactList(List.of())
-                .lawsuitList(List.of())
                 .deadline(LocalDateTime.of(2021, 5, 13, 12, 30))
                 .priority(true)
                 .build();
-        Task secondTask = Task.builder()
+        TaskDTO secondTask = TaskDTO.builder()
                 .description("do something 2")
-                .contactList(List.of())
-                .lawsuitList(List.of())
                 .deadline(LocalDateTime.of(2021, 6, 13, 12, 30))
                 .priority(true)
                 .build();
-        Task thirdTask = Task.builder()
+        TaskDTO thirdTask = TaskDTO.builder()
                 .description("do something 3")
-                .contactList(List.of())
-                .lawsuitList(List.of())
                 .deadline(LocalDateTime.of(2021, 7, 13, 12, 30))
                 .priority(true)
                 .build();
 
-        firstContact.addTask(firstTask);
-        firstContact.addLawsuit(firstLawsuit);
-        secondContact.addTask(secondTask);
-        secondContact.addLawsuit(secondLawsuit);
-        thirdContact.addTask(thirdTask);
-        thirdContact.addTask(secondTask);
-        thirdContact.addLawsuit(thirdLawsuit);
-        thirdContact.addLawsuit(secondLawsuit);
 
+        firstEvent.setRelatedLawsuit(firstLawsuit);
+        secondEvent.setRelatedLawsuit(firstLawsuit);
+        thirdEvent.setRelatedLawsuit(firstLawsuit);
+        firstLawsuit.addContact(firstContact);
+        secondLawsuit.addContact(secondContact);
+        secondLawsuit.addContact(secondContact);
+        thirdLawsuit.addContact(thirdContact);
+        firstTask.addContact(firstContact);
+        secondTask.addContact(secondContact);
+        thirdTask.addContact(thirdContact);
+        secondTask.addContact(thirdContact);
 
         addressService.saveAddress(firstAddress);
         addressService.saveAddress(secondAddress);
         addressService.saveAddress(thirdAddress);
-        taskService.saveTask(firstTask);
-        taskService.saveTask(secondTask);
-        taskService.saveTask(thirdTask);
         eventService.saveEvent(firstEvent);
         eventService.saveEvent(secondEvent);
         eventService.saveEvent(thirdEvent);
@@ -276,6 +273,9 @@ public class DataLoader implements CommandLineRunner {
         contactService.saveContact(firstContact);
         contactService.saveContact(secondContact);
         contactService.saveContact(thirdContact);
+        taskService.saveTask(firstTask);
+        taskService.saveTask(secondTask);
+        taskService.saveTask(thirdTask);
         courtService.saveCourt(firstCourt);
         courtService.saveCourt(secondCourt);
         courtService.saveCourt(thirdCourt);
@@ -292,6 +292,4 @@ public class DataLoader implements CommandLineRunner {
         tagService.saveTag(secondTag);
         tagService.saveTag(thirdTag);
     }
-
-
 }
