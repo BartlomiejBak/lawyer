@@ -2,11 +2,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.AddressRepository;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.service.AddressService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceSpringData implements AddressService {
@@ -18,16 +20,19 @@ public class AddressServiceSpringData implements AddressService {
     }
 
     @Override
-    public List<Address> findAllAddresses() {
-        return addressRepository.findAllByOrderByAddressIdAsc();
+    public List<AddressDTO> findAllAddresses() {
+        return addressRepository.findAllByOrderByAddressIdAsc()
+                .stream()
+                .map(Address::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Address findAddressById(int id) {
+    public AddressDTO findAddressById(int id) {
         Optional<Address> result = addressRepository.findById(id);
-        Address address;
+        AddressDTO address;
         if (result.isPresent()) {
-            address = result.get();
+            address = result.get().toDto();
         } else {
             throw new RuntimeException("Id not found");
         }
@@ -35,8 +40,8 @@ public class AddressServiceSpringData implements AddressService {
     }
 
     @Override
-    public void saveAddress(Address address) {
-        addressRepository.save(address);
+    public void saveAddress(AddressDTO address) {
+        addressRepository.save(Address.fromDto(address));
     }
 
     @Override

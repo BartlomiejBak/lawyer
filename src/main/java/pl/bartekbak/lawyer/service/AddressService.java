@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 
 import java.util.List;
 
 public interface AddressService {
-    List<Address> findAllAddresses();
+    List<AddressDTO> findAllAddresses();
 
-    Address findAddressById(int id);
+    AddressDTO findAddressById(int id);
 
-    void saveAddress(Address address);
+    void saveAddress(AddressDTO  address);
 
     void deleteAddressById(int id);
 }
