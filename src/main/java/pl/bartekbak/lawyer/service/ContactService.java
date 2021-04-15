@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.dto.ContactDTO;
 
 import java.util.List;
 
 public interface ContactService {
-    List<Contact> findAllContacts();
+    List<ContactDTO> findAllContacts();
 
-    Contact findContactById(int id);
+    ContactDTO findContactById(int id);
 
-    void saveContact(Contact contact);
+    void saveContact(ContactDTO contact);
 
     void deleteContactById(int id);
 }

@@ -3,14 +3,17 @@ package pl.bartekbak.lawyer.service.spring.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.ContactRepository;
+import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.entity.Contact;
 import pl.bartekbak.lawyer.service.ContactService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactServiceSpringData implements ContactService {
+
     ContactRepository contactRepository;
 
     @Autowired
@@ -19,16 +22,19 @@ public class ContactServiceSpringData implements ContactService {
     }
 
     @Override
-    public List<Contact> findAllContacts() {
-        return contactRepository.findAllByOrderByNameAsc();
+    public List<ContactDTO> findAllContacts() {
+        return contactRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(Contact::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Contact findContactById(int id) {
+    public ContactDTO findContactById(int id) {
         Optional<Contact> result = contactRepository.findById(id);
-        Contact contact;
+        ContactDTO contact;
         if (result.isPresent()) {
-            contact = result.get();
+            contact = result.get().toDto();
         } else {
             throw new RuntimeException("Id not found");
         }
@@ -36,8 +42,8 @@ public class ContactServiceSpringData implements ContactService {
     }
 
     @Override
-    public void saveContact(Contact contact) {
-        contactRepository.save(contact);
+    public void saveContact(ContactDTO contact) {
+        contactRepository.save(Contact.fromDto(contact));
     }
 
     @Override
