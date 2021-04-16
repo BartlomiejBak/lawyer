@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Event;
+import pl.bartekbak.lawyer.dto.EventDTO;
 
 import java.util.List;
 
 public interface EventService {
-    List<Event> findAllEvents();
+    List<EventDTO> findAllEvents();
 
-    Event findEventById(int id);
+    EventDTO findEventById(int id);
 
-    void saveEvent(Event event);
+    void saveEvent(EventDTO event);
 
     void deleteEventById(int id);
 }

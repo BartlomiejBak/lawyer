@@ -2,11 +2,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.EventRepository;
+import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.entity.Event;
 import pl.bartekbak.lawyer.service.EventService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceSpringData implements EventService {
@@ -18,16 +20,19 @@ public class EventServiceSpringData implements EventService {
     }
 
     @Override
-    public List<Event> findAllEvents() {
-        return eventRepository.findAllByOrderByDateTimeAsc();
+    public List<EventDTO> findAllEvents() {
+        return eventRepository.findAllByOrderByDateTimeAsc()
+                .stream()
+                .map(Event::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Event findEventById(int id) {
+    public EventDTO findEventById(int id) {
         Optional<Event> result = eventRepository.findById(id);
-        Event event;
+        EventDTO event;
         if (result.isPresent()) {
-            event = result.get();
+            event = result.get().toDto();
         } else {
             throw new RuntimeException("Event id not found");
         }
@@ -35,8 +40,8 @@ public class EventServiceSpringData implements EventService {
     }
 
     @Override
-    public void saveEvent(Event event) {
-        eventRepository.save(event);
+    public void saveEvent(EventDTO event) {
+        eventRepository.save(Event.fromDto(event));
     }
 
     @Override
