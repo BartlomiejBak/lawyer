@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Court;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 
 import java.util.List;
 
 public interface CourtService {
-    List<Court> findAllCourts();
+    List<CourtDTO> findAllCourts();
 
-    Court findCourtById(int id);
+    CourtDTO findCourtById(int id);
 
-    void saveCourt(Court court);
+    void saveCourt(CourtDTO court);
 
     void deleteCourtById(int id);
 }

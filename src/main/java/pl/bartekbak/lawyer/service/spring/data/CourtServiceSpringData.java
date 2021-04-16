@@ -3,11 +3,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.CourtRepository;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.entity.Court;
 import pl.bartekbak.lawyer.service.CourtService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourtServiceSpringData implements CourtService {
@@ -20,16 +22,19 @@ public class CourtServiceSpringData implements CourtService {
     }
 
     @Override
-    public List<Court> findAllCourts() {
-        return courtRepository.findAllByOrderByNameAsc();
+    public List<CourtDTO> findAllCourts() {
+        return courtRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(Court::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Court findCourtById(int id) {
+    public CourtDTO findCourtById(int id) {
         Optional<Court> result = courtRepository.findById(id);
-        Court court;
+        CourtDTO court;
         if (result.isPresent()){
-            court = result.get();
+            court = result.get().toDto();
         } else {
             throw new RuntimeException("Court id not found");
         }
@@ -37,8 +42,8 @@ public class CourtServiceSpringData implements CourtService {
     }
 
     @Override
-    public void saveCourt(Court court) {
-        courtRepository.save(court);
+    public void saveCourt(CourtDTO court) {
+        courtRepository.save(Court.fromDto(court));
     }
 
     @Override
