@@ -3,11 +3,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.NoteRepository;
+import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.entity.Note;
 import pl.bartekbak.lawyer.service.NoteService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NoteServiceSpringData implements NoteService {
@@ -19,16 +21,19 @@ public class NoteServiceSpringData implements NoteService {
     }
 
     @Override
-    public List<Note> findAllNotes() {
-        return noteRepository.findAllByOrderByTitleAsc();
+    public List<NoteDTO> findAllNotes() {
+        return noteRepository.findAllByOrderByTitleAsc()
+                .stream()
+                .map(Note::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Note findNoteById(int id) {
+    public NoteDTO findNoteById(int id) {
         Optional<Note> result = noteRepository.findById(id);
-        Note note;
+        NoteDTO note;
         if (result.isPresent()) {
-            note = result.get();
+            note = result.get().toDto();
         } else {
             throw new RuntimeException("Note id not found");
         }
@@ -37,8 +42,8 @@ public class NoteServiceSpringData implements NoteService {
     }
 
     @Override
-    public void saveNote(Note note) {
-        noteRepository.save(note);
+    public void saveNote(NoteDTO note) {
+        noteRepository.save(Note.fromDto(note));
     }
 
     @Override
