@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
 
 import java.util.List;
 
 public interface LawsuitService {
-    List<Lawsuit> findAllLawsuits();
+    List<LawsuitDTO> findAllLawsuits();
 
-    Lawsuit findLawsuitById(int id);
+    LawsuitDTO findLawsuitById(int id);
 
-    void saveLawsuit(Lawsuit lawsuit);
+    void saveLawsuit(LawsuitDTO lawsuit);
 
     void deleteLawsuitById(int id);
 }
