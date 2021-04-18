@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Poa;
+import pl.bartekbak.lawyer.dto.PoaDTO;
 
 import java.util.List;
 
 public interface PoaService {
-    List<Poa> findAllPoa();
+    List<PoaDTO> findAllPoa();
 
-    Poa findPoaById(int id);
+    PoaDTO findPoaById(int id);
 
-    void savePoa(Poa poa);
+    void savePoa(PoaDTO poa);
 
     void deletePoaById(int id);
 }
