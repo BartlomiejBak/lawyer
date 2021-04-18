@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Payment;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
 
 import java.util.List;
 
 public interface PaymentService {
-    List<Payment> findAllPayments();
+    List<PaymentDTO> findAllPayments();
 
-    Payment findPaymentById(int id);
+    PaymentDTO findPaymentById(int id);
 
-    void savePayment(Payment payment);
+    void savePayment(PaymentDTO payment);
 
     void deletePaymentById(int id);
 }

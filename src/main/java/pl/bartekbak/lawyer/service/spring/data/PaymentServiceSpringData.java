@@ -2,11 +2,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.PaymentRepository;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.service.PaymentService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentServiceSpringData implements PaymentService {
@@ -18,16 +20,19 @@ public class PaymentServiceSpringData implements PaymentService {
     }
 
     @Override
-    public List<Payment> findAllPayments() {
-        return repository.findAllByOrderByPaymentDateAsc();
+    public List<PaymentDTO> findAllPayments() {
+        return repository.findAllByOrderByPaymentDateAsc()
+                .stream()
+                .map(Payment::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Payment findPaymentById(int id) {
+    public PaymentDTO findPaymentById(int id) {
         Optional<Payment> result = repository.findById(id);
-        Payment payment;
+        PaymentDTO payment;
         if (result.isPresent()) {
-            payment = result.get();
+            payment = result.get().toDto();
         } else {
             throw new RuntimeException("Id not found");
         }
@@ -35,8 +40,8 @@ public class PaymentServiceSpringData implements PaymentService {
     }
 
     @Override
-    public void savePayment(Payment payment) {
-        repository.save(payment);
+    public void savePayment(PaymentDTO payment) {
+        repository.save(Payment.fromDto(payment));
     }
 
     @Override
