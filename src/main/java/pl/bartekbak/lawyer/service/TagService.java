@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.dto.TagDTO;
 
 import java.util.List;
 
 public interface TagService {
-    List<Tag> findAllTags();
+    List<TagDTO> findAllTags();
 
-    Tag findTagById(int id);
+    TagDTO findTagById(int id);
 
-    void saveTag(Tag tag);
+    void saveTag(TagDTO tag);
 
     void deleteTagById(int id);
 }

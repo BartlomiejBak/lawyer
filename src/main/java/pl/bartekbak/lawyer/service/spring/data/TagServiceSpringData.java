@@ -3,11 +3,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.TagRepository;
+import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
 import pl.bartekbak.lawyer.service.TagService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TagServiceSpringData implements TagService {
@@ -19,16 +21,19 @@ public class TagServiceSpringData implements TagService {
     }
 
     @Override
-    public List<Tag> findAllTags() {
-        return tagRepository.findAllByOrderByNameAsc();
+    public List<TagDTO> findAllTags() {
+        return tagRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(Tag::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Tag findTagById(int id) {
+    public TagDTO findTagById(int id) {
         Optional<Tag> result = tagRepository.findById(id);
-        Tag tag;
+        TagDTO tag;
         if (result.isPresent()) {
-            tag = result.get();
+            tag = result.get().toDto();
         } else {
             throw new RuntimeException("Tag id not found");
         }
@@ -36,8 +41,8 @@ public class TagServiceSpringData implements TagService {
     }
 
     @Override
-    public void saveTag(Tag tag) {
-        tagRepository.save(tag);
+    public void saveTag(TagDTO tag) {
+        tagRepository.save(Tag.fromDto(tag));
     }
 
     @Override
