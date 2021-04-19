@@ -3,11 +3,13 @@ package pl.bartekbak.lawyer.service.spring.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dao.TaskRepository;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.entity.Task;
 import pl.bartekbak.lawyer.service.TaskService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceSpringData implements TaskService {
@@ -19,16 +21,19 @@ public class TaskServiceSpringData implements TaskService {
     }
 
     @Override
-    public List<Task> findAllTasks() {
-        return taskRepository.findAllByOrderByDeadlineAsc();
+    public List<TaskDTO> findAllTasks() {
+        return taskRepository.findAllByOrderByDeadlineAsc()
+                .stream()
+                .map(Task::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Task findTaskById(int id) {
+    public TaskDTO findTaskById(int id) {
         Optional<Task> result = taskRepository.findById(id);
-        Task task;
+        TaskDTO task;
         if (result.isPresent()) {
-            task = result.get();
+            task = result.get().toDto();
         } else {
             throw new RuntimeException("Id not found");
         }
@@ -36,8 +41,8 @@ public class TaskServiceSpringData implements TaskService {
     }
 
     @Override
-    public void saveTask(Task task) {
-        taskRepository.save(task);
+    public void saveTask(TaskDTO task) {
+        taskRepository.save(Task.fromDto(task));
     }
 
     @Override

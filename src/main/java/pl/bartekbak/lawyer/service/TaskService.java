@@ -1,15 +1,15 @@
 package pl.bartekbak.lawyer.service;
 
-import pl.bartekbak.lawyer.entity.Task;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 
 import java.util.List;
 
 public interface TaskService {
-    List<Task> findAllTasks();
+    List<TaskDTO> findAllTasks();
 
-    Task findTaskById(int id);
+    TaskDTO findTaskById(int id);
 
-    void saveTask(Task task);
+    void saveTask(TaskDTO task);
 
     void deleteTaskById(int id);
 }
