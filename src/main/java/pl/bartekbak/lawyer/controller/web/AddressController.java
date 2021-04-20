@@ -5,9 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.service.AddressService;
 
 import javax.validation.Valid;
@@ -28,27 +33,27 @@ public class AddressController {
 
     @GetMapping("/list")
     public String listAddresses(Model model) {
-        List<Address> addressList = addressService.findAllAddresses();
+        List<AddressDTO> addressList = addressService.findAllAddresses();
         model.addAttribute("addresses", addressList);
         return "addresses/list-addresses";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Address address = new Address();
+        AddressDTO address = new AddressDTO();
         model.addAttribute("address", address);
         return ADDRESS_ADD_FORM;
     }
 
     @GetMapping("/{addressId}/edit")
     public String showFormForUpdate(@PathVariable int addressId, Model model) {
-        Address address = addressService.findAddressById(addressId);
-        model.addAttribute(address);
+        AddressDTO address = addressService.findAddressById(addressId);
+        model.addAttribute("address", address);
         return ADDRESS_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveAddress(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult) {
+    public String saveAddress(@Valid @ModelAttribute("address") AddressDTO address, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
