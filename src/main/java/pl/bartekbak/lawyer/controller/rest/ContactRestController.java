@@ -1,8 +1,15 @@
 package pl.bartekbak.lawyer.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import pl.bartekbak.lawyer.entity.Contact;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 
@@ -20,13 +27,13 @@ public class ContactRestController {
     }
 
     @GetMapping("/all")
-    public List<Contact> getAllContacts() {
+    public List<ContactDTO> getAllContacts() {
         return contactService.findAllContacts();
     }
 
     @GetMapping("/id/{contactId}")
-    public Contact getContact(@PathVariable int contactId) {
-        Contact contact = contactService.findContactById(contactId);
+    public ContactDTO getContact(@PathVariable int contactId) {
+        ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }
@@ -34,21 +41,21 @@ public class ContactRestController {
     }
 
     @PostMapping("/register")
-    public Contact addContact(@RequestBody Contact contact) {
+    public ContactDTO addContact(@RequestBody ContactDTO contact) {
         contact.setContactId(0);
         contactService.saveContact(contact);
         return contact;
     }
 
     @PutMapping("/register")
-    public Contact updateContact(@RequestBody Contact contact) {
+    public ContactDTO updateContact(@RequestBody ContactDTO contact) {
         contactService.saveContact(contact);
         return contact;
     }
 
     @DeleteMapping("/remove/{contactId}")
     public String deleteContact(@PathVariable int contactId) {
-        Contact contact = contactService.findContactById(contactId);
+        ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }
