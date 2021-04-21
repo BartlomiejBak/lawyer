@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Event;
+import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.service.EventService;
 
 import javax.validation.Valid;
@@ -31,27 +31,27 @@ public class EventController {
 
     @GetMapping("/list")
     public String listAllEvents(Model model) {
-        List<Event> eventList = eventService.findAllEvents();
+        List<EventDTO> eventList = eventService.findAllEvents();
         model.addAttribute("events", eventList);
         return "events/list-events";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Event event = new Event();
+        EventDTO event = new EventDTO();
         model.addAttribute("event", event);
         return EVENT_ADD_FORM;
     }
 
     @GetMapping("/{eventId}/edit")
     public String showFormForUpdate(@PathVariable int eventId, Model model) {
-        Event event = eventService.findEventById(eventId);
-        model.addAttribute(event);
+        EventDTO event = eventService.findEventById(eventId);
+        model.addAttribute("event", event);
         return EVENT_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveEvent(@Valid @ModelAttribute("event") Event event, BindingResult bindingResult) {
+    public String saveEvent(@Valid @ModelAttribute("event") EventDTO event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
