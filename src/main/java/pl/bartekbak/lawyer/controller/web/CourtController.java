@@ -5,9 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Court;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.service.CourtService;
 
 import javax.validation.Valid;
@@ -28,27 +33,27 @@ public class CourtController {
 
     @GetMapping("/list")
     public String listAllContacts(Model model) {
-        List<Court> courtList = courtService.findAllCourts();
+        List<CourtDTO> courtList = courtService.findAllCourts();
         model.addAttribute("courts", courtList);
         return "courts/list-courts";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Court court = new Court();
+        CourtDTO court = new CourtDTO();
         model.addAttribute("court", court);
         return COURT_ADD_FORM;
     }
 
     @GetMapping("/{courtId}/edit")
     public String showFormForUpdate(@PathVariable int courtId, Model model) {
-        Court court = courtService.findCourtById(courtId);
-        model.addAttribute(court);
+        CourtDTO court = courtService.findCourtById(courtId);
+        model.addAttribute("court", court);
         return COURT_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveCourt(@Valid @ModelAttribute("court") Court court, BindingResult bindingResult) {
+    public String saveCourt(@Valid @ModelAttribute("court") CourtDTO court, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
