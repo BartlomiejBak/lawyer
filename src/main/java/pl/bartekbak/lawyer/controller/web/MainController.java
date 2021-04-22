@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.bartekbak.lawyer.entity.Lawsuit;
-import pl.bartekbak.lawyer.entity.Payment;
-import pl.bartekbak.lawyer.entity.Task;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.LawsuitService;
 import pl.bartekbak.lawyer.service.PaymentService;
 import pl.bartekbak.lawyer.service.TaskService;
@@ -29,9 +29,9 @@ public class MainController {
 
     @GetMapping("/menu")
     public String showMenu(Model model) {
-        List<Task> taskList = taskService.findAllTasks();
-        List<Lawsuit> lawsuitList = lawsuitService.findAllLawsuits();
-        List<Payment> paymentList = paymentService.findAllPayments();
+        List<TaskDTO> taskList = taskService.findAllTasks();
+        List<LawsuitDTO> lawsuitList = lawsuitService.findAllLawsuits();
+        List<PaymentDTO> paymentList = paymentService.findAllPayments();
         model.addAttribute("tasks", taskList);
         model.addAttribute("lawsuits", lawsuitList);
         model.addAttribute("payments", paymentList);
