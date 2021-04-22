@@ -1,8 +1,15 @@
 package pl.bartekbak.lawyer.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import pl.bartekbak.lawyer.entity.Lawsuit;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
 
@@ -20,13 +27,13 @@ public class LawsuitRestController {
     }
 
     @GetMapping("/all")
-    public List<Lawsuit> getAllLawsuits() {
+    public List<LawsuitDTO> getAllLawsuits() {
         return lawsuitService.findAllLawsuits();
     }
 
     @GetMapping("/id/{lawsuitId}")
-    public Lawsuit getLawsuit(@PathVariable int lawsuitId) {
-        Lawsuit lawsuit = lawsuitService.findLawsuitById(lawsuitId);
+    public LawsuitDTO getLawsuit(@PathVariable int lawsuitId) {
+        LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }
@@ -34,21 +41,21 @@ public class LawsuitRestController {
     }
 
     @PostMapping("/register")
-    public Lawsuit addLawsuit(@RequestBody Lawsuit lawsuit) {
+    public LawsuitDTO addLawsuit(@RequestBody LawsuitDTO lawsuit) {
         lawsuit.setLawsuitId(0);
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }
 
     @PutMapping("/register")
-    public Lawsuit updateLawsuit(@RequestBody Lawsuit lawsuit) {
+    public LawsuitDTO updateLawsuit(@RequestBody LawsuitDTO lawsuit) {
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }
 
     @DeleteMapping("/remove/{lawsuitId}")
     public String deleteLawsuit(@PathVariable int lawsuitId) {
-        Lawsuit lawsuit = lawsuitService.findLawsuitById(lawsuitId);
+        LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }

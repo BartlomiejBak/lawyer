@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
 import javax.validation.Valid;
@@ -33,27 +33,27 @@ public class LawsuitController {
 
     @GetMapping("/list")
     public String listAllLawsuits(Model model) {
-        List<Lawsuit> lawsuitList = lawsuitService.findAllLawsuits();
+        List<LawsuitDTO> lawsuitList = lawsuitService.findAllLawsuits();
         model.addAttribute("lawsuits", lawsuitList);
         return "lawsuits/list-lawsuits";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Lawsuit lawsuit = new Lawsuit();
+        LawsuitDTO lawsuit = new LawsuitDTO();
         model.addAttribute("lawsuit", lawsuit);
         return LAWSUIT_ADD_FORM;
     }
 
     @GetMapping("/{lawsuitId}/edit")
     public String showFormForUpdate(@PathVariable int lawsuitId, Model model) {
-        Lawsuit lawsuit = lawsuitService.findLawsuitById(lawsuitId);
-        model.addAttribute(lawsuit);
+        LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
+        model.addAttribute("lawsuit", lawsuit);
         return LAWSUIT_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveLawsuit(@Valid @ModelAttribute("lawsuit") Lawsuit lawsuit, BindingResult bindingResult) {
+    public String saveLawsuit(@Valid @ModelAttribute("lawsuit") LawsuitDTO lawsuit, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
