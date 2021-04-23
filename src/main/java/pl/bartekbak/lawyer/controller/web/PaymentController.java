@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Payment;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.service.PaymentService;
 
 import javax.validation.Valid;
@@ -26,27 +26,27 @@ public class PaymentController {
 
     @GetMapping("/list")
     public String listAllPayments(Model model) {
-        List<Payment> paymentList = paymentService.findAllPayments();
+        List<PaymentDTO> paymentList = paymentService.findAllPayments();
         model.addAttribute("payments", paymentList);
         return "payments/list-payments";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Payment payment = new Payment();
+        PaymentDTO payment = new PaymentDTO();
         model.addAttribute("payment", payment);
         return PAYMENT_ADD_FORM;
     }
 
     @GetMapping("/{paymentId}/edit")
     public String showFormForUpdate(@PathVariable int paymentId, Model model) {
-        Payment payment = paymentService.findPaymentById(paymentId);
-        model.addAttribute(payment);
+        PaymentDTO payment = paymentService.findPaymentById(paymentId);
+        model.addAttribute("payment", payment);
         return PAYMENT_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String savePayment(@Valid @ModelAttribute("payment") Payment payment, BindingResult bindingResult) {
+    public String savePayment(@Valid @ModelAttribute("payment") PaymentDTO payment, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
