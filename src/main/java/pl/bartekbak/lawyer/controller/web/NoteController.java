@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Note;
+import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.service.NoteService;
 
 import javax.validation.Valid;
@@ -26,27 +26,27 @@ public class NoteController {
 
     @GetMapping("/list")
     public String listAllNotes(Model model) {
-        List<Note> noteList = noteService.findAllNotes();
+        List<NoteDTO> noteList = noteService.findAllNotes();
         model.addAttribute("notes", noteList);
         return "notes/list-notes";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Note note = new Note();
+        NoteDTO note = new NoteDTO();
         model.addAttribute("note", note);
         return NOTE_ADD_FORM;
     }
 
     @GetMapping("/{noteId}/edit")
     public String showFormForUpdate(@PathVariable int noteId, Model model) {
-        Note note = noteService.findNoteById(noteId);
-        model.addAttribute(note);
+        NoteDTO note = noteService.findNoteById(noteId);
+        model.addAttribute("note", note);
         return NOTE_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveNote(@Valid @ModelAttribute("note") Note note, BindingResult bindingResult) {
+    public String saveNote(@Valid @ModelAttribute("note") NoteDTO note, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
