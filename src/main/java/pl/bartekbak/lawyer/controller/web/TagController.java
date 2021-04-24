@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.service.TagService;
 
 import javax.validation.Valid;
@@ -27,27 +27,27 @@ public class TagController {
 
     @GetMapping("/list")
     public String listAllTags(Model model) {
-        List<Tag> tagList = tagService.findAllTags();
+        List<TagDTO> tagList = tagService.findAllTags();
         model.addAttribute("tags", tagList);
         return "tags/list-tags";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Tag tag = new Tag();
+        TagDTO tag = new TagDTO();
         model.addAttribute("tag", tag);
         return TAG_ADD_FORM;
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("tagId") int id, Model model) {
-        Tag tag = tagService.findTagById(id);
-        model.addAttribute(tag);
+        TagDTO tag = tagService.findTagById(id);
+        model.addAttribute("tag", tag);
         return TAG_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult bindingResult) {
+    public String saveTag(@Valid @ModelAttribute("tag") TagDTO tag, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));
