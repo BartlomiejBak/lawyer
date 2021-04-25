@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.service.AddressService;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -33,11 +33,17 @@ class AddressControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String ADDRESS_ADD_FORM = "addresses/add-address-form";
-    Address address;
+    AddressDTO address;
 
     @BeforeEach
     void setUp() {
-        address = Address.builder().addressId(1).build();
+        address = AddressDTO.builder()
+                .addressId(1)
+                .street("street")
+                .city("city")
+                .country("country")
+                .zipCode("00000")
+                .build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

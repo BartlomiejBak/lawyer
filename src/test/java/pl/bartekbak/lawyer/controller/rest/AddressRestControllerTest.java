@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
 
@@ -26,23 +27,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class AddressRestControllerTest {
 
-    private final Address firstAddress = Address.builder()
+    private final AddressDTO firstAddress = AddressDTO.builder()
             .addressId(100)
             .city("Warsaw")
             .country("Poland")
             .build();
-    private final Address secondAddress = Address.builder()
+    private final AddressDTO secondAddress = AddressDTO.builder()
             .addressId(101)
             .city("Berlin")
             .country("Germany")
             .build();
-    private final Address thirdAddress = Address.builder()
+    private final AddressDTO thirdAddress = AddressDTO.builder()
             .addressId(102)
             .city("Madrid")
             .country("Spain")
             .build();
 
-    private final List<Address> addresses = List.of(firstAddress, secondAddress, thirdAddress);
+    private final List<AddressDTO> addresses = List.of(firstAddress, secondAddress, thirdAddress);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -72,8 +73,8 @@ class AddressRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Address> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Address>>() {
+        final List<AddressDTO> result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(addresses, result);
     }
@@ -91,8 +92,8 @@ class AddressRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Address result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Address>() {
+        final AddressDTO result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstAddress, result);
     }
@@ -100,7 +101,7 @@ class AddressRestControllerTest {
     @Test
     void addAddress_shouldInvokePostSaveAddressOnce() throws Exception {
         //given
-        doNothing().when(addressService).saveAddress(any(Address.class));
+        doNothing().when(addressService).saveAddress(any(AddressDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -111,13 +112,13 @@ class AddressRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(addressService, times(1)).saveAddress(any(Address.class));
+        verify(addressService, times(1)).saveAddress(any(AddressDTO.class));
     }
 
     @Test
     void updateAddress_shouldInvokePutSaveAddressOnce() throws Exception{
         //given
-        doNothing().when(addressService).saveAddress(any(Address.class));
+        doNothing().when(addressService).saveAddress(any(AddressDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -128,7 +129,7 @@ class AddressRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(addressService, times(1)).saveAddress(any(Address.class));
+        verify(addressService, times(1)).saveAddress(any(AddressDTO.class));
     }
 
     @Test
