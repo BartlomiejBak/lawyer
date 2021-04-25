@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Task;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.TaskService;
 
 import javax.validation.Valid;
@@ -26,27 +26,27 @@ public class TaskController {
 
     @GetMapping("/list")
     public String listAllTasks(Model model) {
-        List<Task> taskList = taskService.findAllTasks();
+        List<TaskDTO> taskList = taskService.findAllTasks();
         model.addAttribute("tasks", taskList);
         return "tasks/list-tasks";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model) {
-        Task task = new Task();
+        TaskDTO task = new TaskDTO();
         model.addAttribute("task", task);
         return TASK_ADD_FORM;
     }
 
     @GetMapping("/{taskId}/edit")
     public String showFormForUpdate(@PathVariable int taskId, Model model) {
-        Task task = taskService.findTaskById(taskId);
-        model.addAttribute(task);
+        TaskDTO task = taskService.findTaskById(taskId);
+        model.addAttribute("task", task);
         return TASK_ADD_FORM;
     }
 
     @PostMapping("/save")
-    public String saveTask(@Valid @ModelAttribute("task") Task task, BindingResult bindingResult) {
+    public String saveTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError ->
                 log.debug(objectError.toString()));

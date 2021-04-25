@@ -1,8 +1,15 @@
 package pl.bartekbak.lawyer.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import pl.bartekbak.lawyer.entity.Task;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
 
@@ -19,13 +26,13 @@ public class TaskRestController {
     }
 
     @GetMapping("/all")
-    public List<Task> getAllTasks() {
+    public List<TaskDTO> getAllTasks() {
         return service.findAllTasks();
     }
 
     @GetMapping("/id/{taskId}")
-    public Task getTask(@PathVariable int taskId) {
-        Task task = service.findTaskById(taskId);
+    public TaskDTO getTask(@PathVariable int taskId) {
+        TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }
@@ -33,21 +40,21 @@ public class TaskRestController {
     }
 
     @PostMapping("/register")
-    public Task addTask(@RequestBody Task task) {
+    public TaskDTO addTask(@RequestBody TaskDTO task) {
         task.setTaskId(0);
         service.saveTask(task);
         return task;
     }
 
     @PutMapping("/register")
-    public Task updateTask(@RequestBody Task task) {
+    public TaskDTO updateTask(@RequestBody TaskDTO task) {
         service.saveTask(task);
         return task;
     }
 
     @DeleteMapping("/remove/{taskId}")
     public String deleteTask(@PathVariable int taskId) {
-        Task task = service.findTaskById(taskId);
+        TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
             throw new ResourceNotFoundException("No such Id in database");
         }
