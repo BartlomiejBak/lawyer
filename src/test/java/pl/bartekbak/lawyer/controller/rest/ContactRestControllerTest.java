@@ -13,36 +13,40 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class ContactRestControllerTest {
 
-    private final Contact firstContact = Contact.builder()
+    private final ContactDTO firstContact = ContactDTO.builder()
             .contactId(100)
             .firstName("First")
             .lastName("Contact")
             .build();
-    private final Contact secondContact = Contact.builder()
+    private final ContactDTO secondContact = ContactDTO.builder()
             .contactId(101)
             .firstName("Second")
             .lastName("Contact")
             .build();
-    private final Contact thirdContact = Contact.builder()
+    private final ContactDTO thirdContact = ContactDTO.builder()
             .contactId(102)
             .firstName("Third")
             .lastName("Contact")
             .build();
 
-    private final List<Contact> contacts = List.of(firstContact, secondContact, thirdContact);
+    private final List<ContactDTO> contacts = List.of(firstContact, secondContact, thirdContact);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -70,7 +74,7 @@ class ContactRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Contact> result = objectMapper
+        final List<ContactDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(contacts, result);
@@ -88,7 +92,7 @@ class ContactRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Contact result = objectMapper
+        final ContactDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstContact, result);
@@ -97,7 +101,7 @@ class ContactRestControllerTest {
     @Test
     void addContact_shouldInvokePostSaveContactOnce() throws Exception {
         //given
-        doNothing().when(contactService).saveContact(any(Contact.class));
+        doNothing().when(contactService).saveContact(any(ContactDTO.class));
         //when
          mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/contact/register")
@@ -107,13 +111,13 @@ class ContactRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(contactService, times(1)).saveContact(any(Contact.class));
+        verify(contactService, times(1)).saveContact(any(ContactDTO.class));
     }
 
     @Test
     void updateContact_shouldInvokePutContactOnce() throws Exception {
         //given
-        doNothing().when(contactService).saveContact(any(Contact.class));
+        doNothing().when(contactService).saveContact(any(ContactDTO.class));
         //when
          mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/contact/register")
@@ -123,7 +127,7 @@ class ContactRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(contactService, times(1)).saveContact(any(Contact.class));
+        verify(contactService, times(1)).saveContact(any(ContactDTO.class));
     }
 
     @Test
