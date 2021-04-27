@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.entity.Court;
 import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
 
@@ -27,20 +28,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class CourtRestControllerTest {
 
-    private final Court firstCourt = Court.builder()
+    private final CourtDTO firstCourt = CourtDTO.builder()
             .courtId(100)
             .name("1 court")
             .build();
-    private final Court secondCourt = Court.builder()
+    private final CourtDTO secondCourt = CourtDTO.builder()
             .courtId(101)
             .name("2 court")
             .build();
-    private final Court thirdCourt = Court.builder()
+    private final CourtDTO thirdCourt = CourtDTO.builder()
             .courtId(102)
             .name("3 court")
             .build();
 
-    private final List<Court> courts = List.of(firstCourt, secondCourt, thirdCourt);
+    private final List<CourtDTO> courts = List.of(firstCourt, secondCourt, thirdCourt);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -69,8 +70,8 @@ class CourtRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Court> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Court>>() {
+        final List<CourtDTO> result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(courts, result);
     }
@@ -87,8 +88,8 @@ class CourtRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Court result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Court>() {
+        final CourtDTO result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstCourt, result);
     }
@@ -96,7 +97,7 @@ class CourtRestControllerTest {
     @Test
     void addCourt_shouldInvokePostSaveCourtOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(courtService).saveCourt(any(CourtDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -107,13 +108,13 @@ class CourtRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(courtService, times(1)).saveCourt(any(CourtDTO.class));
     }
 
     @Test
     void updateCourt_shouldInvokePutSaveCourtOnce() throws Exception {
         //given
-        doNothing().when(courtService).saveCourt(any(Court.class));
+        doNothing().when(courtService).saveCourt(any(CourtDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -124,7 +125,7 @@ class CourtRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(courtService, times(1)).saveCourt(any(Court.class));
+        verify(courtService, times(1)).saveCourt(any(CourtDTO.class));
     }
 
     @Test

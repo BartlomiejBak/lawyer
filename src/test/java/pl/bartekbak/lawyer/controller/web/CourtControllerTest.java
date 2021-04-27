@@ -10,10 +10,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Court;
+import pl.bartekbak.lawyer.dto.AddressDTO;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.service.CourtService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,11 +34,17 @@ class CourtControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String COURT_ADD_FORM = "courts/add-court-form";
-    Court court;
+    CourtDTO court;
 
     @BeforeEach
     void setUp() {
-        court = Court.builder().courtId(1).build();
+        court = CourtDTO.builder()
+                .courtId(1)
+                .name("1 court")
+                .description("court number 555")
+                .address(AddressDTO.builder().build())
+                .phone("555-556-555")
+                .build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
