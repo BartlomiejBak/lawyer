@@ -10,10 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Event;
+import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.service.EventService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,11 +35,16 @@ class EventControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String EVENT_ADD_FORM = "events/add-event-form";
-    Event event;
+    EventDTO event;
 
     @BeforeEach
     void setUp() {
-        event = Event.builder().eventId(1).build();
+        event = EventDTO.builder()
+                .eventId(1)
+                .title("first event")
+                .dateTime(LocalDateTime.of(2021, 6, 14, 12, 30))
+                .description("some description 1")
+                .build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
