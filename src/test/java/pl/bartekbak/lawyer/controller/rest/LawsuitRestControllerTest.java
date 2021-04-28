@@ -13,31 +13,36 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class LawsuitRestControllerTest {
-    private final Lawsuit firstLawsuit = Lawsuit.builder()
+
+    private final LawsuitDTO firstLawsuit = LawsuitDTO.builder()
             .lawsuitId(100)
             .name("1 lawsuit")
             .build();
-    private final Lawsuit secondLawsuit = Lawsuit.builder()
+    private final LawsuitDTO secondLawsuit = LawsuitDTO.builder()
             .lawsuitId(101)
             .name("2 lawsuit")
             .build();
-    private final Lawsuit thirdLawsuit = Lawsuit.builder()
+    private final LawsuitDTO thirdLawsuit = LawsuitDTO.builder()
             .lawsuitId(102)
             .name("3 lawsuit")
             .build();
-    private final List<Lawsuit> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
+    private final List<LawsuitDTO> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -65,7 +70,7 @@ class LawsuitRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Lawsuit> result = objectMapper
+        final List<LawsuitDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(lawsuits, result);
@@ -83,7 +88,7 @@ class LawsuitRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Lawsuit result = objectMapper
+        final LawsuitDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstLawsuit, result);
@@ -92,7 +97,7 @@ class LawsuitRestControllerTest {
     @Test
     void addLawsuit_shouldInvokePostSaveLawsuitOnce() throws Exception {
         //given
-        doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
+        doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/lawsuit/register")
@@ -102,13 +107,13 @@ class LawsuitRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(lawsuitService, times(1)).saveLawsuit(any(Lawsuit.class));
+        verify(lawsuitService, times(1)).saveLawsuit(any(LawsuitDTO.class));
     }
 
     @Test
     void updateLawsuit_shouldInvokePutSaveLawsuitOnce() throws Exception {
         //given
-        doNothing().when(lawsuitService).saveLawsuit(any(Lawsuit.class));
+        doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/lawsuit/register")
@@ -118,7 +123,7 @@ class LawsuitRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(lawsuitService, times(1)).saveLawsuit(any(Lawsuit.class));
+        verify(lawsuitService, times(1)).saveLawsuit(any(LawsuitDTO.class));
     }
 
     @Test
