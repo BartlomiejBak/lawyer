@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.service.PaymentService;
 
@@ -35,11 +36,11 @@ class PaymentControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String PAYMENT_ADD_FORM = "payments/add-payment-form";
-    Payment payment;
+    PaymentDTO payment;
 
     @BeforeEach
     void setUp() {
-        payment = Payment.builder()
+        payment = PaymentDTO.builder()
                 .paymentId(1)
                 .paymentValue(100.0)
                 .paymentDate(LocalDate.now().plusDays(10))
@@ -75,14 +76,6 @@ class PaymentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(PAYMENT_ADD_FORM))
                 .andExpect(model().attributeExists("payment"));
-    }
-
-    @Test
-    void savePayment_validObjectTest() throws Exception {
-        mockMvc.perform(post("/payments/save")
-                .content(objectMapper.writeValueAsString(payment)))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:list"));
     }
 
     @Test
