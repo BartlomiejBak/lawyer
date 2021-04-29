@@ -13,24 +13,28 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class TagRestControllerTest {
 
-    private final Tag firstTag = new Tag(100, "1 tag");
-    private final Tag secondTag = new Tag(101, "2 tag");
-    private final Tag thirdTag = new Tag(102, "3 tag");
+    private final TagDTO firstTag = new TagDTO(100, "1 tag");
+    private final TagDTO secondTag = new TagDTO(101, "2 tag");
+    private final TagDTO thirdTag = new TagDTO(102, "3 tag");
 
-    private final List<Tag> tags = List.of(firstTag, secondTag, thirdTag);
+    private final List<TagDTO> tags = List.of(firstTag, secondTag, thirdTag);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -59,8 +63,8 @@ class TagRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Tag> result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<List<Tag>>() {
+        final List<TagDTO> result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(tags, result);
     }
@@ -77,8 +81,8 @@ class TagRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Tag result = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<Tag>() {
+        final TagDTO result = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstTag, result);
     }
@@ -86,7 +90,7 @@ class TagRestControllerTest {
     @Test
     void addTag_shouldInvokePostSaveTagOnce() throws Exception {
         //given
-        doNothing().when(tagService).saveTag(any(Tag.class));
+        doNothing().when(tagService).saveTag(any(TagDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -97,13 +101,13 @@ class TagRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(tagService, times(1)).saveTag(any(Tag.class));
+        verify(tagService, times(1)).saveTag(any(TagDTO.class));
     }
 
     @Test
     void updateTag_shouldInvokePutSaveTagOnce() throws Exception {
         //given
-        doNothing().when(tagService).saveTag(any(Tag.class));
+        doNothing().when(tagService).saveTag(any(TagDTO.class));
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -114,7 +118,7 @@ class TagRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(tagService, times(1)).saveTag(any(Tag.class));
+        verify(tagService, times(1)).saveTag(any(TagDTO.class));
     }
 
     @Test

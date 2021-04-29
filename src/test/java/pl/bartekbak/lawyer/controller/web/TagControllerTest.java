@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
 import pl.bartekbak.lawyer.service.TagService;
 
@@ -35,16 +36,16 @@ class TagControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String TAG_ADD_FORM = "tags/add-tag-form";
-    Tag tag;
-    Validator validator;
+    TagDTO tag;
 
     @BeforeEach
     void setUp() {
-        tag = Tag.builder().tagId(1).build();
+        tag = TagDTO.builder()
+                .tagId(1)
+                .name("name")
+                .build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
     }
 
     @Test
@@ -73,17 +74,6 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(TAG_ADD_FORM))
                 .andExpect(model().attributeExists("tag"));
-    }
-
-    @Test
-    void saveTag_validObjectTest() throws Exception {
-        //given
-        Tag tagTwo = Tag.builder().tagId(1).name("tagName").build();
-        //when
-        mockMvc.perform(post("/tags/save")
-                .content(objectMapper.writeValueAsString(tagTwo)))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:list"));
     }
 
     @Test
