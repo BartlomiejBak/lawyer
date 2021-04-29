@@ -10,10 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
-import pl.bartekbak.lawyer.entity.Poa;
+import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.service.PoaService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,11 +35,22 @@ class PoaControllerTest {
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String POA_ADD_FORM = "poas/add-poa-form";
-    Poa poa;
+    PoaDTO poa;
 
     @BeforeEach
     void setUp() {
-        poa = Poa.builder().poaId(1).build();
+        poa = PoaDTO.builder()
+                .poaId(1)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.of(2021, 5, 15))
+                .kpc(true)
+                .payment("paid")
+                .termination(false)
+                .payment("150 PLN")
+                .type("common")
+                .terminationNotificationDuty(true)
+                .terminationNotificationDutyCompleted(false)
+                .build();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
