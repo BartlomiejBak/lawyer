@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.AddressRepository;
+import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ class AddressServiceSpringDataTest {
 
         when(repository.findAllByOrderByAddressIdAsc()).thenReturn(list);
         //when
-        List<Address> result = service.findAllAddresses();
+        List<AddressDTO> result = service.findAllAddresses();
 
         //then
         assertEquals(3, result.size());
@@ -51,7 +52,7 @@ class AddressServiceSpringDataTest {
         when(repository.findById(1))
                 .thenReturn(Optional.of(new Address(1, "s1", "z1", "c1", "c1")));
         //when
-        Address result = service.findAddressById(1);
+        AddressDTO result = service.findAddressById(1);
         //then
         assertEquals("s1", result.getStreet());
         assertEquals("z1", result.getZipCode());
@@ -60,12 +61,11 @@ class AddressServiceSpringDataTest {
     @Test
     void saveAddressTest() {
         //given
-        Address address = new Address(1, "street1", "zip1", "city1", "country1");
+        AddressDTO address = new AddressDTO(1, "street1", "zip1", "city1", "country1");
         //when
         service.saveAddress(address);
-        service.saveAddress(new Address());
+        service.saveAddress(new AddressDTO());
         //then
-        verify(repository, times(1)).save(address);
         verify(repository, times(2)).save(any());
 
     }
