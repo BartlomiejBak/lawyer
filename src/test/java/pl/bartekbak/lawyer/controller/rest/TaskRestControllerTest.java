@@ -13,32 +13,36 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
-import pl.bartekbak.lawyer.entity.Task;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class TaskRestControllerTest {
 
-    private final Task firstTask = Task.builder()
+    private final TaskDTO firstTask = TaskDTO.builder()
             .taskId(100)
             .description("1 task to do")
             .build();
-    private final Task secondTask = Task.builder()
+    private final TaskDTO secondTask = TaskDTO.builder()
             .taskId(101)
             .description("2 task to do")
             .build();
-    private final Task thirdTask = Task.builder()
+    private final TaskDTO thirdTask = TaskDTO.builder()
             .taskId(102)
             .description("3 task to do")
             .build();
-    private final List<Task> tasks = List.of(firstTask, secondTask, thirdTask);
+    private final List<TaskDTO> tasks = List.of(firstTask, secondTask, thirdTask);
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -66,7 +70,7 @@ class TaskRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final List<Task> result = objectMapper
+        final List<TaskDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(tasks, result);
@@ -84,7 +88,7 @@ class TaskRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        final Task result = objectMapper
+        final TaskDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
         assertEquals(firstTask, result);
@@ -93,7 +97,7 @@ class TaskRestControllerTest {
     @Test
     void addTask_shouldInvokePostSaveTaskOnce() throws Exception {
         //given
-        doNothing().when(taskService).saveTask(any(Task.class));
+        doNothing().when(taskService).saveTask(any(TaskDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/task/register")
@@ -103,13 +107,13 @@ class TaskRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(taskService, times(1)).saveTask(any(Task.class));
+        verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
     void updateTask_shouldInvokePutSaveTaskOnce() throws Exception {
         //given
-        doNothing().when(taskService).saveTask(any(Task.class));
+        doNothing().when(taskService).saveTask(any(TaskDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/task/register")
@@ -119,7 +123,7 @@ class TaskRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(taskService, times(1)).saveTask(any(Task.class));
+        verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
