@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.LawsuitRepository;
+import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.entity.Lawsuit;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ class LawsuitServiceSpringDataTest {
 
         //when
         when(repository.findAllByOrderByDeadlineAsc()).thenReturn(list);
-        List<Lawsuit> result = service.findAllLawsuits();
+        List<LawsuitDTO> result = service.findAllLawsuits();
 
         //then
         assertEquals(3, result.size());
@@ -65,7 +66,7 @@ class LawsuitServiceSpringDataTest {
         //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(lawsuitOne));
-        Lawsuit result = service.findLawsuitById(1);
+        LawsuitDTO result = service.findLawsuitById(1);
         //then
         assertEquals("name1", result.getName());
         assertEquals("side1", result.getCaseSide());
@@ -75,10 +76,9 @@ class LawsuitServiceSpringDataTest {
     void saveLawsuitTest() {
         //given
         //when
-        service.saveLawsuit(lawsuitOne);
-        service.saveLawsuit(new Lawsuit());
+        service.saveLawsuit(lawsuitOne.toDto());
+        service.saveLawsuit(new LawsuitDTO());
         //then
-        verify(repository, times(1)).save(lawsuitOne);
         verify(repository, times(2)).save(any());
     }
 
