@@ -6,8 +6,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.ContactRepository;
+import pl.bartekbak.lawyer.dto.AddressDTO;
+import pl.bartekbak.lawyer.dto.ContactDTO;
+import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.entity.Contact;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +33,8 @@ class ContactServiceSpringDataTest {
             .name("n1")
             .firstName("fn1")
             .lastName("ln1")
+            .address(Address.builder().build())
+            .correspondenceAddress(Address.builder().build())
             .build();
 
     @Test
@@ -40,25 +46,27 @@ class ContactServiceSpringDataTest {
                 .name("n2")
                 .firstName("fn2")
                 .lastName("ln2")
+                .address(Address.builder().build())
+                .correspondenceAddress(Address.builder().build())
                 .build();
         Contact contactThree = Contact.builder()
                 .contactId(3)
                 .name("n3")
                 .firstName("fn3")
                 .lastName("ln3")
+                .address(Address.builder().build())
+                .correspondenceAddress(Address.builder().build())
                 .build();
 
-
-        list.add(contactOne);
         list.add(contactTwo);
         list.add(contactThree);
 
         //when
         when(repository.findAllByOrderByNameAsc()).thenReturn(list);
-        List<Contact> result = service.findAllContacts();
+        List<ContactDTO> result = service.findAllContacts();
 
         //then
-        assertEquals(3, result.size());
+        assertEquals(2, result.size());
         verify(repository, times(1)).findAllByOrderByNameAsc();
     }
 
@@ -68,7 +76,7 @@ class ContactServiceSpringDataTest {
         //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(contactOne));
-        Contact result = service.findContactById(1);
+        ContactDTO result = service.findContactById(1);
         //then
         assertEquals("fn1", result.getFirstName());
         assertEquals("ln1", result.getLastName());
@@ -77,12 +85,29 @@ class ContactServiceSpringDataTest {
     @Test
     void saveContactTest() {
         //given
+        ContactDTO contactDTO = ContactDTO.builder()
+                .name("1 contact")
+                .firstName("1 name")
+                .lastName("Doe")
+                .address(AddressDTO.builder()
+                        .city("Warszawa")
+                        .street("Niepodległości 2")
+                        .zipCode("20-001")
+                        .build())
+                .correspondenceAddress(AddressDTO.builder()
+                        .city("Warszawa")
+                        .street("Niepodległości 2")
+                        .zipCode("20-001")
+                        .build())
+                .email("1email@example.com")
+                .phone("555 222 222")
+                .dateCreated(LocalDateTime.now())
+                .pesel("12345678901")
+                .build();
         //when
-        service.saveContact(contactOne);
-        service.saveContact(new Contact());
+        service.saveContact(contactDTO);
         //then
-        verify(repository, times(1)).save(contactOne);
-        verify(repository, times(2)).save(any());
+        verify(repository, times(1)).save(any());
     }
 
     @Test
