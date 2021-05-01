@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.CourtRepository;
+import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.entity.Court;
 
@@ -41,7 +42,7 @@ class CourtServiceSpringDataTest {
 
         //when
         when(repository.findAllByOrderByNameAsc()).thenReturn(list);
-        List<Court> result = service.findAllCourts();
+        List<CourtDTO> result = service.findAllCourts();
 
         //then
         assertEquals(3, result.size());
@@ -54,7 +55,7 @@ class CourtServiceSpringDataTest {
         //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(courtOne));
-        Court result = service.findCourtById(1);
+        CourtDTO result = service.findCourtById(1);
         //then
         assertEquals("name1", result.getName());
         assertEquals("desc1", result.getDescription());
@@ -63,11 +64,9 @@ class CourtServiceSpringDataTest {
     @Test
     void saveCourtTest() {
         //when
-        service.saveCourt(courtOne);
-        service.saveCourt(new Court());
+        service.saveCourt(courtOne.toDto());
         //then
-        verify(repository, times(1)).save(courtOne);
-        verify(repository, times(2)).save(any());
+        verify(repository, times(1)).save(any());
     }
 
     @Test
