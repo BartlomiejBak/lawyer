@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.TaskRepository;
+import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.entity.Task;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ class TaskServiceSpringDataTest {
 
         //when
         when(repository.findAllByOrderByDeadlineAsc()).thenReturn(list);
-        List<Task> result = service.findAllTasks();
+        List<TaskDTO> result = service.findAllTasks();
 
         //then
         assertEquals(3, result.size());
@@ -52,7 +53,7 @@ class TaskServiceSpringDataTest {
         //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(taskOne));
-        Task result = service.findTaskById(1);
+        TaskDTO result = service.findTaskById(1);
         //then
         assertEquals("description 1", result.getDescription());
     }
@@ -61,8 +62,8 @@ class TaskServiceSpringDataTest {
     void saveTask() {
         //given
         //when
-        service.saveTask(taskOne);
-        service.saveTask(new Task());
+        service.saveTask(taskOne.toDto());
+        service.saveTask(new TaskDTO());
         //then
         verify(repository, times(1)).save(taskOne);
         verify(repository, times(2)).save(any());
