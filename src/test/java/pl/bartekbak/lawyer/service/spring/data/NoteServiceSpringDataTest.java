@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.NoteRepository;
+import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.entity.Note;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ class NoteServiceSpringDataTest {
 
         //when
         when(repository.findAllByOrderByTitleAsc()).thenReturn(list);
-        List<Note> result = service.findAllNotes();
+        List<NoteDTO> result = service.findAllNotes();
 
         //then
         assertEquals(3, result.size());
@@ -51,7 +52,7 @@ class NoteServiceSpringDataTest {
         //when
         when(repository.findById(1))
                 .thenReturn(Optional.of(new Note(1, "title1", "text1")));
-        Note result = service.findNoteById(1);
+        NoteDTO result = service.findNoteById(1);
         //then
         assertEquals("title1", result.getTitle());
         assertEquals("text1", result.getText());
@@ -62,10 +63,9 @@ class NoteServiceSpringDataTest {
         //given
         Note note = new Note(1, "title1", "text1");
         //when
-        service.saveNote(note);
-        service.saveNote(new Note());
+        service.saveNote(note.toDto());
+        service.saveNote(new NoteDTO());
         //then
-        verify(repository, times(1)).save(note);
         verify(repository, times(2)).save(any());
     }
 
