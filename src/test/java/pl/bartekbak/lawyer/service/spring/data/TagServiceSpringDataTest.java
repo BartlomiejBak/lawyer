@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.bartekbak.lawyer.dao.TagRepository;
+import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ class TagServiceSpringDataTest {
 
         //when
         when(repository.findAllByOrderByNameAsc()).thenReturn(list);
-        List<Tag> result = service.findAllTags();
+        List<TagDTO> result = service.findAllTags();
 
         //then
         assertEquals(3, result.size());
@@ -51,7 +52,7 @@ class TagServiceSpringDataTest {
         //when
         when(repository.findById(1)).thenReturn(Optional
                 .of(new Tag(1, "name")));
-        Tag result = service.findTagById(1);
+        TagDTO result = service.findTagById(1);
         //then
         assertEquals("name", result.getName());
     }
@@ -61,8 +62,8 @@ class TagServiceSpringDataTest {
         //given
         Tag tag = new Tag(1, "name");
         //when
-        service.saveTag(tag);
-        service.saveTag(new Tag());
+        service.saveTag(tag.toDto());
+        service.saveTag(new TagDTO());
         //then
         verify(repository, times(1)).save(tag);
         verify(repository, times(2)).save(any());
