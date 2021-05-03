@@ -32,7 +32,6 @@ public class EventDTO {
     private LawsuitDTO relatedLawsuit;
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,14 +39,11 @@ public class EventDTO {
 
         EventDTO eventDTO = (EventDTO) o;
 
-        if (eventId != eventDTO.eventId) return false;
-        return title.equals(eventDTO.title);
+        return getTitle() != null ? getTitle().equals(eventDTO.getTitle()) : eventDTO.getTitle() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = eventId;
-        result = 31 * result + title.hashCode();
-        return result;
+        return getTitle() != null ? getTitle().hashCode() : 0;
     }
 }

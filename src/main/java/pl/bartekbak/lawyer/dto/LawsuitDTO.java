@@ -85,15 +85,16 @@ public class LawsuitDTO {
 
         LawsuitDTO that = (LawsuitDTO) o;
 
-        if (getLawsuitId() != that.getLawsuitId()) return false;
-        if (!getName().equals(that.getName())) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getCaseSide() != null ? !getCaseSide().equals(that.getCaseSide()) : that.getCaseSide() != null)
+            return false;
         return getSignature() != null ? getSignature().equals(that.getSignature()) : that.getSignature() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getLawsuitId();
-        result = 31 * result + getName().hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getCaseSide() != null ? getCaseSide().hashCode() : 0);
         result = 31 * result + (getSignature() != null ? getSignature().hashCode() : 0);
         return result;
     }
