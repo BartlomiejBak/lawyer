@@ -9,7 +9,7 @@
 
 <h2 th:text="#{event.details}"></h2>
 
-<table class="table table-striped" th:object="${event}">
+<table class="table table-striped" th:object="${eventDTO}">
     <tr>
         <th th:text="#{event.name}"></th>
         <td><b th:text="*{title}"></b></td>
@@ -24,10 +24,10 @@
     </tr>
     <tr>
         <th th:text="#{event.relatedCase}"></th>
-        <td th:unless="${event.relatedLawsuit == null}" th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
+        <td th:unless="${eventDTO.relatedLawsuit == null}" th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
     </tr>
 </table>
-<a th:href="@{{id}/edit(id=${event.eventId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${eventDTO.eventId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/events/list}" th:text="#{event.backToEventList}"></a>

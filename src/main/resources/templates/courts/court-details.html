@@ -9,7 +9,7 @@
 
 <h2 th:text="#{court.details}"></h2>
 
-<table class="table table-striped" th:object="${court}">
+<table class="table table-striped" th:object="${courtDTO}">
     <tr>
         <th th:text="#{court.name}"></th>
         <td><b th:text="*{name}"></b></td>
@@ -28,7 +28,7 @@
         <td th:text="*{description}"></td>
     </tr>
 </table>
-<a th:href="@{{id}/edit(id=${court.courtId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${courtDTO.courtId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/courts/list}" th:text="#{court.backToCourtList}"></a>

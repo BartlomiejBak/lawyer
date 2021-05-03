@@ -8,7 +8,7 @@
 <div th:replace="fragments/navbar :: navigationBar"></div>
 
 <h2 th:text="#{note.details}"></h2>
-<table class="table table-striped" th:object="${note}">
+<table class="table table-striped" th:object="${noteDTO}">
     <tr>
         <th th:text="#{note.title}"></th>
         <td th:text="*{title}"></td>
@@ -18,7 +18,7 @@
         <td th:text="*{text}"></td>
     </tr>
 </table>
-<a th:href="@{{id}/edit(id=${note.noteId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${noteDTO.noteId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/notes/list}" th:text="#{note.backToNoteList}"></a>

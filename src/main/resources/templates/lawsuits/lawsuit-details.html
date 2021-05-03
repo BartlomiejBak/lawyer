@@ -9,7 +9,7 @@
 
 <h2 th:text="#{lawsuit.details}"></h2>
 
-<table class="table table-striped" th:object="${lawsuit}">
+<table class="table table-striped" th:object="${lawsuitDTO}">
     <tr></tr>
     <td>
         <table class="table table-striped">
@@ -48,13 +48,13 @@
         </table>
     </td>
 </table>
-<a th:href="@{{id}/edit(id=${lawsuit.lawsuitId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${lawsuitDTO.lawsuitId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 
 <br/>
 <h2 th:text="#{lawsuit.contactList}"></h2>
 <table class="table table-striped">
-    <tr th:each="contact : ${lawsuit.contactList}">
+    <tr th:each="contact : ${lawsuitDTO.contactList}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{contact.name}"></dt>
@@ -67,7 +67,7 @@
 <br/>
 <h2 th:text="#{lawsuit.plaintiff}"></h2>
 <table class="table table-striped">
-    <tr th:each="contact : ${lawsuit.plaintiff}">
+    <tr th:each="contact : ${lawsuitDTO.plaintiff}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{contact.name}"></dt>
@@ -80,7 +80,7 @@
 <br/>
 <h2 th:text="#{lawsuit.defendant}"></h2>
 <table class="table table-striped">
-    <tr th:each="contact : ${lawsuit.defendant}">
+    <tr th:each="contact : ${lawsuitDTO.defendant}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{contact.name}"></dt>
@@ -93,7 +93,7 @@
 <br/>
 <h2 th:text="#{lawsuit.taskList}"></h2>
 <table class="table table-striped">
-    <tr th:each="task : ${lawsuit.taskList}">
+    <tr th:each="task : ${lawsuitDTO.taskList}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{task.description}"></dt>
@@ -106,7 +106,7 @@
 <br/>
 <h2 th:text="#{lawsuit.eventList}"></h2>
 <table class="table table-striped">
-    <tr th:each="event : ${lawsuit.eventSet}">
+    <tr th:each="event : ${lawsuitDTO.eventSet}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{event.description}"></dt>

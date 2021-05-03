@@ -9,7 +9,7 @@
 
 <h2 th:text="#{payment.details}"></h2>
 
-<table class="table table-striped" th:object="${payment}">
+<table class="table table-striped" th:object="${paymentDTO}">
     <tr>
         <th th:text="#{payment.value}"></th>
         <td th:text="*{paymentValue}"></td>
@@ -35,7 +35,7 @@
         <td th:text="*{incoming}"></td>
     </tr>
 </table>
-<a th:href="@{{id}/edit(id=${payment.paymentId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${paymentDTO.paymentId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/payments/list}" th:text="#{payment.backToPaymentList}"></a>

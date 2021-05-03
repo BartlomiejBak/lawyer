@@ -9,7 +9,7 @@
 
 <h2 th:text="#{contact.details}"></h2>
 
-<table class="table table-striped" th:object="${contact}">
+<table class="table table-striped" th:object="${contactDTO}">
     <tr></tr>
     <td>
         <table class="table table-striped">
@@ -87,13 +87,13 @@
     </td>
 
 </table>
-<a th:href="@{{id}/edit(id=${contact.contactId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${contactDTO.contactId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 
 <br/>
 <br/>
 <br/>
-<h2 th:text="#{contact.taskList}"></h2>
+<!--<h2 th:text="#{contact.taskList}"></h2>
 
 <table class="table table-striped">
     <tr th:each="task : ${contact.taskList}">
@@ -120,7 +120,7 @@
             </dl>
         </td>
     </tr>
-</table>
+</table>-->
 <hr>
 <a th:href="@{/contacts/list}" th:text="#{contact.backToContactList}"></a>
 <br>

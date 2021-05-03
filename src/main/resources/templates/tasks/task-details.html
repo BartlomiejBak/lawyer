@@ -9,7 +9,7 @@
 
 <h2 th:text="#{task.details}"></h2>
 
-<table class="table table-striped" th:object="${task}">
+<table class="table table-striped" th:object="${taskDTO}">
     <tr>
         <th th:text="#{task.priority}"></th>
         <td th:text="*{priority}"></td>
@@ -26,7 +26,7 @@
 
 <h2 th:text="#{task.lawsuitList}"></h2>
 <table class="table table-striped">
-    <tr th:each="lawsuit : ${task.lawsuitList}">
+    <tr th:each="lawsuit : ${taskDTO.lawsuitList}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{lawsuit.name}"></dt>
@@ -41,7 +41,7 @@
 <br/>
 <h2 th:text="#{task.contactList}"></h2>
 <table class="table table-striped">
-    <tr th:each="contact : ${task.contactList}">
+    <tr th:each="contact : ${taskDTO.contactList}">
         <td>
             <dl class="dl-horizontal">
                 <dt th:text="#{contact.name}"></dt>
@@ -50,7 +50,7 @@
         </td>
     </tr>
 </table>
-<a th:href="@{{id}/edit(id=${task.taskId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${taskDTO.taskId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 <hr>
 <a th:href="@{/tasks/list}" th:text="#{task.backToTaskList}"></a>

@@ -9,7 +9,7 @@
 
 <h2 th:text="#{address.details}"></h2>
 
-<table class="table table-striped" th:object="${address}">
+<table class="table table-striped" th:object="${addressDTO}">
     <tr>
         <th th:text="#{address.street}"></th>
         <td><b th:text="*{street}"></b></td>
@@ -28,7 +28,7 @@
     </tr>
 </table>
 
-<a th:href="@{{id}/edit(id=${address.addressId})}" class="btn btn-info btn-sm"
+<a th:href="@{{id}/edit(id=${addressDTO.addressId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
 
 
