@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: Lawyer
+  description: Lawyer
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: localhost
+paths:
+  /addresses:
+    get:
+      tags:
+        - Addresses
+      description: returns list of addresses
+      responses:
+        200:
+          description: list of addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    post:
+      tags:
+        - Addresses
+      description: post address
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Addresses
+      description: put address
+      responses:
+        200:
+          description: ok
+
+  /addresses/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of address
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Addresses
+      description: returns single address
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Address'
+    delete:
+      tags:
+        - Addresses
+      description: deletes single address
+      responses:
+        200:
+          description: ok
+
+components:
+  schemas:
+    Address:
+      properties:
+        id:
+          type: integer
+        street:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+      # Both properties are required
+      required:
+        - id
+        - street
+        - city
