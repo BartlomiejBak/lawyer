@@ -25,6 +25,12 @@ paths:
       tags:
         - Addresses
       description: post address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
       responses:
         200:
           description: ok
@@ -32,6 +38,12 @@ paths:
       tags:
         - Addresses
       description: put address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
       responses:
         200:
           description: ok
@@ -63,6 +75,7 @@ paths:
       responses:
         200:
           description: ok
+
 
 components:
   schemas:
