@@ -16,7 +16,7 @@ import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contact")
+@RequestMapping("/api/contacts")
 public class ContactRestController {
 
     ContactServiceSpringData contactService;
@@ -26,12 +26,12 @@ public class ContactRestController {
         this.contactService = contactService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<ContactDTO> getAllContacts() {
         return contactService.findAllContacts();
     }
 
-    @GetMapping("/id/{contactId}")
+    @GetMapping("/{contactId}")
     public ContactDTO getContact(@PathVariable int contactId) {
         ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {
@@ -40,20 +40,20 @@ public class ContactRestController {
         return contact;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ContactDTO addContact(@RequestBody ContactDTO contact) {
         contact.setContactId(0);
         contactService.saveContact(contact);
         return contact;
     }
 
-    @PutMapping("/register")
+    @PutMapping
     public ContactDTO updateContact(@RequestBody ContactDTO contact) {
         contactService.saveContact(contact);
         return contact;
     }
 
-    @DeleteMapping("/remove/{contactId}")
+    @DeleteMapping("/contactId}")
     public String deleteContact(@PathVariable int contactId) {
         ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {

@@ -76,6 +76,76 @@ paths:
         200:
           description: ok
 
+  /contacts:
+    get:
+      tags:
+        - Contacts
+      description: returns list of contacts
+      responses:
+        200:
+          description: list of contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+    post:
+      tags:
+        - Contacts
+      description: post contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Contact'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Contacts
+      description: put contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Contact'
+      responses:
+        200:
+          description: ok
+
+  /contacts/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of contact
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Contacts
+      description: returns single contact
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Contact'
+    delete:
+      tags:
+        - Contacts
+      description: deletes single contact
+      responses:
+        200:
+          description: ok
 
 components:
   schemas:
