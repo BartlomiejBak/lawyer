@@ -166,3 +166,42 @@ components:
         - id
         - street
         - city
+
+    Contact:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        altEmail:
+          type: string
+          format: email
+        phone:
+          type: string
+        altPhone:
+          type: string
+        companyName:
+          type: string
+        pesel:
+          type: string
+        nip:
+          type: string
+        regon:
+          type: string
+        krs:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        address:
+          $ref: '#/components/schemas/Address'
+        correspondenceAddress:
+          $ref: '#/components/schemas/Address'
+
