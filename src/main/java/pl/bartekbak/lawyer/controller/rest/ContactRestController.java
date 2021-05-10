@@ -53,7 +53,7 @@ public class ContactRestController {
         return contact;
     }
 
-    @DeleteMapping("/contactId}")
+    @DeleteMapping("/{contactId}")
     public String deleteContact(@PathVariable int contactId) {
         ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {

@@ -68,7 +68,7 @@ class AddressRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/address/all")
+                        .get("/api/addresses")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -87,7 +87,7 @@ class AddressRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/address/id/100")
+                        .get("/api/addresses/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -105,7 +105,7 @@ class AddressRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/address/register")
+                        .post("/api/addresses")
                         .content(objectMapper.writeValueAsString(firstAddress))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -122,7 +122,7 @@ class AddressRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/api/address/register")
+                        .put("/api/addresses")
                         .content(objectMapper.writeValueAsString(firstAddress))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -141,7 +141,7 @@ class AddressRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/api/address/remove/100")
+                        .delete("/api/addresses/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

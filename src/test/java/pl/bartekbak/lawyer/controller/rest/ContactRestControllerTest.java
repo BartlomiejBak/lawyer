@@ -69,7 +69,7 @@ class ContactRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/contact/all")
+                        .get("/api/contacts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -87,7 +87,7 @@ class ContactRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/contact/id/100")
+                        .get("/api/contacts/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -104,7 +104,7 @@ class ContactRestControllerTest {
         doNothing().when(contactService).saveContact(any(ContactDTO.class));
         //when
          mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/contact/register")
+                        .post("/api/contacts")
                         .content(objectMapper.writeValueAsString(firstContact))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -120,7 +120,7 @@ class ContactRestControllerTest {
         doNothing().when(contactService).saveContact(any(ContactDTO.class));
         //when
          mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/contact/register")
+                        .put("/api/contacts")
                         .content(objectMapper.writeValueAsString(firstContact))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -137,8 +137,9 @@ class ContactRestControllerTest {
         when(contactService.findContactById(anyInt())).thenReturn(firstContact);
         //when
 
-        mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/contact/remove/100")
+        final MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/api/contacts/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
