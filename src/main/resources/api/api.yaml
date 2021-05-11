@@ -147,6 +147,77 @@ paths:
         200:
           description: ok
 
+  /courts:
+    get:
+      tags:
+        - Courts
+      description: returns list of courts
+      responses:
+        200:
+          description: list of courts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Court'
+    post:
+      tags:
+        - Courts
+      description: post court
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Court'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Courts
+      description: put court
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Court'
+      responses:
+        200:
+          description: ok
+
+  /courts/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of court
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Courts
+      description: returns single court
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Court'
+    delete:
+      tags:
+        - Courts
+      description: deletes single court
+      responses:
+        200:
+          description: ok
+
 components:
   schemas:
     Address:
@@ -205,3 +276,15 @@ components:
         correspondenceAddress:
           $ref: '#/components/schemas/Address'
 
+    Court:
+      properties:
+        courtId:
+          type: integer
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        description:
+          type: string
+        phone:
+          type: string
