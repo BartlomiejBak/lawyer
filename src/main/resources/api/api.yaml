@@ -218,6 +218,75 @@ paths:
         200:
           description: ok
 
+  /lawsuits:
+    get:
+      tags:
+        - Lawsuits
+      description: returns list of lawsuits
+      responses:
+        200:
+          description: list of lawsuits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lawsuit'
+    post:
+      tags:
+        - Lawsuits
+      description: post lawsuit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lawsuit'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Lawsuits
+      description: put lawsuit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lawsuit'
+      responses:
+        200:
+          description: ok
+
+  /lawsuits/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of lawsuit
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Lawsuits
+      description: returns single lawsuit
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Lawsuit'
+    delete:
+      tags:
+        - Lawsuits
+      description: deletes single lawsuit
+      responses:
+        200:
+          description: ok
+
 components:
   schemas:
     Address:
@@ -288,3 +357,44 @@ components:
           type: string
         phone:
           type: string
+
+    Lawsuit:
+      properties:
+        lawsuitId:
+          type: integer
+        name:
+          type: string
+        caseSide:
+          type: string
+        inpuntDate:
+          type: string
+          format: date
+        deadline:
+          type: string
+          format: date
+        signature:
+          type: string
+        claimAmount:
+          type: number
+        sdditionalInfo:
+          type: string
+        contactList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        taskList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        plaintiff:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        defendant:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        eventSet:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
