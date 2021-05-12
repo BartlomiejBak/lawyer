@@ -16,7 +16,7 @@ import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/court")
+@RequestMapping("/api/courts")
 public class CourtRestController {
     CourtServiceSpringData service;
 
@@ -25,12 +25,12 @@ public class CourtRestController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<CourtDTO> getAllCourts() {
         return service.findAllCourts();
     }
 
-    @GetMapping("/id/{courtId}")
+    @GetMapping("/{courtId}")
     public CourtDTO getCourt(@PathVariable int courtId) {
         CourtDTO court = service.findCourtById(courtId);
         if (court == null) {
@@ -39,20 +39,20 @@ public class CourtRestController {
         return court;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public CourtDTO addCourt(@RequestBody CourtDTO court) {
         court.setCourtId(0);
         service.saveCourt(court);
         return court;
     }
 
-    @PutMapping("/register")
+    @PutMapping
     public CourtDTO updateCourt(@RequestBody CourtDTO court) {
         service.saveCourt(court);
         return court;
     }
 
-    @DeleteMapping("/remove/{courtId}")
+    @DeleteMapping("/{courtId}")
     public String deleteCourt(@PathVariable int courtId) {
         CourtDTO court = service.findCourtById(courtId);
         if (court == null) {

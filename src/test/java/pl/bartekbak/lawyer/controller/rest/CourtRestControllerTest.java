@@ -65,7 +65,7 @@ class CourtRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/all")
+                        .get("/api/courts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,7 +83,7 @@ class CourtRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/court/id/100")
+                        .get("/api/courts/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -101,7 +101,7 @@ class CourtRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/court/register")
+                        .post("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -118,7 +118,7 @@ class CourtRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/api/court/register")
+                        .put("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -136,7 +136,7 @@ class CourtRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/api/court/remove/100")
+                        .delete("/api/courts/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
