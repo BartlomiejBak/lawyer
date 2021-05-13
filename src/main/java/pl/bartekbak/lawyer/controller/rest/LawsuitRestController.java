@@ -16,7 +16,7 @@ import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/lawsuit")
+@RequestMapping("/api/lawsuits")
 public class LawsuitRestController {
 
     LawsuitServiceSpringData lawsuitService;
@@ -26,12 +26,12 @@ public class LawsuitRestController {
         this.lawsuitService = lawsuitService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<LawsuitDTO> getAllLawsuits() {
         return lawsuitService.findAllLawsuits();
     }
 
-    @GetMapping("/id/{lawsuitId}")
+    @GetMapping("/{lawsuitId}")
     public LawsuitDTO getLawsuit(@PathVariable int lawsuitId) {
         LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {
@@ -40,20 +40,20 @@ public class LawsuitRestController {
         return lawsuit;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public LawsuitDTO addLawsuit(@RequestBody LawsuitDTO lawsuit) {
         lawsuit.setLawsuitId(0);
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }
 
-    @PutMapping("/register")
+    @PutMapping
     public LawsuitDTO updateLawsuit(@RequestBody LawsuitDTO lawsuit) {
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }
 
-    @DeleteMapping("/remove/{lawsuitId}")
+    @DeleteMapping("/{lawsuitId}")
     public String deleteLawsuit(@PathVariable int lawsuitId) {
         LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {

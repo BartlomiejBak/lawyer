@@ -65,7 +65,7 @@ class LawsuitRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/lawsuit/all")
+                        .get("/api/lawsuits")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,7 +83,7 @@ class LawsuitRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/lawsuit/id/100")
+                        .get("/api/lawsuits/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -100,7 +100,7 @@ class LawsuitRestControllerTest {
         doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/lawsuit/register")
+                        .post("/api/lawsuits")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -116,7 +116,7 @@ class LawsuitRestControllerTest {
         doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/lawsuit/register")
+                        .put("/api/lawsuits")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -133,7 +133,7 @@ class LawsuitRestControllerTest {
         when(lawsuitService.findLawsuitById(anyInt())).thenReturn(firstLawsuit);
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/lawsuit/remove/100")
+                        .delete("/api/lawsuits/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
