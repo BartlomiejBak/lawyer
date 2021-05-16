@@ -287,6 +287,75 @@ paths:
         200:
           description: ok
 
+  /notes:
+    get:
+      tags:
+        - Notes
+      description: returns list of notes
+      responses:
+        200:
+          description: list of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+    post:
+      tags:
+        - Notes
+      description: post note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Notes
+      description: put note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        200:
+          description: ok
+
+  /notes/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of note
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Notes
+      description: returns single note
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Note'
+    delete:
+      tags:
+        - Notes
+      description: deletes single note
+      responses:
+        200:
+          description: ok
+
 components:
   schemas:
     Address:
@@ -398,3 +467,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Event'
+
+    Note:
+      properties:
+        noteId:
+          type: integer
+        title:
+          type: string
+        text:
+          type: string
