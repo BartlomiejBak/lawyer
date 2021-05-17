@@ -16,7 +16,7 @@ import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/note")
+@RequestMapping("/api/notes")
 public class NoteRestController {
     NoteServiceSpringData noteService;
 
@@ -25,12 +25,12 @@ public class NoteRestController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<NoteDTO> getAllNotes() {
         return noteService.findAllNotes();
     }
 
-    @GetMapping("/id/{noteId}")
+    @GetMapping("/{noteId}")
     public NoteDTO getNote(@PathVariable int noteId) {
         NoteDTO note = noteService.findNoteById(noteId);
         if (note == null) {
@@ -39,20 +39,20 @@ public class NoteRestController {
         return note;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public NoteDTO addNote(@RequestBody NoteDTO note) {
         note.setNoteId(0);
         noteService.saveNote(note);
         return note;
     }
 
-    @PutMapping("/register")
+    @PutMapping
     public NoteDTO updateNote(@RequestBody NoteDTO note) {
         noteService.saveNote(note);
         return note;
     }
 
-    @DeleteMapping("/remove/{noteId}")
+    @DeleteMapping("/{noteId}")
     public String deleteNote(@PathVariable int noteId) {
         NoteDTO note = noteService.findNoteById(noteId);
         if (note == null) {
