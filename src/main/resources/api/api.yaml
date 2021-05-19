@@ -356,6 +356,75 @@ paths:
         200:
           description: ok
 
+  /tags:
+    get:
+      tags:
+        - Tags
+      description: returns list of tags
+      responses:
+        200:
+          description: list of tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+    post:
+      tags:
+        - Tags
+      description: post tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Tags
+      description: put tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        200:
+          description: ok
+
+  /tags/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of tag
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Tags
+      description: returns single tag
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Tag'
+    delete:
+      tags:
+        - Tags
+      description: deletes single tag
+      responses:
+        200:
+          description: ok
+
 components:
   schemas:
     Address:
@@ -475,4 +544,11 @@ components:
         title:
           type: string
         text:
+          type: string
+
+    Tag:
+      properties:
+        tagId:
+          type: integer
+        name:
           type: string
