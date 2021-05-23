@@ -58,7 +58,7 @@ class TagRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/tag/all")
+                        .get("/api/tags")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -76,7 +76,7 @@ class TagRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/tag/id/100")
+                        .get("/api/tags/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -94,7 +94,7 @@ class TagRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/api/tag/register")
+                        .post("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -111,7 +111,7 @@ class TagRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .put("/api/tag/register")
+                        .put("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -129,7 +129,7 @@ class TagRestControllerTest {
         //when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .delete("/api/tag/remove/100")
+                        .delete("/api/tags/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
