@@ -425,6 +425,75 @@ paths:
         200:
           description: ok
 
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      description: returns list of tasks
+      responses:
+        200:
+          description: list of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      tags:
+        - Tasks
+      description: post task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: ok
+    put:
+      tags:
+        - Tasks
+      description: put task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: ok
+
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of task
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Tasks
+      description: returns single task
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Task'
+    delete:
+      tags:
+        - Tasks
+      description: deletes single task
+      responses:
+        200:
+          description: ok
+
 components:
   schemas:
     Address:
@@ -552,3 +621,23 @@ components:
           type: integer
         name:
           type: string
+
+    Task:
+      properties:
+        taskId:
+          type: integer
+        priority:
+          type: boolean
+        deadline:
+          type: string
+          format: date-time
+        description:
+          type: string
+        lawsuitList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lawsuit'
+        contactList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
