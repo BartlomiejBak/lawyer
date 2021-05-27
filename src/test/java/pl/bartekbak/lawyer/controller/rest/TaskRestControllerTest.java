@@ -65,7 +65,7 @@ class TaskRestControllerTest {
         //when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/task/all")
+                        .get("/api/tasks")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,7 +83,7 @@ class TaskRestControllerTest {
         //when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/task/id/100")
+                        .get("/api/tasks/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -100,7 +100,7 @@ class TaskRestControllerTest {
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/task/register")
+                        .post("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -116,7 +116,7 @@ class TaskRestControllerTest {
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/task/register")
+                        .put("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -133,7 +133,7 @@ class TaskRestControllerTest {
         when(taskService.findTaskById(anyInt())).thenReturn(firstTask);
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/task/remove/100")
+                        .delete("/api/tasks/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
