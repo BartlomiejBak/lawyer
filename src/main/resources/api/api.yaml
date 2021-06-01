@@ -641,3 +641,38 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Address'
+
+    Event:
+      properties:
+        eventId:
+          type: integer
+        title:
+          type: string
+        dateTime:
+          type: string
+          format: date-time
+        description:
+          type: string
+        relatedLawsuit:
+          $ref: '#/components/schemas/Lawsuit'
+
+    Payment:
+      properties:
+        paymentId:
+          type: integer
+        paymentValue:
+          type: number
+        paymentDate:
+          type: string
+          format: date
+        paid:
+          type: boolean
+        paidDate:
+          type: string
+          format: date
+        comment:
+          type: string
+        us:
+          type: boolean
+        incoming:
+          type: boolean
