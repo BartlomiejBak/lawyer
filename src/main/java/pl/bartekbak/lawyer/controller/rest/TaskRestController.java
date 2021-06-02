@@ -16,7 +16,7 @@ import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping("/api/tasks")
 public class TaskRestController {
     TaskServiceSpringData service;
 
@@ -25,12 +25,12 @@ public class TaskRestController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<TaskDTO> getAllTasks() {
         return service.findAllTasks();
     }
 
-    @GetMapping("/id/{taskId}")
+    @GetMapping("/{taskId}")
     public TaskDTO getTask(@PathVariable int taskId) {
         TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
@@ -39,20 +39,20 @@ public class TaskRestController {
         return task;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public TaskDTO addTask(@RequestBody TaskDTO task) {
         task.setTaskId(0);
         service.saveTask(task);
         return task;
     }
 
-    @PutMapping("/register")
+    @PutMapping
     public TaskDTO updateTask(@RequestBody TaskDTO task) {
         service.saveTask(task);
         return task;
     }
 
-    @DeleteMapping("/remove/{taskId}")
+    @DeleteMapping("/{taskId}")
     public String deleteTask(@PathVariable int taskId) {
         TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
