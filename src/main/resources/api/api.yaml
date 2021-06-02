@@ -676,3 +676,26 @@ components:
           type: boolean
         incoming:
           type: boolean
+
+    Poa:
+      properties:
+        poaId:
+          type: integer
+        poaType:
+          type: string
+        payment:
+          type: string
+        kpc:
+          type: boolean
+        termination:
+          type: boolean
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        terminationNotificationDuty:
+          type: boolean
+        terminationNotificationDutyCompleted:
+          type: boolean
