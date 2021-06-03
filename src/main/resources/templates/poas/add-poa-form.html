@@ -27,7 +27,7 @@
         <div th:class="${#fields.hasErrors('street')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
             <p th:text="#{poa.type}"></p>
             <label>
-                <input type="text" th:field="*{type}" class="form-control" th:errorclass="has-error">
+                <input type="text" th:field="*{getPoaType}" class="form-control" th:errorclass="has-error">
             </label>
             <span class="help-block" th:if="${#fields.hasErrors('type')}">
                     <ul>

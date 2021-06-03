@@ -54,7 +54,7 @@ public class Poa {
     public PoaDTO toDto() {
         return PoaDTO.builder()
                 .poaId(poaId)
-                .type(type)
+                .poaType(type)
                 .payment(payment)
                 .kpc(kpc)
                 .termination(termination)
@@ -68,7 +68,7 @@ public class Poa {
     public static Poa fromDto(PoaDTO dto) {
         return Poa.builder()
                 .poaId(dto.getPoaId())
-                .type(dto.getType())
+                .type(dto.getPoaType())
                 .payment(dto.getPayment())
                 .kpc(dto.isKpc())
                 .termination(dto.isTermination())

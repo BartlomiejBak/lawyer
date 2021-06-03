@@ -27,7 +27,7 @@
 
         <tbody>
         <tr th:each="tempPoa : ${poas}">
-            <td><a th:href="@{/poas/__${tempPoa.poaId}__}" th:text="${tempPoa.type}"></a></td>
+            <td><a th:href="@{/poas/__${tempPoa.poaId}__}" th:text="${tempPoa.getPoaType}"></a></td>
             <td th:text="${tempPoa.payment}"></td>
             <td th:text="${tempPoa.kpc}"></td>
             <td th:text="${tempPoa.termination}"></td>

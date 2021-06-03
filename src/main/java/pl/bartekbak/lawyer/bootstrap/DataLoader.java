@@ -26,7 +26,6 @@ import pl.bartekbak.lawyer.service.TaskService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -194,7 +193,7 @@ public class DataLoader implements CommandLineRunner {
                 .payment("paid")
                 .termination(false)
                 .payment("150 PLN")
-                .type("common")
+                .poaType("common")
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();
@@ -205,7 +204,7 @@ public class DataLoader implements CommandLineRunner {
                 .payment("to be paid")
                 .termination(false)
                 .payment("160 PLN")
-                .type("common 2")
+                .poaType("common 2")
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();
@@ -216,7 +215,7 @@ public class DataLoader implements CommandLineRunner {
                 .payment("paid partially")
                 .termination(false)
                 .payment("250 PLN")
-                .type("uncommon")
+                .poaType("uncommon")
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();

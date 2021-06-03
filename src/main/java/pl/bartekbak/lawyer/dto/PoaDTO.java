@@ -20,7 +20,7 @@ public class PoaDTO {
     private int poaId;
 
     @Size(max = 50)
-    private String type;
+    private String poaType;
 
     @Size(max = 150)
     private String payment;
@@ -48,7 +48,7 @@ public class PoaDTO {
 
         if (getPoaId() != poaDTO.getPoaId()) return false;
         if (isKpc() != poaDTO.isKpc()) return false;
-        if (getType() != null ? !getType().equals(poaDTO.getType()) : poaDTO.getType() != null) return false;
+        if (getPoaType() != null ? !getPoaType().equals(poaDTO.getPoaType()) : poaDTO.getPoaType() != null) return false;
         if (getPayment() != null ? !getPayment().equals(poaDTO.getPayment()) : poaDTO.getPayment() != null)
             return false;
         return getStartDate() != null ? getStartDate().equals(poaDTO.getStartDate()) : poaDTO.getStartDate() == null;
@@ -57,7 +57,7 @@ public class PoaDTO {
     @Override
     public int hashCode() {
         int result = getPoaId();
-        result = 31 * result + (getType() != null ? getType().hashCode() : 0);
+        result = 31 * result + (getPoaType() != null ? getPoaType().hashCode() : 0);
         result = 31 * result + (getPayment() != null ? getPayment().hashCode() : 0);
         result = 31 * result + (isKpc() ? 1 : 0);
         result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);

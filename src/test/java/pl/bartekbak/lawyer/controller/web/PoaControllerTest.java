@@ -47,7 +47,7 @@ class PoaControllerTest {
                 .payment("paid")
                 .termination(false)
                 .payment("150 PLN")
-                .type("common")
+                .poaType("common")
                 .terminationNotificationDuty(true)
                 .terminationNotificationDutyCompleted(false)
                 .build();
