@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
@@ -27,23 +28,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class AddressRestControllerTest {
 
-    private final AddressDTO firstAddress = AddressDTO.builder()
-            .addressId(100)
-            .city("Warsaw")
-            .country("Poland")
-            .build();
-    private final AddressDTO secondAddress = AddressDTO.builder()
-            .addressId(101)
-            .city("Berlin")
-            .country("Germany")
-            .build();
-    private final AddressDTO thirdAddress = AddressDTO.builder()
-            .addressId(102)
-            .city("Madrid")
-            .country("Spain")
-            .build();
+    ModelProvider provider = new ModelProvider();
 
-    private final List<AddressDTO> addresses = List.of(firstAddress, secondAddress, thirdAddress);
+    private final AddressDTO firstAddress = provider.getFirstAddress();
+
+    private final List<AddressDTO> addresses = provider.getAddresses();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
 
@@ -30,23 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class ContactRestControllerTest {
 
-    private final ContactDTO firstContact = ContactDTO.builder()
-            .contactId(100)
-            .firstName("First")
-            .lastName("Contact")
-            .build();
-    private final ContactDTO secondContact = ContactDTO.builder()
-            .contactId(101)
-            .firstName("Second")
-            .lastName("Contact")
-            .build();
-    private final ContactDTO thirdContact = ContactDTO.builder()
-            .contactId(102)
-            .firstName("Third")
-            .lastName("Contact")
-            .build();
+    ModelProvider provider = new ModelProvider();
 
-    private final List<ContactDTO> contacts = List.of(firstContact, secondContact, thirdContact);
+    private final ContactDTO firstContact = provider.getFirstContact();
+
+    private final List<ContactDTO> contacts = provider.getContacts();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
