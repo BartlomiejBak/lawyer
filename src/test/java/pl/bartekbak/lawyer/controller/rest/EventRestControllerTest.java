@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.service.spring.data.EventServiceSpringData;
 
@@ -29,34 +30,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class EventRestControllerTest {
 
+    ModelProvider provider = new ModelProvider();
+
     @MockBean
     private EventServiceSpringData eventService;
 
     @Autowired
     private MockMvc mockMvc;
 
-    private final EventDTO firstEvent = EventDTO.builder()
-            .eventId(100)
-            .title("FirstEvent")
-            .dateTime(LocalDateTime.of(2021, 11, 11, 0 ,0))
-            .description("description")
-            .build();
+    private final EventDTO firstEvent = provider.getFirstEvent();
 
-    private final EventDTO secondEvent = EventDTO.builder()
-            .eventId(101)
-            .title("SecondEvent")
-            .dateTime(LocalDateTime.of(2021, 11, 11, 0 ,0))
-            .description("description")
-            .build();
-
-    private final EventDTO thirdEvent = EventDTO.builder()
-            .eventId(102)
-            .title("ThirdEvent")
-            .dateTime(LocalDateTime.of(2021, 11, 11, 0 ,0))
-            .description("description")
-            .build();
-
-    private final List<EventDTO> events = List.of(firstEvent, secondEvent, thirdEvent);
+    private final List<EventDTO> events = provider.getEvents();
 
     @Test
     void getAllEvents_shouldReturnEvents() throws Exception {

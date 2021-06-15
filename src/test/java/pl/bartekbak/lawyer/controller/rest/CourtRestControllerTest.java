@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.CourtDTO;
-import pl.bartekbak.lawyer.entity.Court;
 import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
 
 import java.util.List;
@@ -22,26 +22,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class CourtRestControllerTest {
 
-    private final CourtDTO firstCourt = CourtDTO.builder()
-            .courtId(100)
-            .name("1 court")
-            .build();
-    private final CourtDTO secondCourt = CourtDTO.builder()
-            .courtId(101)
-            .name("2 court")
-            .build();
-    private final CourtDTO thirdCourt = CourtDTO.builder()
-            .courtId(102)
-            .name("3 court")
-            .build();
+    ModelProvider provider = new ModelProvider();
 
-    private final List<CourtDTO> courts = List.of(firstCourt, secondCourt, thirdCourt);
+    private final CourtDTO firstCourt = provider.getFirstCourt();
+
+    private final List<CourtDTO> courts = provider.getCourts();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -99,8 +93,7 @@ class CourtRestControllerTest {
         //given
         doNothing().when(courtService).saveCourt(any(CourtDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -116,8 +109,7 @@ class CourtRestControllerTest {
         //given
         doNothing().when(courtService).saveCourt(any(CourtDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -134,8 +126,7 @@ class CourtRestControllerTest {
         doNothing().when(courtService).deleteCourtById(anyInt());
         when(courtService.findCourtById(anyInt())).thenReturn(firstCourt);
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/courts/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
