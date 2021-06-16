@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
 
@@ -30,19 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class LawsuitRestControllerTest {
 
-    private final LawsuitDTO firstLawsuit = LawsuitDTO.builder()
-            .lawsuitId(100)
-            .name("1 lawsuit")
-            .build();
-    private final LawsuitDTO secondLawsuit = LawsuitDTO.builder()
-            .lawsuitId(101)
-            .name("2 lawsuit")
-            .build();
-    private final LawsuitDTO thirdLawsuit = LawsuitDTO.builder()
-            .lawsuitId(102)
-            .name("3 lawsuit")
-            .build();
-    private final List<LawsuitDTO> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
+    ModelProvider provider = new ModelProvider();
+
+    private final LawsuitDTO firstLawsuit = provider.getFirstLawsuit();
+    private final List<LawsuitDTO> lawsuits = provider.getLawsuits();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;

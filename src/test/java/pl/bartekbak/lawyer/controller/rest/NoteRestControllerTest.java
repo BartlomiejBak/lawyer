@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
 
@@ -30,10 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class NoteRestControllerTest {
 
-    private final NoteDTO firstNote = new NoteDTO(100,"1 note", "1000000");
-    private final NoteDTO secondNote = new NoteDTO(101,"2 note", "1000001");
-    private final NoteDTO thirdNote = new NoteDTO(102,"3 note", "1000002");
-    private final List<NoteDTO> notes = List.of(firstNote, secondNote, thirdNote);
+    ModelProvider provider = new ModelProvider();
+
+    private final NoteDTO firstNote = provider.getFirstNote();
+    private final List<NoteDTO> notes = provider.getNotes();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -91,8 +92,7 @@ class NoteRestControllerTest {
         //given
         doNothing().when(noteService).saveNote(any(NoteDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/notes")
                         .content(objectMapper.writeValueAsString(firstNote))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -108,8 +108,7 @@ class NoteRestControllerTest {
         //given
         doNothing().when(noteService).saveNote(any(NoteDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/notes")
                         .content(objectMapper.writeValueAsString(firstNote))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -126,8 +125,7 @@ class NoteRestControllerTest {
         doNothing().when(noteService).deleteNoteById(anyInt());
         when(noteService.findNoteById(anyInt())).thenReturn(firstNote);
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/notes/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
