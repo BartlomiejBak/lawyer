@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.service.spring.data.PaymentServiceSpringData;
 
@@ -30,6 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class PaymentRestControllerTest {
 
+    ModelProvider provider = new ModelProvider();
+
     @MockBean
     private PaymentServiceSpringData paymentService;
 
@@ -38,16 +41,9 @@ class PaymentRestControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     
-    private final PaymentDTO firstPayment = PaymentDTO.builder()
-            .paymentId(100)
-            .paymentValue(500)
-            .comment("comment")
-            .incoming(true)
-            .us(true)
-            .paid(false)
-            .build();
+    private final PaymentDTO firstPayment = provider.getFirstPayment();
 
-    List<PaymentDTO> payments = List.of(firstPayment);
+    List<PaymentDTO> payments = provider.getPayments();
 
     @Test
     void getAllPayments_shouldReturnPayments() throws Exception {

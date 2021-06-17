@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.service.spring.data.PoaServiceSpringData;
 
@@ -30,6 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class PoaRestControllerTest {
 
+    ModelProvider provider = new ModelProvider();
+
     @MockBean
     private PoaServiceSpringData poaService;
 
@@ -38,15 +41,9 @@ class PoaRestControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     
-    private final PoaDTO poa = PoaDTO.builder()
-            .poaId(100)
-            .payment("500")
-            .poaType("type")
-            .kpc(true)
-            .termination(true)
-            .build();
+    private final PoaDTO poa = provider.getFirstPoa();
     
-    List<PoaDTO> poaList = List.of(poa);
+    List<PoaDTO> poaList = provider.getPoaList();
 
     @Test
     void getAllPoas_shouldReturnPoas() throws Exception {
