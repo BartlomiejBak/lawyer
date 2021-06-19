@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
 
@@ -30,19 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class TaskRestControllerTest {
 
-    private final TaskDTO firstTask = TaskDTO.builder()
-            .taskId(100)
-            .description("1 task to do")
-            .build();
-    private final TaskDTO secondTask = TaskDTO.builder()
-            .taskId(101)
-            .description("2 task to do")
-            .build();
-    private final TaskDTO thirdTask = TaskDTO.builder()
-            .taskId(102)
-            .description("3 task to do")
-            .build();
-    private final List<TaskDTO> tasks = List.of(firstTask, secondTask, thirdTask);
+    ModelProvider provider = new ModelProvider();
+
+    private final TaskDTO firstTask = provider.getFirstTask();
+    private final List<TaskDTO> tasks = provider.getTasks();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;

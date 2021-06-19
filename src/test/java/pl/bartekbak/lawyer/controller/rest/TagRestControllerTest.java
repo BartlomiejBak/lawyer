@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
 
@@ -30,11 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class TagRestControllerTest {
 
-    private final TagDTO firstTag = new TagDTO(100, "1 tag");
-    private final TagDTO secondTag = new TagDTO(101, "2 tag");
-    private final TagDTO thirdTag = new TagDTO(102, "3 tag");
+    ModelProvider provider = new ModelProvider();
 
-    private final List<TagDTO> tags = List.of(firstTag, secondTag, thirdTag);
+    private final TagDTO firstTag = provider.getFirstTag();
+
+    private final List<TagDTO> tags = provider.getTags();
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -92,8 +93,7 @@ class TagRestControllerTest {
         //given
         doNothing().when(tagService).saveTag(any(TagDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -109,8 +109,7 @@ class TagRestControllerTest {
         //given
         doNothing().when(tagService).saveTag(any(TagDTO.class));
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -127,8 +126,7 @@ class TagRestControllerTest {
         doNothing().when(tagService).deleteTagById(anyInt());
         when(tagService.findTagById(anyInt())).thenReturn(firstTag);
         //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/tags/100")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
