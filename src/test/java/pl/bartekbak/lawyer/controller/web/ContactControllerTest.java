@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.service.ContactService;
@@ -32,7 +33,8 @@ class ContactControllerTest {
     ContactService service;
     @InjectMocks
     ContactController controller;
-    
+
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String CONTACT_ADD_FORM = "contacts/add-contact-form";
@@ -40,17 +42,7 @@ class ContactControllerTest {
 
     @BeforeEach
     void setUp() {
-        contact = ContactDTO.builder()
-                .contactId(1)
-                .name("1 contact")
-                .firstName("1 name")
-                .lastName("Doe")
-                .address(AddressDTO.builder().build())
-                .email("1email@example.com")
-                .phone("555 222 222")
-                .dateCreated(LocalDateTime.now())
-                .pesel("12345678901")
-                .build();
+        contact = provider.getFirstContact();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

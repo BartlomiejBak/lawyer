@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.service.AddressService;
 
@@ -30,6 +31,7 @@ class AddressControllerTest {
     @InjectMocks
     AddressController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String ADDRESS_ADD_FORM = "addresses/add-address-form";
@@ -37,13 +39,7 @@ class AddressControllerTest {
 
     @BeforeEach
     void setUp() {
-        address = AddressDTO.builder()
-                .addressId(1)
-                .street("street")
-                .city("city")
-                .country("country")
-                .zipCode("00000")
-                .build();
+        address = provider.getFirstAddress();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
