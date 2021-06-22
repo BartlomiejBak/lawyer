@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.service.EventService;
 
@@ -32,6 +33,7 @@ class EventControllerTest {
     @InjectMocks
     EventController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String EVENT_ADD_FORM = "events/add-event-form";
@@ -39,12 +41,7 @@ class EventControllerTest {
 
     @BeforeEach
     void setUp() {
-        event = EventDTO.builder()
-                .eventId(1)
-                .title("first event")
-                .dateTime(LocalDateTime.of(2021, 6, 14, 12, 30))
-                .description("some description 1")
-                .build();
+        event = provider.getFirstEvent();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
