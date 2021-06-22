@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.service.CourtService;
@@ -31,6 +32,7 @@ class CourtControllerTest {
     @InjectMocks
     CourtController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String COURT_ADD_FORM = "courts/add-court-form";
@@ -38,13 +40,7 @@ class CourtControllerTest {
 
     @BeforeEach
     void setUp() {
-        court = CourtDTO.builder()
-                .courtId(1)
-                .name("1 court")
-                .description("court number 555")
-                .address(AddressDTO.builder().build())
-                .phone("555-556-555")
-                .build();
+        court = provider.getFirstCourt();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
