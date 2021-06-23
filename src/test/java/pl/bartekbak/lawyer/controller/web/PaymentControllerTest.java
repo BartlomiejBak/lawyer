@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.service.PaymentService;
@@ -33,6 +34,7 @@ class PaymentControllerTest {
     @InjectMocks
     PaymentController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String PAYMENT_ADD_FORM = "payments/add-payment-form";
@@ -40,13 +42,7 @@ class PaymentControllerTest {
 
     @BeforeEach
     void setUp() {
-        payment = PaymentDTO.builder()
-                .paymentId(1)
-                .paymentValue(100.0)
-                .paymentDate(LocalDate.now().plusDays(10))
-                .comment("no")
-                .incoming(true)
-                .build();
+        payment = provider.getFirstPayment();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
