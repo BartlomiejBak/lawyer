@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
 import pl.bartekbak.lawyer.service.TagService;
@@ -33,6 +34,7 @@ class TagControllerTest {
     @InjectMocks
     TagController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String TAG_ADD_FORM = "tags/add-tag-form";
@@ -40,10 +42,7 @@ class TagControllerTest {
 
     @BeforeEach
     void setUp() {
-        tag = TagDTO.builder()
-                .tagId(1)
-                .name("name")
-                .build();
+        tag = provider.getFirstTag();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
