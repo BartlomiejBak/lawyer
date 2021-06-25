@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.entity.Lawsuit;
 import pl.bartekbak.lawyer.service.LawsuitService;
@@ -33,6 +34,7 @@ class LawsuitControllerTest {
     @InjectMocks
     LawsuitController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String LAWSUIT_ADD_FORM = "lawsuits/add-lawsuit-form";
@@ -40,16 +42,7 @@ class LawsuitControllerTest {
 
     @BeforeEach
     void setUp() {
-        lawsuit = LawsuitDTO.builder()
-                .lawsuitId(1)
-                .name("lawsuit no. 1223")
-                .caseSide("defendant")
-                .claimAmount(25000.2)
-                .signature("ABC 123456")
-                .deadline(LocalDate.of(2021, 5, 10))
-                .additionalInfo("no important info")
-                .inputDate(LocalDate.now())
-                .build();
+        lawsuit = provider.getFirstLawsuit();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

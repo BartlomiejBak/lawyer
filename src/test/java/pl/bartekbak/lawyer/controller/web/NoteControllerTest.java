@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.entity.Note;
 import pl.bartekbak.lawyer.service.NoteService;
@@ -31,6 +32,7 @@ class NoteControllerTest {
     @InjectMocks
     NoteController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String NOTE_ADD_FORM = "notes/add-note-form";
@@ -38,11 +40,7 @@ class NoteControllerTest {
 
     @BeforeEach
     void setUp() {
-        note = NoteDTO.builder()
-                .noteId(1)
-                .title("note no. 1")
-                .text("some notes 1... ")
-                .build();
+        note = provider.getFirstNote();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
