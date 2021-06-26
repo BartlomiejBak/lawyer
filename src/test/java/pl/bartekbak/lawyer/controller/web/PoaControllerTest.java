@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.service.PoaService;
 
@@ -32,6 +33,7 @@ class PoaControllerTest {
     @InjectMocks
     PoaController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String POA_ADD_FORM = "poas/add-poa-form";
@@ -39,18 +41,7 @@ class PoaControllerTest {
 
     @BeforeEach
     void setUp() {
-        poa = PoaDTO.builder()
-                .poaId(1)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.of(2021, 5, 15))
-                .kpc(true)
-                .payment("paid")
-                .termination(false)
-                .payment("150 PLN")
-                .poaType("common")
-                .terminationNotificationDuty(true)
-                .terminationNotificationDutyCompleted(false)
-                .build();
+        poa = provider.getFirstPoa();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }

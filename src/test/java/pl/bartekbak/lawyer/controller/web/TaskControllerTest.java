@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.entity.Task;
 import pl.bartekbak.lawyer.service.TaskService;
@@ -34,6 +35,7 @@ class TaskControllerTest {
     @InjectMocks
     TaskController controller;
 
+    ModelProvider provider = new ModelProvider();
     ObjectMapper objectMapper;
     MockMvc mockMvc;
     private static final String TASK_ADD_FORM = "tasks/add-task-form";
@@ -41,12 +43,7 @@ class TaskControllerTest {
 
     @BeforeEach
     void setUp() {
-        task = TaskDTO.builder()
-                .taskId(1)
-                .description("do something 1")
-                .deadline(LocalDateTime.of(2021, 5, 13, 12, 30))
-                .priority(true)
-                .build();
+        task = provider.getFirstTask();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         objectMapper = new ObjectMapper();
     }
