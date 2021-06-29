@@ -41,6 +41,7 @@ public class Event {
     @Lob
     private String description;
 
+    @Deprecated
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "lawsuit_event_id", referencedColumnName = "case_id")
     private Lawsuit relatedLawsuit;

@@ -29,6 +29,8 @@ public class EventDTO {
     @Lob
     @Size(max = 1500)
     private String description;
+
+    @Deprecated
     private LawsuitDTO relatedLawsuit;
 
 

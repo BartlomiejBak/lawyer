@@ -32,6 +32,7 @@ public class TaskDTO {
     @Size(max = 1500)
     private String description;
 
+    @Deprecated
     @Builder.Default
     private List<LawsuitDTO> lawsuitList = new ArrayList<>();
     @Builder.Default

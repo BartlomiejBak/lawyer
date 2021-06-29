@@ -43,6 +43,7 @@ public class Task {
     @Lob
     private String description;
 
+    @Deprecated
     @ManyToMany(mappedBy = "taskList")
     @Builder.Default
     private List<Lawsuit> lawsuitList = new ArrayList<>();
