@@ -26,7 +26,6 @@
             <td><a th:href="@{/events/__${tempEvent.eventId}__}" th:text="${tempEvent.title}"></a></td>
             <td th:text="${tempEvent.dateTime}"></td>
             <td th:text="${tempEvent.description}"></td>
-            <td th:text="${tempEvent.relatedLawsuit}"></td>
             <!-- add button -->
             <td>
                 <a th:href="@{/events/{id}/edit(id=${tempEvent.eventId})}"

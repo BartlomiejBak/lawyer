@@ -52,7 +52,6 @@ public class Event {
                 .title(title)
                 .dateTime(dateTime)
                 .description(description)
-                .relatedLawsuit(relatedLawsuit.toDto())
                 .build();
     }
 
@@ -62,7 +61,6 @@ public class Event {
                 .title(dto.getTitle())
                 .dateTime(dto.getDateTime())
                 .description(dto.getDescription())
-                .relatedLawsuit(Lawsuit.fromDto(dto.getRelatedLawsuit()))
                 .build();
     }
 }

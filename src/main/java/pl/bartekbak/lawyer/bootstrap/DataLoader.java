@@ -243,9 +243,6 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
 
-        firstEvent.setRelatedLawsuit(firstLawsuit);
-        secondEvent.setRelatedLawsuit(firstLawsuit);
-        thirdEvent.setRelatedLawsuit(firstLawsuit);
         firstLawsuit.addContact(firstContact);
         secondLawsuit.addContact(secondContact);
         secondLawsuit.addContact(secondContact);

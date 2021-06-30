@@ -30,10 +30,6 @@ public class EventDTO {
     @Size(max = 1500)
     private String description;
 
-    @Deprecated
-    private LawsuitDTO relatedLawsuit;
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

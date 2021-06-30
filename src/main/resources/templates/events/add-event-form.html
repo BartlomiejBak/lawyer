@@ -59,20 +59,6 @@
                 </span>
             </div>
 
-            <div th:class="${#fields.hasErrors('relatedLawsuit')} ? 'form-control mb-4 col-4 has-error' : 'form-control mb-4 col-4'">
-            <p th:text="#{event.relatedCase}"></p>
-                <label>
-                    <input type="text" th:field="*{relatedLawsuit}" class="form-control" th:errorclass="has-error">
-                </label>
-                <span class="help-block" th:if="${#fields.hasErrors('relatedLawsuit')}">
-                    <ul>
-                        <li th:each="err : ${#fields.errors('relatedLawsuit')}" th:text="${err}"></li>
-                    </ul>
-                </span>
-            </div>
-
-
-
             <button type="submit" class="btn btn-info col-2" th:text="#{command.save}"></button>
 
         </form>

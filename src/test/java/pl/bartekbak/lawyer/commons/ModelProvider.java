@@ -188,7 +188,6 @@ public class ModelProvider {
             .title("FirstEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,1))
             .description("description")
-            .relatedLawsuit(firstLawsuit)
             .build();
 
     private final EventDTO secondEvent = EventDTO.builder()
@@ -196,7 +195,6 @@ public class ModelProvider {
             .title("SecondEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,2))
             .description("description")
-            .relatedLawsuit(secondLawsuit)
             .build();
 
     private final EventDTO thirdEvent = EventDTO.builder()
@@ -204,7 +202,6 @@ public class ModelProvider {
             .title("ThirdEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,3))
             .description("description")
-            .relatedLawsuit(thirdLawsuit)
             .build();
 
     private final List<EventDTO> events = List.of(firstEvent, secondEvent, thirdEvent);

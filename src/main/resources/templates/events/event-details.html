@@ -22,10 +22,6 @@
         <th th:text="#{event.description}"></th>
         <td th:text="*{description}"></td>
     </tr>
-    <tr>
-        <th th:text="#{event.relatedCase}"></th>
-        <td th:unless="${eventDTO.relatedLawsuit == null}" th:text="*{relatedLawsuit.name + ' ' + relatedLawsuit.caseSide}"></td>
-    </tr>
 </table>
 <a th:href="@{{id}/edit(id=${eventDTO.eventId})}" class="btn btn-info btn-sm"
    th:text="#{command.update}"></a>
