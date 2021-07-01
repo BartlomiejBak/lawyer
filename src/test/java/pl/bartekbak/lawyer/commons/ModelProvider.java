@@ -321,7 +321,6 @@ public class ModelProvider {
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 11))
             .description("1 task to do")
-            .lawsuitList(List.of(firstLawsuit, secondLawsuit, thirdLawsuit))
             .contactList(List.of(firstContact, secondContact, thirdContact))
             .build();
 
@@ -330,7 +329,6 @@ public class ModelProvider {
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 12))
             .description("2 task to do")
-            .lawsuitList(List.of(firstLawsuit, secondLawsuit, thirdLawsuit))
             .contactList(List.of(firstContact, secondContact, thirdContact))
             .build();
 
@@ -339,7 +337,6 @@ public class ModelProvider {
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 13))
             .description("3 task to do")
-            .lawsuitList(List.of(firstLawsuit, secondLawsuit, thirdLawsuit))
             .contactList(List.of(firstContact, secondContact, thirdContact))
             .build();
 

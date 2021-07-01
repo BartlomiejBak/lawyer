@@ -24,20 +24,6 @@
     </tr>
 </table>
 
-<h2 th:text="#{task.lawsuitList}"></h2>
-<table class="table table-striped">
-    <tr th:each="lawsuit : ${taskDTO.lawsuitList}">
-        <td>
-            <dl class="dl-horizontal">
-                <dt th:text="#{lawsuit.name}"></dt>
-                <dd th:text="${lawsuit.name}"></dd>
-                <dt th:text="#{lawsuit.caseSide}"></dt>
-                <dd th:text="${lawsuit.caseSide}"></dd>
-            </dl>
-        </td>
-    </tr>
-</table>
-
 <br/>
 <h2 th:text="#{task.contactList}"></h2>
 <table class="table table-striped">

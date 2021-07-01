@@ -43,11 +43,6 @@ public class Task {
     @Lob
     private String description;
 
-    @Deprecated
-    @ManyToMany(mappedBy = "taskList")
-    @Builder.Default
-    private List<Lawsuit> lawsuitList = new ArrayList<>();
-
     @ManyToMany(cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<Contact> contactList = new ArrayList<>();
@@ -62,7 +57,6 @@ public class Task {
                 .priority(priority)
                 .deadline(deadline)
                 .description(description)
-                .lawsuitList(lawsuitList.stream().map(Lawsuit::toDto).collect(Collectors.toCollection(ArrayList::new)))
                 .contactList(contactList.stream().map(Contact::toDto).collect(Collectors.toCollection(ArrayList::new)))
                 .build();
     }
@@ -73,7 +67,6 @@ public class Task {
                 .priority(dto.isPriority())
                 .deadline(dto.getDeadline())
                 .description(dto.getDescription())
-                .lawsuitList(dto.getLawsuitList().stream().map(Lawsuit::fromDto).collect(Collectors.toCollection(ArrayList::new)))
                 .contactList(dto.getContactList().stream().map(Contact::fromDto).collect(Collectors.toCollection(ArrayList::new)))
                 .build();
     }
