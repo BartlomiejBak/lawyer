@@ -633,10 +633,6 @@ components:
           format: date-time
         description:
           type: string
-        lawsuitList:
-          type: array
-          items:
-            $ref: '#/components/schemas/Lawsuit'
         contactList:
           type: array
           items:
@@ -653,8 +649,6 @@ components:
           format: date-time
         description:
           type: string
-        relatedLawsuit:
-          $ref: '#/components/schemas/Lawsuit'
 
     Payment:
       properties:
