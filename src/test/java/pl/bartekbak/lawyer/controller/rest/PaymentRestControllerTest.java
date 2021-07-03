@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.service.spring.data.PaymentServiceSpringData;
@@ -30,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(PaymentRestController.class)
 @ExtendWith(MockitoExtension.class)
-@Disabled("until model rearranged")
 class PaymentRestControllerTest {
 
     ModelProvider provider = new ModelProvider();
@@ -41,7 +41,7 @@ class PaymentRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = LocalDateMapper.builder().build().getMapper();
     
     private final PaymentDTO firstPayment = provider.getFirstPayment();
 

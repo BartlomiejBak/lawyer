@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
@@ -30,7 +31,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@Disabled("until model rearranged")
 class ContactRestControllerTest {
 
     ModelProvider provider = new ModelProvider();
@@ -50,7 +50,7 @@ class ContactRestControllerTest {
         ContactRestController contactRestController = new ContactRestController(contactService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(contactRestController);
         mockMvc = mvcBuilder.build();
-        objectMapper = new ObjectMapper();
+        objectMapper = LocalDateMapper.builder().build().getMapper();
     }
 
     @Test

@@ -2,22 +2,30 @@ package pl.bartekbak.lawyer.controller.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +38,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@Disabled("until model rearranged")
 class TaskRestControllerTest {
 
     ModelProvider provider = new ModelProvider();
@@ -46,10 +53,10 @@ class TaskRestControllerTest {
 
     @BeforeEach
     void setUp() {
+        objectMapper = LocalDateMapper.builder().build().getMapper();
         TaskRestController taskRestController = new TaskRestController(taskService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(taskRestController);
         mockMvc = mvcBuilder.build();
-        objectMapper = new ObjectMapper();
     }
 
     @Test
