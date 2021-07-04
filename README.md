@@ -29,6 +29,12 @@ all data related to their tasks.
 The application is developed in IntelliJ IDEA Ultimate Edition.
 Can be run via IDE. 
 
+Database - app runs with official postgreSQL docker image. To run application you need to pull docker image/install postgres locally
+and change application.properties file:
+- spring.datasource.url (49155 should be changed to chosen host port)
+- spring.datasource.username
+- spring.datasource.password
+
 ## Status
 In progress...
 
