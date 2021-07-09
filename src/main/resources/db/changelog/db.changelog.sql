@@ -46,3 +46,12 @@ CREATE TABLE CONTACT (
                          modified TIMESTAMP
 );
 
+--changeset bbak:4
+
+CREATE TABLE TASK (
+                      task_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                      priority BOOLEAN,
+                      deadline TIMESTAMP,
+                      description VARCHAR(500)
+);
+
