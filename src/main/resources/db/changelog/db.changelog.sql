@@ -55,3 +55,10 @@ CREATE TABLE TASK (
                       description VARCHAR(500)
 );
 
+--changeset bbak:5
+
+CREATE TABLE TAG (
+                     tag_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                     name VARCHAR(40)
+);
+
