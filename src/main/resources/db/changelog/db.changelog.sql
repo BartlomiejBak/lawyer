@@ -62,3 +62,10 @@ CREATE TABLE TAG (
                      name VARCHAR(40)
 );
 
+--changeset bbak:6
+
+CREATE TABLE COURT (
+                       court_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                       name VARCHAR(55),
+                       description VARCHAR(500)
+);
