@@ -69,3 +69,11 @@ CREATE TABLE COURT (
                        name VARCHAR(55),
                        description VARCHAR(500)
 );
+
+--changeset bbak:7
+
+CREATE TABLE NOTE (
+                      note_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                      title VARCHAR(55),
+                      text VARCHAR(5000)
+);
