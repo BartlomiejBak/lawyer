@@ -77,3 +77,12 @@ CREATE TABLE NOTE (
                       title VARCHAR(55),
                       text VARCHAR(5000)
 );
+
+--changeset bbak:8
+
+CREATE TABLE EVENT (
+                       event_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                       title VARCHAR(55),
+                       date_time TIMESTAMP,
+                       description VARCHAR(1500)
+);
