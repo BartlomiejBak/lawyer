@@ -86,3 +86,16 @@ CREATE TABLE EVENT (
                        date_time TIMESTAMP,
                        description VARCHAR(1500)
 );
+
+--changeset bbak:9
+
+CREATE TABLE PAYMENT (
+                         payment_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                         payment_value DECIMAL(12,2),
+                         payment_date DATE,
+                         paid BOOLEAN,
+                         paid_date DATE,
+                         comment VARCHAR(255),
+                         us BOOLEAN,
+                         incoming BOOLEAN
+);
