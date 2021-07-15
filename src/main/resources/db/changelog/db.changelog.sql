@@ -99,3 +99,17 @@ CREATE TABLE PAYMENT (
                          us BOOLEAN,
                          incoming BOOLEAN
 );
+
+--changeset bbak:10
+
+CREATE TABLE POA (
+                     poa_id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                     type VARCHAR(50),
+                     payment VARCHAR(150),
+                     kpc BOOLEAN,
+                     termination BOOLEAN,
+                     start_date DATE,
+                     end_date DATE,
+                     notification_duty BOOLEAN,
+                     duty_completed BOOLEAN
+);
