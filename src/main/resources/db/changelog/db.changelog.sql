@@ -113,3 +113,11 @@ CREATE TABLE POA (
                      notification_duty BOOLEAN,
                      duty_completed BOOLEAN
 );
+
+--changeset bbak:11
+
+CREATE TABLE CONTACT_ADDRESS (
+                                 id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                                 address INT REFERENCES ADDRESS(address_id),
+                                 contact INT REFERENCES CONTACT(contact_id)
+);
