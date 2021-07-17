@@ -121,3 +121,11 @@ CREATE TABLE CONTACT_ADDRESS (
                                  address INT REFERENCES ADDRESS(address_id),
                                  contact INT REFERENCES CONTACT(contact_id)
 );
+
+--changeset bbak:12
+
+CREATE TABLE COURT_ADDRESS (
+                               id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                               address INT REFERENCES ADDRESS(address_id),
+                               contact INT REFERENCES COURT(court_id)
+);
