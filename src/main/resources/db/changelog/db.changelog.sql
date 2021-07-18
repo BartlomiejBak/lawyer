@@ -129,3 +129,14 @@ CREATE TABLE COURT_ADDRESS (
                                address INT REFERENCES ADDRESS(address_id),
                                contact INT REFERENCES COURT(court_id)
 );
+
+
+--changeset bbak:13
+
+ALTER TABLE IF EXISTS LAWSUIT RENAME case_id TO lawsuit_id;
+
+CREATE TABLE EVENT_LAWSUIT (
+                               id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                               event INT REFERENCES EVENT(event_id),
+                               lawsuit INT REFERENCES LAWSUIT(lawsuit_id)
+);
