@@ -140,3 +140,11 @@ CREATE TABLE EVENT_LAWSUIT (
                                event INT REFERENCES EVENT(event_id),
                                lawsuit INT REFERENCES LAWSUIT(lawsuit_id)
 );
+
+--changeset bbak:14
+
+CREATE TABLE TASK_CONTACT (
+                              id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                              task INT REFERENCES TASK(task_id),
+                              contact INT REFERENCES CONTACT(contact_id)
+);
