@@ -148,3 +148,8 @@ CREATE TABLE TASK_CONTACT (
                               task INT REFERENCES TASK(task_id),
                               contact INT REFERENCES CONTACT(contact_id)
 );
+
+--changeset bbak:15
+
+ALTER TABLE COURT ADD COLUMN address INT REFERENCES ADDRESS(address_id);
+ALTER TABLE COURT ADD COLUMN phone VARCHAR(16);
