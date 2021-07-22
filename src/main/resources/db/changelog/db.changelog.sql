@@ -157,3 +157,11 @@ ALTER TABLE COURT ADD COLUMN phone VARCHAR(16);
 --changeset bbak:16
 
 ALTER TABLE CONTACT ADD COLUMN secondary_address INT REFERENCES ADDRESS(address_id);
+
+--changeset bbak:17
+
+CREATE TABLE LAWSUIT_TASK (
+                              id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                              task INT REFERENCES TASK(task_id),
+                              lawsuit INT REFERENCES LAWSUIT(lawsuit_id)
+);
