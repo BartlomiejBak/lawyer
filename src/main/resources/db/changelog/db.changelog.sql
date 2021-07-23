@@ -165,3 +165,12 @@ CREATE TABLE LAWSUIT_TASK (
                               task INT REFERENCES TASK(task_id),
                               lawsuit INT REFERENCES LAWSUIT(lawsuit_id)
 );
+
+--changeset bbak:18
+
+CREATE TABLE LAWSUIT_CONTACT (
+                                 id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                                 contact INT REFERENCES CONTACT(contact_id),
+                                 lawsuit INT REFERENCES LAWSUIT(lawsuit_id),
+                                 role VARCHAR(25)
+);
