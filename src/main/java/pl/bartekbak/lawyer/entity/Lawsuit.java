@@ -1,41 +1,26 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "lawsuit")
 public class Lawsuit {
 
     @Id
-    @Column(name = "case_id")
+    @Column(name = "lawsuit_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lawsuitId;
 
@@ -61,50 +46,54 @@ public class Lawsuit {
     @Lob
     private String additionalInfo;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "contact_role_lawsuit",
+            joinColumns = @JoinColumn(name = "lawsuit"),
+            inverseJoinColumns = @JoinColumn(name = "contact_role")
+    )
     @Builder.Default
-    private List<Contact> contactList = new ArrayList<>();
+    @ToString.Exclude
+    private Set<ContactRole> contacts = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "lawsuit_task",
-            joinColumns = @JoinColumn(name = "lawsuit_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
+            joinColumns = @JoinColumn(name = "lawsuit"),
+            inverseJoinColumns = @JoinColumn(name = "task")
     )
     @Builder.Default
-    private List<Task> taskList = new ArrayList<>();
+    @ToString.Exclude
+    private Set<Task> taskList = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "lawsuit_id_plaintiff")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "event_lawsuit",
+            joinColumns = @JoinColumn(name = "lawsuit"),
+            inverseJoinColumns = @JoinColumn(name = "event")
+    )
     @Builder.Default
-    private List<Contact> plaintiff = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "lawsuit_id_defendant")
-    @Builder.Default
-    private List<Contact> defendant = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "lawsuit_id_event")
-    @Builder.Default
+    @ToString.Exclude
     private Set<Event> eventSet = new HashSet<>();
 
     public void addTask(Task task) {
         this.taskList.add(task);
     }
 
-    public void addPlaintiff(Contact contact) {
-        this.contactList.add(contact);
-    }
-
-    public void addDefendant(Contact contact) {
-        this.contactList.add(contact);
-    }
+//    TODO fix
+//    public void addPlaintiff(Contact contact) {
+//        this.contactList.add(contact);
+//    }
+//
+//    public void addDefendant(Contact contact) {
+//        this.contactList.add(contact);
+//    }
 
     public void addEvent(Event event) {
         this.eventSet.add(event);
     }
 
+    // TODO fix
     public LawsuitDTO toDto() {
         return LawsuitDTO.builder()
                 .lawsuitId(lawsuitId)
@@ -115,14 +104,15 @@ public class Lawsuit {
                 .signature(signature)
                 .claimAmount(claimAmount)
                 .additionalInfo(additionalInfo)
-                .contactList(contactList.stream().map(Contact::toDto).collect(Collectors.toList()))
+//                .contactList(contactList.stream().map(Contact::toDto).collect(Collectors.toList()))
                 .taskList(taskList.stream().map(Task::toDto).collect(Collectors.toList()))
-                .plaintiff(plaintiff.stream().map(Contact::toDto).collect(Collectors.toList()))
-                .defendant(defendant.stream().map(Contact::toDto).collect(Collectors.toList()))
+//                .plaintiff(plaintiff.stream().map(Contact::toDto).collect(Collectors.toList()))
+//                .defendant(defendant.stream().map(Contact::toDto).collect(Collectors.toList()))
                 .eventSet(eventSet.stream().map(Event::toDto).collect(Collectors.toSet()))
                 .build();
     }
 
+    // TODO fix
     public static Lawsuit fromDto(LawsuitDTO dto) {
         return Lawsuit.builder()
                 .lawsuitId(dto.getLawsuitId())
@@ -133,11 +123,24 @@ public class Lawsuit {
                 .signature(dto.getSignature())
                 .claimAmount(dto.getClaimAmount())
                 .additionalInfo(dto.getAdditionalInfo())
-                .contactList(dto.getContactList().stream().map(Contact::fromDto).collect(Collectors.toList()))
-                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toList()))
-                .plaintiff(dto.getPlaintiff().stream().map(Contact::fromDto).collect(Collectors.toList()))
-                .defendant(dto.getDefendant().stream().map(Contact::fromDto).collect(Collectors.toList()))
+//                .contactList(dto.getContactList().stream().map(Contact::fromDto).collect(Collectors.toList()))
+//                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toList()))
+//                .plaintiff(dto.getPlaintiff().stream().map(Contact::fromDto).collect(Collectors.toList()))
+//                .defendant(dto.getDefendant().stream().map(Contact::fromDto).collect(Collectors.toList()))
                 .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toSet()))
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Lawsuit lawsuit = (Lawsuit) o;
+        return Objects.equals(lawsuitId, lawsuit.lawsuitId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
