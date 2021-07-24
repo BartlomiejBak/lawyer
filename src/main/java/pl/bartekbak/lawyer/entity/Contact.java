@@ -1,25 +1,18 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -74,11 +67,13 @@ public class Contact {
     private LocalDateTime dateModified;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    @JoinColumn(name = "address", referencedColumnName = "address_id")
+    @ToString.Exclude
     private Address address;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "secondary_address_id", referencedColumnName = "address_id")
+    @JoinColumn(name = "secondary_address", referencedColumnName = "address_id")
+    @ToString.Exclude
     private Address correspondenceAddress;
 
 
@@ -124,5 +119,18 @@ public class Contact {
                 .address(Address.fromDto(dto.getAddress()))
                 .correspondenceAddress(Address.fromDto(dto.getCorrespondenceAddress()))
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(contactId, contact.contactId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
