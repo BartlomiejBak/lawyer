@@ -1,23 +1,17 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,7 +26,7 @@ public class Court {
     private String name;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    @JoinColumn(name = "address", referencedColumnName = "address_id")
     private Address address;
 
     @Column(name = "description")
@@ -61,4 +55,16 @@ public class Court {
                 .build();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Court court = (Court) o;
+        return Objects.equals(courtId, court.courtId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
