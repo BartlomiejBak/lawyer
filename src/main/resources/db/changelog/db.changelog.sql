@@ -168,9 +168,15 @@ CREATE TABLE LAWSUIT_TASK (
 
 --changeset bbak:18
 
-CREATE TABLE LAWSUIT_CONTACT (
+CREATE TABLE CONTACT_ROLE (
                                  id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
                                  contact INT REFERENCES CONTACT(contact_id),
-                                 lawsuit INT REFERENCES LAWSUIT(lawsuit_id),
                                  role VARCHAR(25)
+);
+
+CREATE TABLE CONTACT_ROLE_LAWSUIT (
+                              id INT PRIMARY KEY NOT NULL DEFAULT nextval('table_id_seq'),
+                              lawsuit INT REFERENCES LAWSUIT(lawsuit_id),
+                              contact_role INT REFERENCES CONTACT_ROLE(id),
+                              role VARCHAR(25)
 );
