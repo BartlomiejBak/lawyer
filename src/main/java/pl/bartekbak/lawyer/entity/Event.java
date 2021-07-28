@@ -1,24 +1,17 @@
 package pl.bartekbak.lawyer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.EventDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,11 +34,6 @@ public class Event {
     @Lob
     private String description;
 
-    @Deprecated
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "lawsuit_event_id", referencedColumnName = "case_id")
-    private Lawsuit relatedLawsuit;
-
     public EventDTO toDto() {
         return EventDTO.builder()
                 .eventId(eventId)
@@ -62,5 +50,18 @@ public class Event {
                 .dateTime(dto.getDateTime())
                 .description(dto.getDescription())
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Event event = (Event) o;
+        return Objects.equals(eventId, event.eventId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
