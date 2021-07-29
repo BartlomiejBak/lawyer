@@ -80,20 +80,31 @@ public class Lawsuit {
         this.taskList.add(task);
     }
 
-//    TODO fix
-//    public void addPlaintiff(Contact contact) {
-//        this.contactList.add(contact);
-//    }
-//
-//    public void addDefendant(Contact contact) {
-//        this.contactList.add(contact);
-//    }
+    public void addContact(Contact contact) {
+        this.contacts.add(ContactRole.builder()
+                .contact(contact)
+                .role(UserRole.CONTACT)
+                .build());
+    }
+
+    public void addPlaintiff(Contact contact) {
+        this.contacts.add(ContactRole.builder()
+                        .contact(contact)
+                        .role(UserRole.PLAINTIFF)
+                .build());
+    }
+
+    public void addDefendant(Contact contact) {
+        this.contacts.add(ContactRole.builder()
+                .contact(contact)
+                .role(UserRole.DEFENDANT)
+                .build());
+    }
 
     public void addEvent(Event event) {
         this.eventSet.add(event);
     }
 
-    // TODO fix
     public LawsuitDTO toDto() {
         return LawsuitDTO.builder()
                 .lawsuitId(lawsuitId)
@@ -104,15 +115,26 @@ public class Lawsuit {
                 .signature(signature)
                 .claimAmount(claimAmount)
                 .additionalInfo(additionalInfo)
-//                .contactList(contactList.stream().map(Contact::toDto).collect(Collectors.toList()))
+                .contactList(contacts.stream()
+                        .filter(c -> c.getRole().equals(UserRole.CONTACT))
+                        .map(ContactRole::getContact)
+                        .map(Contact::toDto)
+                        .collect(Collectors.toList()))
                 .taskList(taskList.stream().map(Task::toDto).collect(Collectors.toList()))
-//                .plaintiff(plaintiff.stream().map(Contact::toDto).collect(Collectors.toList()))
-//                .defendant(defendant.stream().map(Contact::toDto).collect(Collectors.toList()))
+                .plaintiff(contacts.stream()
+                        .filter(c -> c.getRole().equals(UserRole.PLAINTIFF))
+                        .map(ContactRole::getContact)
+                        .map(Contact::toDto)
+                        .collect(Collectors.toList()))
+                .defendant(contacts.stream()
+                        .filter(c -> c.getRole().equals(UserRole.DEFENDANT))
+                        .map(ContactRole::getContact)
+                        .map(Contact::toDto)
+                        .collect(Collectors.toList()))
                 .eventSet(eventSet.stream().map(Event::toDto).collect(Collectors.toSet()))
                 .build();
     }
 
-    // TODO fix
     public static Lawsuit fromDto(LawsuitDTO dto) {
         return Lawsuit.builder()
                 .lawsuitId(dto.getLawsuitId())
@@ -123,12 +145,24 @@ public class Lawsuit {
                 .signature(dto.getSignature())
                 .claimAmount(dto.getClaimAmount())
                 .additionalInfo(dto.getAdditionalInfo())
-//                .contactList(dto.getContactList().stream().map(Contact::fromDto).collect(Collectors.toList()))
-//                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toList()))
-//                .plaintiff(dto.getPlaintiff().stream().map(Contact::fromDto).collect(Collectors.toList()))
-//                .defendant(dto.getDefendant().stream().map(Contact::fromDto).collect(Collectors.toList()))
+                .contacts(contacts(dto))
+                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toSet()))
                 .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toSet()))
                 .build();
+    }
+
+    private static Set<ContactRole> contacts(LawsuitDTO lawsuit) {
+        Set<ContactRole> newContacts = new HashSet<>();
+        newContacts.addAll(lawsuit.getContactList().stream()
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.CONTACT).build())
+                .collect(Collectors.toSet()));
+        newContacts.addAll(lawsuit.getPlaintiff().stream()
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.PLAINTIFF).build())
+                .collect(Collectors.toSet()));
+        newContacts.addAll(lawsuit.getDefendant().stream()
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.DEFENDANT).build())
+                .collect(Collectors.toSet()));
+        return newContacts;
     }
 
     @Override
