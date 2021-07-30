@@ -25,7 +25,6 @@ public class Note {
     private String title;
 
     @Column(name = "text")
-    @Lob
     private String text;
 
     public NoteDTO toDto() {

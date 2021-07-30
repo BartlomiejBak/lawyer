@@ -30,7 +30,6 @@ public class Event {
     private LocalDateTime dateTime;
 
     @Column(name = "description")
-    @Lob
     private String description;
 
     public EventDTO toDto() {

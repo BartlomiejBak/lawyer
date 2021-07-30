@@ -26,7 +26,6 @@ public class EventDTO {
     @DateTimeFormat
     private LocalDateTime dateTime;
 
-    @Lob
     @Size(max = 1500)
     private String description;
 

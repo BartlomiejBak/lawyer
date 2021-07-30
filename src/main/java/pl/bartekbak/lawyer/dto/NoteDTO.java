@@ -21,7 +21,6 @@ public class NoteDTO {
     @Size(min = 2, max = 50)
     private String title;
 
-    @Lob
     @Size(max = 1500)
     private String text;
 

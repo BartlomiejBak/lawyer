@@ -43,7 +43,6 @@ public class LawsuitDTO {
     @PositiveOrZero
     private double claimAmount;
 
-    @Lob
     @Size
     private String additionalInfo;
 

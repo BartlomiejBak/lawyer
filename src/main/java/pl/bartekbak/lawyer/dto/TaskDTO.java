@@ -28,7 +28,6 @@ public class TaskDTO {
     @Future
     private LocalDateTime deadline;
 
-    @Lob
     @Size(max = 1500)
     private String description;
 

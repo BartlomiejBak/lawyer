@@ -43,7 +43,6 @@ public class Lawsuit {
     private double claimAmount;
 
     @Column(name = "add_info")
-    @Lob
     private String additionalInfo;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -83,21 +82,21 @@ public class Lawsuit {
     public void addContact(Contact contact) {
         this.contacts.add(ContactRole.builder()
                 .contact(contact)
-                .role(UserRole.CONTACT)
+                .role(UserRole.CONTACT.value)
                 .build());
     }
 
     public void addPlaintiff(Contact contact) {
         this.contacts.add(ContactRole.builder()
                         .contact(contact)
-                        .role(UserRole.PLAINTIFF)
+                        .role(UserRole.PLAINTIFF.value)
                 .build());
     }
 
     public void addDefendant(Contact contact) {
         this.contacts.add(ContactRole.builder()
                 .contact(contact)
-                .role(UserRole.DEFENDANT)
+                .role(UserRole.DEFENDANT.value)
                 .build());
     }
 
@@ -154,13 +153,13 @@ public class Lawsuit {
     private static Set<ContactRole> contacts(LawsuitDTO lawsuit) {
         Set<ContactRole> newContacts = new HashSet<>();
         newContacts.addAll(lawsuit.getContactList().stream()
-                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.CONTACT).build())
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.CONTACT.value).build())
                 .collect(Collectors.toSet()));
         newContacts.addAll(lawsuit.getPlaintiff().stream()
-                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.PLAINTIFF).build())
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.PLAINTIFF.value).build())
                 .collect(Collectors.toSet()));
         newContacts.addAll(lawsuit.getDefendant().stream()
-                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.DEFENDANT).build())
+                .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.DEFENDANT.value).build())
                 .collect(Collectors.toSet()));
         return newContacts;
     }

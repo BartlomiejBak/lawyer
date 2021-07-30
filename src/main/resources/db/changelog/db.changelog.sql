@@ -180,3 +180,10 @@ CREATE TABLE CONTACT_ROLE_LAWSUIT (
                               contact_role INT REFERENCES CONTACT_ROLE(id),
                               role VARCHAR(25)
 );
+
+--changeset bbak:19
+
+ALTER TABLE IF EXISTS contact ALTER COLUMN date_created TYPE TIMESTAMP;
+ALTER TABLE IF EXISTS lawsuit ALTER COLUMN claim_amount TYPE DOUBLE PRECISION;
+ALTER TABLE IF EXISTS payment ALTER COLUMN payment_value TYPE DOUBLE PRECISION;
+

@@ -6,15 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +32,14 @@ public class Task {
     private LocalDateTime deadline;
 
     @Column(name = "description")
-    @Lob
     private String description;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "task_contact",
+            joinColumns = @JoinColumn(name = "task"),
+            inverseJoinColumns = @JoinColumn(name = "contact")
+    )
     @Builder.Default
     private List<Contact> contactList = new ArrayList<>();
 

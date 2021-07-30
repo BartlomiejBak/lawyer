@@ -24,5 +24,5 @@ public class ContactRole {
     private Contact contact;
 
     @Column(name = "role")
-    private UserRole role;
+    private String role;
 }
