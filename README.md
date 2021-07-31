@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/BartlomiejBak/lawyer.svg?style=svg)](https://circleci.com/gh/BartlomiejBak/lawyer)
 
-# Lawyer
+# Lawyer v.1.0
 Crm system for individual lawyer
 
 ## Table of Contents
@@ -30,10 +30,5 @@ The application is developed in IntelliJ IDEA Ultimate Edition.
 Can be run via IDE. 
 
 ## Status
-In progress...
-
-To do/to be completed:
-* Frontend (proper display of elements, graphics),
-* Connection to external database (MySQL),
-* Logging in and access protection
-* ...
+First version of app. Can be treated as proof of concept with simple displaying function. 
+Inserting is not fully prepared - to be done in future versions.
