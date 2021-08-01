@@ -17,13 +17,14 @@ all data related to their tasks.
 ## Technologies
 - Java 11 
 ####
-- Spring Boot 2.3.5 Release
-- Maven 4.0.0
+- Spring Boot
+- Maven
 ####
 - H2 database
 - Lombok
 - JUnit5
 - Mockito
+- Liquibase
 ####
 ## Setup
 The application is developed in IntelliJ IDEA Ultimate Edition.
@@ -40,6 +41,7 @@ In progress...
 
 To do/to be completed:
 * Frontend (proper display of elements, graphics),
-* Connection to external database (MySQL),
+* Connection to external database (PstgreSQL),
 * Logging in and access protection
+* Migration to Jooq
 * ...
