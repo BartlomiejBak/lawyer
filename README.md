@@ -20,7 +20,7 @@ all data related to their tasks.
 - Spring Boot
 - Maven
 ####
-- H2 database
+- PostgreSQL database
 - Lombok
 - JUnit5
 - Mockito
@@ -41,7 +41,7 @@ In progress...
 
 To do/to be completed:
 * Frontend (proper display of elements, graphics),
-* Connection to external database (PstgreSQL),
+* Connection to external database (PostgreSQL),
 * Logging in and access protection
 * Migration to Jooq
 * ...
