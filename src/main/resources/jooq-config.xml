@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.15.0.xsd">
+
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://localhost:49153/postgres</url>
+        <user>bakba</user>
+        <password>foo</password>
+    </jdbc>
+
+    <generator>
+        <generate>
+            <daos>false</daos>
+            <pojos>false</pojos>
+        </generate>
+
+        <database>
+            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+            <inputSchema>public</inputSchema>
+            <includes>.*</includes>
+            <excludes>DATABASECHANGELOG*.*</excludes>
+        </database>
+
+        <target>
+            <packageName>pl.bartekbak.lawyer.generate.jooq</packageName>
+            <directory>src/main/java</directory>
+        </target>
+    </generator>
+</configuration>
