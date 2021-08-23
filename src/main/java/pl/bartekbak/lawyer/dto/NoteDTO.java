@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.Size;
 
 @NoArgsConstructor
