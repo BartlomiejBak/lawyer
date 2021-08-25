@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.AddressServiceSpringData;
 
 import java.util.List;
 

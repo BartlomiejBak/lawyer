@@ -1,9 +1,10 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.AddressRepository;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.AddressRepository;
 import pl.bartekbak.lawyer.service.AddressService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class AddressServiceSpringData implements AddressService {
 
     @Override
     public List<AddressDTO> findAllAddresses() {
-        return addressRepository.findAllByOrderByAddressIdAsc()
+        return addressRepository.list()
                 .stream()
                 .map(Address::toDto)
                 .collect(Collectors.toList());
@@ -29,19 +30,19 @@ public class AddressServiceSpringData implements AddressService {
 
     @Override
     public AddressDTO findAddressById(int id) {
-        Optional<Address> result = addressRepository.findById(id);
+        Optional<Address> result = addressRepository.addressById(id);
         AddressDTO address;
         if (result.isPresent()) {
             address = result.get().toDto();
         } else {
-            throw new RuntimeException("Id not found");
+            throw new ResourceNotFoundException("Id not found");
         }
         return address;
     }
 
     @Override
     public void saveAddress(AddressDTO address) {
-        addressRepository.save(Address.fromDto(address));
+        addressRepository.add(Address.fromDto(address));
     }
 
     @Override
