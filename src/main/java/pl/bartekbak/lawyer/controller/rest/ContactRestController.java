@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.ContactServiceJooq;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/contacts")
 public class ContactRestController {
 
-    ContactServiceSpringData contactService;
+    ContactServiceJooq contactService;
 
     @Autowired
-    public ContactRestController(ContactServiceSpringData contactService) {
+    public ContactRestController(ContactServiceJooq contactService) {
         this.contactService = contactService;
     }
 

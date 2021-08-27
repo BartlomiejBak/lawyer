@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AddressServiceSpringData implements AddressService {
+public class AddressServiceJooq implements AddressService {
 
     AddressRepository addressRepository;
 
-    public AddressServiceSpringData(AddressRepository addressRepository) {
+    public AddressServiceJooq(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
 

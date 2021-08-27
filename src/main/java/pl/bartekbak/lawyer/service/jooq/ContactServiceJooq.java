@@ -1,10 +1,11 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.ContactRepository;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.ContactRepository;
 import pl.bartekbak.lawyer.service.ContactService;
 
 import java.util.List;
@@ -12,18 +13,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ContactServiceSpringData implements ContactService {
+public class ContactServiceJooq implements ContactService {
 
     ContactRepository contactRepository;
 
     @Autowired
-    public ContactServiceSpringData(ContactRepository contactRepository) {
+    public ContactServiceJooq(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
 
     @Override
     public List<ContactDTO> findAllContacts() {
-        return contactRepository.findAllByOrderByNameAsc()
+        return contactRepository.list()
                 .stream()
                 .map(Contact::toDto)
                 .collect(Collectors.toList());
@@ -31,19 +32,19 @@ public class ContactServiceSpringData implements ContactService {
 
     @Override
     public ContactDTO findContactById(int id) {
-        Optional<Contact> result = contactRepository.findById(id);
+        Optional<Contact> result = contactRepository.contactById(id);
         ContactDTO contact;
         if (result.isPresent()) {
             contact = result.get().toDto();
         } else {
-            throw new RuntimeException("Id not found");
+            throw new ResourceNotFoundException("Id not found");
         }
         return contact;
     }
 
     @Override
     public void saveContact(ContactDTO contact) {
-        contactRepository.save(Contact.fromDto(contact));
+        contactRepository.add(Contact.fromDto(contact));
     }
 
     @Override

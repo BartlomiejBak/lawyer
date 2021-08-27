@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.jooq.AddressServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.AddressServiceJooq;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/addresses")
 public class AddressRestController {
 
-    AddressServiceSpringData addressService;
+    AddressServiceJooq addressService;
 
     @Autowired
-    public AddressRestController(AddressServiceSpringData addressService) {
+    public AddressRestController(AddressServiceJooq addressService) {
         this.addressService = addressService;
     }
 
