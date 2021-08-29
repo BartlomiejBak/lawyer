@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.CourtServiceJooq;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/courts")
 public class CourtRestController {
-    CourtServiceSpringData service;
+    CourtServiceJooq service;
 
     @Autowired
-    public CourtRestController(CourtServiceSpringData service) {
+    public CourtRestController(CourtServiceJooq service) {
         this.service = service;
     }
 
