@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.EventServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.EventServiceJooq;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 @RequestMapping("/api/events")
 public class EventRestController {
 
-    private final EventServiceSpringData service;
+    private final EventServiceJooq service;
 
-    public EventRestController(EventServiceSpringData service) {
+    public EventRestController(EventServiceJooq service) {
         this.service = service;
     }
     @GetMapping
