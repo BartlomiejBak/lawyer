@@ -1,76 +1,44 @@
 package pl.bartekbak.lawyer.entity;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "lawsuit")
 public class Lawsuit {
 
-    @Id
-    @Column(name = "lawsuit_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lawsuitId;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "cas_side")
     private String caseSide;
 
-    @Column(name = "input_date")
     private LocalDate inputDate;
 
-    @Column(name = "deadline")
     private LocalDate deadline;
 
-    @Column(name = "signature")
     private String signature;
 
-    @Column(name = "claim_amount")
     private double claimAmount;
 
-    @Column(name = "add_info")
     private String additionalInfo;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "contact_role_lawsuit",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "contact_role")
-    )
     @Builder.Default
     @ToString.Exclude
     private Set<ContactRole> contacts = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "lawsuit_task",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "task")
-    )
     @Builder.Default
     @ToString.Exclude
     private Set<Task> taskList = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "event_lawsuit",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "event")
-    )
     @Builder.Default
     @ToString.Exclude
     private Set<Event> eventSet = new HashSet<>();
@@ -162,18 +130,5 @@ public class Lawsuit {
                 .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.DEFENDANT.value).build())
                 .collect(Collectors.toSet()));
         return newContacts;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Lawsuit lawsuit = (Lawsuit) o;
-        return Objects.equals(lawsuitId, lawsuit.lawsuitId);
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
     }
 }
