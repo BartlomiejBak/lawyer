@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.LawsuitServiceJooq;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/lawsuits")
 public class LawsuitRestController {
 
-    LawsuitServiceSpringData lawsuitService;
+    LawsuitServiceJooq lawsuitService;
 
     @Autowired
-    public LawsuitRestController(LawsuitServiceSpringData lawsuitService) {
+    public LawsuitRestController(LawsuitServiceJooq lawsuitService) {
         this.lawsuitService = lawsuitService;
     }
 

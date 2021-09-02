@@ -1,10 +1,11 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.LawsuitRepository;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.LawsuitRepository;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
 import java.util.List;
@@ -12,18 +13,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class LawsuitServiceSpringData implements LawsuitService {
+public class LawsuitServiceJooq implements LawsuitService {
 
     LawsuitRepository lawsuitRepository;
 
     @Autowired
-    public LawsuitServiceSpringData(LawsuitRepository lawsuitRepository) {
+    public LawsuitServiceJooq(LawsuitRepository lawsuitRepository) {
         this.lawsuitRepository = lawsuitRepository;
     }
 
     @Override
     public List<LawsuitDTO> findAllLawsuits() {
-        return lawsuitRepository.findAllByOrderByDeadlineAsc()
+        return lawsuitRepository.list()
                 .stream()
                 .map(Lawsuit::toDto)
                 .collect(Collectors.toList());
@@ -31,19 +32,19 @@ public class LawsuitServiceSpringData implements LawsuitService {
 
     @Override
     public LawsuitDTO findLawsuitById(int id) {
-        Optional<Lawsuit> result = lawsuitRepository.findById(id);
+        Optional<Lawsuit> result = lawsuitRepository.lawsuitById(id);
         LawsuitDTO lawsuit;
         if (result.isPresent()){
             lawsuit = result.get().toDto();
         } else {
-            throw new RuntimeException("Lawsuit id not found");
+            throw new ResourceNotFoundException("Lawsuit id not found");
         }
         return lawsuit;
     }
 
     @Override
     public void saveLawsuit(LawsuitDTO lawsuit) {
-        lawsuitRepository.save(Lawsuit.fromDto(lawsuit));
+        lawsuitRepository.add(Lawsuit.fromDto(lawsuit));
     }
 
     @Override
