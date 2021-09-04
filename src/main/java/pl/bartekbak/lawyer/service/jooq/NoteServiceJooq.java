@@ -1,10 +1,11 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.NoteRepository;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.entity.Note;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.NoteRepository;
 import pl.bartekbak.lawyer.service.NoteService;
 
 import java.util.List;
@@ -12,17 +13,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class NoteServiceSpringData implements NoteService {
+public class NoteServiceJooq implements NoteService {
     NoteRepository noteRepository;
 
     @Autowired
-    public NoteServiceSpringData(NoteRepository noteRepository) {
+    public NoteServiceJooq(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
 
     @Override
     public List<NoteDTO> findAllNotes() {
-        return noteRepository.findAllByOrderByTitleAsc()
+        return noteRepository.list()
                 .stream()
                 .map(Note::toDto)
                 .collect(Collectors.toList());
@@ -30,12 +31,12 @@ public class NoteServiceSpringData implements NoteService {
 
     @Override
     public NoteDTO findNoteById(int id) {
-        Optional<Note> result = noteRepository.findById(id);
+        Optional<Note> result = noteRepository.noteById(id);
         NoteDTO note;
         if (result.isPresent()) {
             note = result.get().toDto();
         } else {
-            throw new RuntimeException("Note id not found");
+            throw new ResourceNotFoundException("Note id not found");
         }
         return note;
 
@@ -43,7 +44,7 @@ public class NoteServiceSpringData implements NoteService {
 
     @Override
     public void saveNote(NoteDTO note) {
-        noteRepository.save(Note.fromDto(note));
+        noteRepository.add(Note.fromDto(note));
     }
 
     @Override

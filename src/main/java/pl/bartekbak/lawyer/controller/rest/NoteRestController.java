@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.NoteServiceJooq;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/notes")
 public class NoteRestController {
-    NoteServiceSpringData noteService;
+    NoteServiceJooq noteService;
 
     @Autowired
-    public NoteRestController(NoteServiceSpringData noteService) {
+    public NoteRestController(NoteServiceJooq noteService) {
         this.noteService = noteService;
     }
 
