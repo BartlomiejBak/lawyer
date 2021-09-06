@@ -1,9 +1,10 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.PaymentRepository;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.entity.Payment;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.PaymentRepository;
 import pl.bartekbak.lawyer.service.PaymentService;
 
 import java.util.List;
@@ -11,17 +12,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PaymentServiceSpringData implements PaymentService {
+public class PaymentServiceJooq implements PaymentService {
 
     PaymentRepository repository;
 
-    public PaymentServiceSpringData(PaymentRepository repository) {
+    public PaymentServiceJooq(PaymentRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public List<PaymentDTO> findAllPayments() {
-        return repository.findAllByOrderByPaymentDateAsc()
+        return repository.list()
                 .stream()
                 .map(Payment::toDto)
                 .collect(Collectors.toList());
@@ -29,19 +30,19 @@ public class PaymentServiceSpringData implements PaymentService {
 
     @Override
     public PaymentDTO findPaymentById(int id) {
-        Optional<Payment> result = repository.findById(id);
+        Optional<Payment> result = repository.paymentById(id);
         PaymentDTO payment;
         if (result.isPresent()) {
             payment = result.get().toDto();
         } else {
-            throw new RuntimeException("Id not found");
+            throw new ResourceNotFoundException("Id not found");
         }
         return payment;
     }
 
     @Override
     public void savePayment(PaymentDTO payment) {
-        repository.save(Payment.fromDto(payment));
+        repository.add(Payment.fromDto(payment));
     }
 
     @Override
