@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.PoaServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.PoaServiceJooq;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 @RequestMapping("/api/poas")
 public class PoaRestController {
 
-    private final PoaServiceSpringData service;
+    private final PoaServiceJooq service;
 
-    public PoaRestController(PoaServiceSpringData service) {
+    public PoaRestController(PoaServiceJooq service) {
         this.service = service;
     }
 
