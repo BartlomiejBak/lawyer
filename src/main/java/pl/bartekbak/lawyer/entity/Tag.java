@@ -6,27 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.TagDTO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "TAG")
 public class Tag {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id")
     private int tagId;
 
-    @Column(name = "name")
     private String name;
 
     public TagDTO toDto() {
