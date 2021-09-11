@@ -1,10 +1,11 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bartekbak.lawyer.dao.TagRepository;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
+import pl.bartekbak.lawyer.repository.TagRepository;
 import pl.bartekbak.lawyer.service.TagService;
 
 import java.util.List;
@@ -12,17 +13,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class TagServiceSpringData implements TagService {
+public class TagServiceJooq implements TagService {
     TagRepository tagRepository;
 
     @Autowired
-    public TagServiceSpringData(TagRepository tagRepository) {
+    public TagServiceJooq(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }
 
     @Override
     public List<TagDTO> findAllTags() {
-        return tagRepository.findAllByOrderByNameAsc()
+        return tagRepository.list()
                 .stream()
                 .map(Tag::toDto)
                 .collect(Collectors.toList());
@@ -30,19 +31,19 @@ public class TagServiceSpringData implements TagService {
 
     @Override
     public TagDTO findTagById(int id) {
-        Optional<Tag> result = tagRepository.findById(id);
+        Optional<Tag> result = tagRepository.tagById(id);
         TagDTO tag;
         if (result.isPresent()) {
             tag = result.get().toDto();
         } else {
-            throw new RuntimeException("Tag id not found");
+            throw new ResourceNotFoundException("Tag id not found");
         }
         return tag;
     }
 
     @Override
     public void saveTag(TagDTO tag) {
-        tagRepository.save(Tag.fromDto(tag));
+        tagRepository.add(Tag.fromDto(tag));
     }
 
     @Override

@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.TagServiceJooq;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tags")
 public class TagRestController {
-    TagServiceSpringData service;
+    TagServiceJooq service;
 
     @Autowired
-    public TagRestController(TagServiceSpringData service) {
+    public TagRestController(TagServiceJooq service) {
         this.service = service;
     }
 
