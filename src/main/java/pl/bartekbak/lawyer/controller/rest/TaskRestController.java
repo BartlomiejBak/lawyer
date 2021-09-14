@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.TaskServiceJooq;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskRestController {
-    TaskServiceSpringData service;
+    TaskServiceJooq service;
 
     @Autowired
-    public TaskRestController(TaskServiceSpringData service) {
+    public TaskRestController(TaskServiceJooq service) {
         this.service = service;
     }
 
