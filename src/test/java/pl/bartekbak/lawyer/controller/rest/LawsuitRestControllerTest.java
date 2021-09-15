@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.controller.rest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,7 +16,7 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
-import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.LawsuitServiceJooq;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ class LawsuitRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private LawsuitServiceSpringData lawsuitService;
+    private LawsuitServiceJooq lawsuitService;
 
     @BeforeEach
     void setUp() {

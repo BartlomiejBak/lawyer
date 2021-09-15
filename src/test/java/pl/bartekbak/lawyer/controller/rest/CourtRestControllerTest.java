@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.CourtDTO;
-import pl.bartekbak.lawyer.service.spring.data.CourtServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.CourtServiceJooq;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ class CourtRestControllerTest {
     private CourtRestController courtRestController;
 
     @Mock
-    private CourtServiceSpringData courtService;
+    private CourtServiceJooq courtService;
 
     @BeforeEach
     void setUp() {

@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TagDTO;
-import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.TagServiceJooq;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ class TagRestControllerTest {
     private TagRestController tagRestController;
 
     @Mock
-    private TagServiceSpringData tagService;
+    private TagServiceJooq tagService;
 
     @BeforeEach
     void setUp() {

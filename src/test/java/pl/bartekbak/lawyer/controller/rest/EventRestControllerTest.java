@@ -12,9 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.EventDTO;
-import pl.bartekbak.lawyer.service.spring.data.EventServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.EventServiceJooq;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +32,7 @@ class EventRestControllerTest {
     ModelProvider provider = new ModelProvider();
 
     @MockBean
-    private EventServiceSpringData eventService;
+    private EventServiceJooq eventService;
 
     @Autowired
     private MockMvc mockMvc;

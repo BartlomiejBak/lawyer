@@ -2,7 +2,6 @@ package pl.bartekbak.lawyer.controller.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
-import pl.bartekbak.lawyer.service.spring.data.PaymentServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.PaymentServiceJooq;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ class PaymentRestControllerTest {
     ModelProvider provider = new ModelProvider();
 
     @MockBean
-    private PaymentServiceSpringData paymentService;
+    private PaymentServiceJooq paymentService;
 
     @Autowired
     private MockMvc mockMvc;

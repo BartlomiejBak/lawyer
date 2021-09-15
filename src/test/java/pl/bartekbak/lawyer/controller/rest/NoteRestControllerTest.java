@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.NoteDTO;
-import pl.bartekbak.lawyer.service.spring.data.NoteServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.NoteServiceJooq;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ class NoteRestControllerTest {
     private NoteRestController noteRestController;
 
     @Mock
-    private NoteServiceSpringData noteService;
+    private NoteServiceJooq noteService;
 
     @BeforeEach
     void setUp() {

@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
-import pl.bartekbak.lawyer.entity.Address;
-import pl.bartekbak.lawyer.service.spring.data.AddressServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.AddressServiceJooq;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ class AddressRestControllerTest {
     private AddressRestController addressRestController;
 
     @Mock
-    private AddressServiceSpringData addressService;
+    private AddressServiceJooq addressService;
 
     @BeforeEach
     void setUp() {
