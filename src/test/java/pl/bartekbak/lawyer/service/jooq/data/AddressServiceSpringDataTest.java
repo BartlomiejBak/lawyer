@@ -1,13 +1,15 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq.data;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.bartekbak.lawyer.dao.AddressRepository;
+import pl.bartekbak.lawyer.repository.AddressRepository;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
+import pl.bartekbak.lawyer.service.jooq.AddressServiceJooq;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class AddressServiceSpringDataTest {
 
     @InjectMocks
-    AddressServiceSpringData service;
+    AddressServiceJooq service;
 
     @Mock
     AddressRepository repository;
@@ -37,19 +40,19 @@ class AddressServiceSpringDataTest {
         list.add(addressTwo);
         list.add(addressThree);
 
-        when(repository.findAllByOrderByAddressIdAsc()).thenReturn(list);
+        when(repository.list()).thenReturn(list);
         //when
         List<AddressDTO> result = service.findAllAddresses();
 
         //then
         assertEquals(3, result.size());
-        verify(repository, times(1)).findAllByOrderByAddressIdAsc();
+        verify(repository, times(1)).list();
     }
 
     @Test
     void findAddressByIdTest() {
         //given
-        when(repository.findById(1))
+        when(repository.addressById(1))
                 .thenReturn(Optional.of(new Address(1, "s1", "z1", "c1", "c1")));
         //when
         AddressDTO result = service.findAddressById(1);
@@ -66,7 +69,7 @@ class AddressServiceSpringDataTest {
         service.saveAddress(address);
         service.saveAddress(new AddressDTO());
         //then
-        verify(repository, times(2)).save(any());
+        verify(repository, times(2)).add(any());
 
     }
 

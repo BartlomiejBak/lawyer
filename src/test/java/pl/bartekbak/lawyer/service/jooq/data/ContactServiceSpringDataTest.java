@@ -1,15 +1,17 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq.data;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.bartekbak.lawyer.dao.ContactRepository;
+import pl.bartekbak.lawyer.repository.ContactRepository;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.service.jooq.ContactServiceJooq;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,11 +21,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class ContactServiceSpringDataTest {
 
     @InjectMocks
-    ContactServiceSpringData service;
+    ContactServiceJooq service;
 
     @Mock
     ContactRepository repository;
@@ -62,19 +65,19 @@ class ContactServiceSpringDataTest {
         list.add(contactThree);
 
         //when
-        when(repository.findAllByOrderByNameAsc()).thenReturn(list);
+        when(repository.list()).thenReturn(list);
         List<ContactDTO> result = service.findAllContacts();
 
         //then
         assertEquals(2, result.size());
-        verify(repository, times(1)).findAllByOrderByNameAsc();
+        verify(repository, times(1)).list();
     }
 
     @Test
     void findContactByIdTest() {
         //given
         //when
-        when(repository.findById(1))
+        when(repository.contactById(1))
                 .thenReturn(Optional.of(contactOne));
         ContactDTO result = service.findContactById(1);
         //then
@@ -107,7 +110,7 @@ class ContactServiceSpringDataTest {
         //when
         service.saveContact(contactDTO);
         //then
-        verify(repository, times(1)).save(any());
+        verify(repository, times(1)).add(any());
     }
 
     @Test

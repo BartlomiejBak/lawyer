@@ -1,13 +1,15 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq.data;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.bartekbak.lawyer.dao.TagRepository;
+import pl.bartekbak.lawyer.repository.TagRepository;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
+import pl.bartekbak.lawyer.service.jooq.TagServiceJooq;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class TagServiceSpringDataTest {
 
     @InjectMocks
-    TagServiceSpringData service;
+    TagServiceJooq service;
 
     @Mock
     TagRepository repository;
@@ -38,19 +41,19 @@ class TagServiceSpringDataTest {
         list.add(tagThree);
 
         //when
-        when(repository.findAllByOrderByNameAsc()).thenReturn(list);
+        when(repository.list()).thenReturn(list);
         List<TagDTO> result = service.findAllTags();
 
         //then
         assertEquals(3, result.size());
-        verify(repository, times(1)).findAllByOrderByNameAsc();
+        verify(repository, times(1)).list();
     }
 
     @Test
     void findTagByIdTest() {
         //given
         //when
-        when(repository.findById(1)).thenReturn(Optional
+        when(repository.tagById(1)).thenReturn(Optional
                 .of(new Tag(1, "name")));
         TagDTO result = service.findTagById(1);
         //then
@@ -65,8 +68,8 @@ class TagServiceSpringDataTest {
         service.saveTag(tag.toDto());
         service.saveTag(new TagDTO());
         //then
-        verify(repository, times(1)).save(tag);
-        verify(repository, times(2)).save(any());
+        verify(repository, times(1)).add(tag);
+        verify(repository, times(2)).add(any());
     }
 
     @Test

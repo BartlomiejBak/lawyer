@@ -1,14 +1,16 @@
-package pl.bartekbak.lawyer.service.spring.data;
+package pl.bartekbak.lawyer.service.jooq.data;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.bartekbak.lawyer.dao.CourtRepository;
+import pl.bartekbak.lawyer.repository.CourtRepository;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.entity.Court;
+import pl.bartekbak.lawyer.service.jooq.CourtServiceJooq;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class CourtServiceSpringDataTest {
 
     @InjectMocks
-    CourtServiceSpringData service;
+    CourtServiceJooq service;
 
     @Mock
     CourtRepository repository;
@@ -41,19 +44,19 @@ class CourtServiceSpringDataTest {
         list.add(courtThree);
 
         //when
-        when(repository.findAllByOrderByNameAsc()).thenReturn(list);
+        when(repository.list()).thenReturn(list);
         List<CourtDTO> result = service.findAllCourts();
 
         //then
         assertEquals(3, result.size());
-        verify(repository, times(1)).findAllByOrderByNameAsc();
+        verify(repository, times(1)).list();
     }
 
     @Test
     void findCourtByIdTest() {
         //given
         //when
-        when(repository.findById(1))
+        when(repository.courtById(1))
                 .thenReturn(Optional.of(courtOne));
         CourtDTO result = service.findCourtById(1);
         //then
@@ -66,7 +69,7 @@ class CourtServiceSpringDataTest {
         //when
         service.saveCourt(courtOne.toDto());
         //then
-        verify(repository, times(1)).save(any());
+        verify(repository, times(1)).add(any());
     }
 
     @Test
