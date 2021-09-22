@@ -12,24 +12,24 @@ import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
-import pl.bartekbak.lawyer.generate.jooq.tables.Address;
-import pl.bartekbak.lawyer.generate.jooq.tables.Contact;
-import pl.bartekbak.lawyer.generate.jooq.tables.ContactAddress;
-import pl.bartekbak.lawyer.generate.jooq.tables.ContactRole;
-import pl.bartekbak.lawyer.generate.jooq.tables.ContactRoleLawsuit;
-import pl.bartekbak.lawyer.generate.jooq.tables.Court;
-import pl.bartekbak.lawyer.generate.jooq.tables.CourtAddress;
-import pl.bartekbak.lawyer.generate.jooq.tables.Event;
-import pl.bartekbak.lawyer.generate.jooq.tables.EventLawsuit;
-import pl.bartekbak.lawyer.generate.jooq.tables.Lawsuit;
-import pl.bartekbak.lawyer.generate.jooq.tables.LawsuitContact;
-import pl.bartekbak.lawyer.generate.jooq.tables.LawsuitTask;
-import pl.bartekbak.lawyer.generate.jooq.tables.Note;
-import pl.bartekbak.lawyer.generate.jooq.tables.Payment;
-import pl.bartekbak.lawyer.generate.jooq.tables.Poa;
-import pl.bartekbak.lawyer.generate.jooq.tables.Tag;
-import pl.bartekbak.lawyer.generate.jooq.tables.Task;
-import pl.bartekbak.lawyer.generate.jooq.tables.TaskContact;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbAddress;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbContact;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbContactAddress;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbContactRole;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbContactRoleLawsuit;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbCourt;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbCourtAddress;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbEvent;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbEventLawsuit;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuit;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitContact;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitTask;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbNote;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbPayment;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbPoa;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbTag;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbTask;
+import pl.bartekbak.lawyer.generate.jooq.tables.DbTaskContact;
 
 
 /**
@@ -46,94 +46,94 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.address</code>.
+     * The table <code>public.db_address</code>.
      */
-    public final Address ADDRESS = Address.ADDRESS;
+    public final DbAddress DB_ADDRESS = DbAddress.DB_ADDRESS;
 
     /**
-     * The table <code>public.contact</code>.
+     * The table <code>public.db_contact</code>.
      */
-    public final Contact CONTACT = Contact.CONTACT;
+    public final DbContact DB_CONTACT = DbContact.DB_CONTACT;
 
     /**
-     * The table <code>public.contact_address</code>.
+     * The table <code>public.db_contact_address</code>.
      */
-    public final ContactAddress CONTACT_ADDRESS = ContactAddress.CONTACT_ADDRESS;
+    public final DbContactAddress DB_CONTACT_ADDRESS = DbContactAddress.DB_CONTACT_ADDRESS;
 
     /**
-     * The table <code>public.contact_role</code>.
+     * The table <code>public.db_contact_role</code>.
      */
-    public final ContactRole CONTACT_ROLE = ContactRole.CONTACT_ROLE;
+    public final DbContactRole DB_CONTACT_ROLE = DbContactRole.DB_CONTACT_ROLE;
 
     /**
-     * The table <code>public.contact_role_lawsuit</code>.
+     * The table <code>public.db_contact_role_lawsuit</code>.
      */
-    public final ContactRoleLawsuit CONTACT_ROLE_LAWSUIT = ContactRoleLawsuit.CONTACT_ROLE_LAWSUIT;
+    public final DbContactRoleLawsuit DB_CONTACT_ROLE_LAWSUIT = DbContactRoleLawsuit.DB_CONTACT_ROLE_LAWSUIT;
 
     /**
-     * The table <code>public.court</code>.
+     * The table <code>public.db_court</code>.
      */
-    public final Court COURT = Court.COURT;
+    public final DbCourt DB_COURT = DbCourt.DB_COURT;
 
     /**
-     * The table <code>public.court_address</code>.
+     * The table <code>public.db_court_address</code>.
      */
-    public final CourtAddress COURT_ADDRESS = CourtAddress.COURT_ADDRESS;
+    public final DbCourtAddress DB_COURT_ADDRESS = DbCourtAddress.DB_COURT_ADDRESS;
 
     /**
-     * The table <code>public.event</code>.
+     * The table <code>public.db_event</code>.
      */
-    public final Event EVENT = Event.EVENT;
+    public final DbEvent DB_EVENT = DbEvent.DB_EVENT;
 
     /**
-     * The table <code>public.event_lawsuit</code>.
+     * The table <code>public.db_event_lawsuit</code>.
      */
-    public final EventLawsuit EVENT_LAWSUIT = EventLawsuit.EVENT_LAWSUIT;
+    public final DbEventLawsuit DB_EVENT_LAWSUIT = DbEventLawsuit.DB_EVENT_LAWSUIT;
 
     /**
-     * The table <code>public.lawsuit</code>.
+     * The table <code>public.db_lawsuit</code>.
      */
-    public final Lawsuit LAWSUIT = Lawsuit.LAWSUIT;
+    public final DbLawsuit DB_LAWSUIT = DbLawsuit.DB_LAWSUIT;
 
     /**
-     * The table <code>public.lawsuit_contact</code>.
+     * The table <code>public.db_lawsuit_contact</code>.
      */
-    public final LawsuitContact LAWSUIT_CONTACT = LawsuitContact.LAWSUIT_CONTACT;
+    public final DbLawsuitContact DB_LAWSUIT_CONTACT = DbLawsuitContact.DB_LAWSUIT_CONTACT;
 
     /**
-     * The table <code>public.lawsuit_task</code>.
+     * The table <code>public.db_lawsuit_task</code>.
      */
-    public final LawsuitTask LAWSUIT_TASK = LawsuitTask.LAWSUIT_TASK;
+    public final DbLawsuitTask DB_LAWSUIT_TASK = DbLawsuitTask.DB_LAWSUIT_TASK;
 
     /**
-     * The table <code>public.note</code>.
+     * The table <code>public.db_note</code>.
      */
-    public final Note NOTE = Note.NOTE;
+    public final DbNote DB_NOTE = DbNote.DB_NOTE;
 
     /**
-     * The table <code>public.payment</code>.
+     * The table <code>public.db_payment</code>.
      */
-    public final Payment PAYMENT = Payment.PAYMENT;
+    public final DbPayment DB_PAYMENT = DbPayment.DB_PAYMENT;
 
     /**
-     * The table <code>public.poa</code>.
+     * The table <code>public.db_poa</code>.
      */
-    public final Poa POA = Poa.POA;
+    public final DbPoa DB_POA = DbPoa.DB_POA;
 
     /**
-     * The table <code>public.tag</code>.
+     * The table <code>public.db_tag</code>.
      */
-    public final Tag TAG = Tag.TAG;
+    public final DbTag DB_TAG = DbTag.DB_TAG;
 
     /**
-     * The table <code>public.task</code>.
+     * The table <code>public.db_task</code>.
      */
-    public final Task TASK = Task.TASK;
+    public final DbTask DB_TASK = DbTask.DB_TASK;
 
     /**
-     * The table <code>public.task_contact</code>.
+     * The table <code>public.db_task_contact</code>.
      */
-    public final TaskContact TASK_CONTACT = TaskContact.TASK_CONTACT;
+    public final DbTaskContact DB_TASK_CONTACT = DbTaskContact.DB_TASK_CONTACT;
 
     /**
      * No further instances allowed
@@ -158,24 +158,24 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Address.ADDRESS,
-            Contact.CONTACT,
-            ContactAddress.CONTACT_ADDRESS,
-            ContactRole.CONTACT_ROLE,
-            ContactRoleLawsuit.CONTACT_ROLE_LAWSUIT,
-            Court.COURT,
-            CourtAddress.COURT_ADDRESS,
-            Event.EVENT,
-            EventLawsuit.EVENT_LAWSUIT,
-            Lawsuit.LAWSUIT,
-            LawsuitContact.LAWSUIT_CONTACT,
-            LawsuitTask.LAWSUIT_TASK,
-            Note.NOTE,
-            Payment.PAYMENT,
-            Poa.POA,
-            Tag.TAG,
-            Task.TASK,
-            TaskContact.TASK_CONTACT
+            DbAddress.DB_ADDRESS,
+            DbContact.DB_CONTACT,
+            DbContactAddress.DB_CONTACT_ADDRESS,
+            DbContactRole.DB_CONTACT_ROLE,
+            DbContactRoleLawsuit.DB_CONTACT_ROLE_LAWSUIT,
+            DbCourt.DB_COURT,
+            DbCourtAddress.DB_COURT_ADDRESS,
+            DbEvent.DB_EVENT,
+            DbEventLawsuit.DB_EVENT_LAWSUIT,
+            DbLawsuit.DB_LAWSUIT,
+            DbLawsuitContact.DB_LAWSUIT_CONTACT,
+            DbLawsuitTask.DB_LAWSUIT_TASK,
+            DbNote.DB_NOTE,
+            DbPayment.DB_PAYMENT,
+            DbPoa.DB_POA,
+            DbTag.DB_TAG,
+            DbTask.DB_TASK,
+            DbTaskContact.DB_TASK_CONTACT
         );
     }
 }
