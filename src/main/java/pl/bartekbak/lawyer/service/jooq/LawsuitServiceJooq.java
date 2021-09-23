@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 import pl.bartekbak.lawyer.entity.Lawsuit;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.LawsuitRepository;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
@@ -34,11 +33,7 @@ public class LawsuitServiceJooq implements LawsuitService {
     public LawsuitDTO findLawsuitById(int id) {
         Optional<Lawsuit> result = lawsuitRepository.lawsuitById(id);
         LawsuitDTO lawsuit;
-        if (result.isPresent()){
-            lawsuit = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Lawsuit id not found");
-        }
+        lawsuit = result.map(Lawsuit::toDto).orElse(null);
         return lawsuit;
     }
 

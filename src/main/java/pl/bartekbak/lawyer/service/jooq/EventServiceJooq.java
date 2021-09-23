@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.service.jooq;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.entity.Event;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.EventRepository;
 import pl.bartekbak.lawyer.service.EventService;
 
@@ -32,11 +31,7 @@ public class EventServiceJooq implements EventService {
     public EventDTO findEventById(int id) {
         Optional<Event> result = eventRepository.eventById(id);
         EventDTO event;
-        if (result.isPresent()) {
-            event = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Event id not found");
-        }
+        event = result.map(Event::toDto).orElse(null);
         return event;
     }
 

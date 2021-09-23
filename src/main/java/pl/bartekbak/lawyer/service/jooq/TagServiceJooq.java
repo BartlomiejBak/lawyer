@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.entity.Tag;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.TagRepository;
 import pl.bartekbak.lawyer.service.TagService;
 
@@ -33,11 +32,7 @@ public class TagServiceJooq implements TagService {
     public TagDTO findTagById(int id) {
         Optional<Tag> result = tagRepository.tagById(id);
         TagDTO tag;
-        if (result.isPresent()) {
-            tag = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Tag id not found");
-        }
+        tag = result.map(Tag::toDto).orElse(null);
         return tag;
     }
 

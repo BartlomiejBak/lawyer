@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.service.jooq;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.entity.Payment;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.PaymentRepository;
 import pl.bartekbak.lawyer.service.PaymentService;
 
@@ -32,11 +31,7 @@ public class PaymentServiceJooq implements PaymentService {
     public PaymentDTO findPaymentById(int id) {
         Optional<Payment> result = repository.paymentById(id);
         PaymentDTO payment;
-        if (result.isPresent()) {
-            payment = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Id not found");
-        }
+        payment = result.map(Payment::toDto).orElse(null);
         return payment;
     }
 

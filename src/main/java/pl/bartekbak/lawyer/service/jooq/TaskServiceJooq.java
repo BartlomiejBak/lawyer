@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.entity.Task;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.TaskRepository;
 import pl.bartekbak.lawyer.service.TaskService;
 
@@ -33,11 +32,7 @@ public class TaskServiceJooq implements TaskService {
     public TaskDTO findTaskById(int id) {
         Optional<Task> result = taskRepository.taskById(id);
         TaskDTO task;
-        if (result.isPresent()) {
-            task = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Id not found");
-        }
+        task = result.map(Task::toDto).orElse(null);
         return task;
     }
 

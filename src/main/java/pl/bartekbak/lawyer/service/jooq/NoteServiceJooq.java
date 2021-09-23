@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.entity.Note;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.NoteRepository;
 import pl.bartekbak.lawyer.service.NoteService;
 
@@ -33,11 +32,7 @@ public class NoteServiceJooq implements NoteService {
     public NoteDTO findNoteById(int id) {
         Optional<Note> result = noteRepository.noteById(id);
         NoteDTO note;
-        if (result.isPresent()) {
-            note = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Note id not found");
-        }
+        note = result.map(Note::toDto).orElse(null);
         return note;
 
     }

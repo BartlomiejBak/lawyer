@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.service.jooq;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.entity.Poa;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.PoaRepository;
 import pl.bartekbak.lawyer.service.PoaService;
 
@@ -32,11 +31,7 @@ public class PoaServiceJooq implements PoaService {
     public PoaDTO findPoaById(int id) {
         Optional<Poa> result = repository.poaById(id);
         PoaDTO poa;
-        if (result.isPresent()) {
-            poa = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Id not found");
-        }
+        poa = result.map(Poa::toDto).orElse(null);
         return poa;
     }
 

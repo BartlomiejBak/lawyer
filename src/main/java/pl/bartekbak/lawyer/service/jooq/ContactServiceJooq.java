@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.entity.Contact;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.ContactRepository;
 import pl.bartekbak.lawyer.service.ContactService;
 
@@ -34,11 +33,7 @@ public class ContactServiceJooq implements ContactService {
     public ContactDTO findContactById(int id) {
         Optional<Contact> result = contactRepository.contactById(id);
         ContactDTO contact;
-        if (result.isPresent()) {
-            contact = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Id not found");
-        }
+        contact = result.map(Contact::toDto).orElse(null);
         return contact;
     }
 

@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.service.jooq;
 import org.springframework.stereotype.Service;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.entity.Address;
-import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.repository.AddressRepository;
 import pl.bartekbak.lawyer.service.AddressService;
 
@@ -32,11 +31,7 @@ public class AddressServiceJooq implements AddressService {
     public AddressDTO findAddressById(int id) {
         Optional<Address> result = addressRepository.addressById(id);
         AddressDTO address;
-        if (result.isPresent()) {
-            address = result.get().toDto();
-        } else {
-            throw new ResourceNotFoundException("Id not found");
-        }
+        address = result.map(Address::toDto).orElse(null);
         return address;
     }
 
