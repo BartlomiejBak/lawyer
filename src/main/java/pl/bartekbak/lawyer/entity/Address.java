@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.AddressDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbAddressRecord;
 
 @Data
 @AllArgsConstructor
@@ -41,4 +42,15 @@ public class Address {
                 .country(dto.getCountry())
                 .build();
     }
+
+    public static Address fromDbRecord(DbAddressRecord record) {
+        return Address.builder()
+                .addressId(record.getAddressId())
+                .street(record.getStreet())
+                .zipCode(record.getZipCode())
+                .city(record.getCity())
+                .country(record.getCountry())
+                .build();
+    }
+
 }
