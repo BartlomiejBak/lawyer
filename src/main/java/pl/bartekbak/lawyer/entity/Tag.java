@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.TagDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbTagRecord;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,13 @@ public class Tag {
         return Tag.builder()
                 .tagId(dto.getTagId())
                 .name(dto.getName())
+                .build();
+    }
+
+    public static Tag fromDbRecord(DbTagRecord record) {
+        return Tag.builder()
+                .tagId(record.getTagId())
+                .name(record.getName())
                 .build();
     }
 }

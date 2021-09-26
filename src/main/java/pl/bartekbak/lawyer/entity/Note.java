@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.NoteDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbNoteRecord;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +32,14 @@ public class Note {
                 .noteId(dto.getNoteId())
                 .title(dto.getTitle())
                 .text(dto.getText())
+                .build();
+    }
+    
+    public static Note fromDbRecord(DbNoteRecord record) {
+        return Note.builder()
+                .noteId(record.getNoteId())
+                .title(record.getTitle())
+                .text(record.getText())
                 .build();
     }
 }
