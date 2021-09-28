@@ -10,5 +10,6 @@ public interface TagRepository {
     List<Tag> list();
     Optional<Tag> tagById(int id);
     void add(Tag tag);
+    void update(Tag tag);
     void deleteById(int id);
 }
