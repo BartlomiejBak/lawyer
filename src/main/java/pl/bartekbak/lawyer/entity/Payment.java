@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbPaymentRecord;
 
 import java.time.LocalDate;
 
@@ -53,6 +54,19 @@ public class Payment {
                 .comment(dto.getComment())
                 .us(dto.isUs())
                 .incoming(dto.isIncoming())
+                .build();
+    }
+    
+    public static Payment fromDbRecord(DbPaymentRecord record) {
+        return Payment.builder()
+                .paymentId(record.getPaymentId())
+                .paymentValue(record.getPaymentValue())
+                .paymentDate(record.getPaymentDate())
+                .paid(record.getPaid())
+                .paidDate(record.getPaidDate())
+                .comment(record.getComment())
+                .us(record.getUs())
+                .incoming(record.getIncoming())
                 .build();
     }
 }
