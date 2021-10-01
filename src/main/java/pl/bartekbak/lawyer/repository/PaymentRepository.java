@@ -10,5 +10,6 @@ public interface PaymentRepository {
     List<Payment> list();
     Optional<Payment> paymentById(int id);
     void add(Payment payment);
+    void update(Payment payment);
     void deleteById(int id);
 }
