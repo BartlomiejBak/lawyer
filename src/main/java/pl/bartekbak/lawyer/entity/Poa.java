@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.PoaDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbPoaRecord;
 
 import java.time.LocalDate;
 
@@ -57,6 +58,20 @@ public class Poa {
                 .endDate(dto.getEndDate())
                 .terminationNotificationDuty(dto.isTerminationNotificationDuty())
                 .terminationNotificationDutyCompleted(dto.isTerminationNotificationDutyCompleted())
+                .build();
+    }
+
+    public static Poa fromDbRecord(DbPoaRecord record) {
+        return Poa.builder()
+                .poaId(record.getPoaId())
+                .type(record.getType())
+                .payment(record.getPayment())
+                .kpc(record.getKpc())
+                .termination(record.getTermination())
+                .startDate(record.getStartDate())
+                .endDate(record.getEndDate())
+                .terminationNotificationDuty(record.getNotificationDuty())
+                .terminationNotificationDutyCompleted(record.getDutyCompleted())
                 .build();
     }
 }
