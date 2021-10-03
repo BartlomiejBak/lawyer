@@ -10,5 +10,6 @@ public interface PoaRepository {
     List<Poa> list();
     Optional<Poa> poaById(int id);
     void add(Poa poa);
+    void update(Poa poa);
     void deleteById(int id);
 }
