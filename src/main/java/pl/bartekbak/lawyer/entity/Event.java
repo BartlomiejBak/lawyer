@@ -2,6 +2,7 @@ package pl.bartekbak.lawyer.entity;
 
 import lombok.*;
 import pl.bartekbak.lawyer.dto.EventDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbEventRecord;
 
 import java.time.LocalDateTime;
 
@@ -36,6 +37,15 @@ public class Event {
                 .title(dto.getTitle())
                 .dateTime(dto.getDateTime())
                 .description(dto.getDescription())
+                .build();
+    }
+
+    public static Event fromDbRecord(DbEventRecord record) {
+        return Event.builder()
+                .eventId(record.getEventId())
+                .title(record.getTitle())
+                .dateTime(record.getDateTime())
+                .description(record.getDescription())
                 .build();
     }
 }
