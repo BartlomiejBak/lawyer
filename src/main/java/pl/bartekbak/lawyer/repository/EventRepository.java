@@ -10,5 +10,6 @@ public interface EventRepository {
     List<Event> list();
     Optional<Event> eventById(int id);
     void add(Event event);
+    void update(Event event);
     void deleteById(int id);
 }
