@@ -10,5 +10,6 @@ public interface ContactRepository {
     List<Contact> list();
     Optional<Contact> contactById(int id);
     void add(Contact contact);
+    void update(Contact contact);
     void deleteById(int id);
 }

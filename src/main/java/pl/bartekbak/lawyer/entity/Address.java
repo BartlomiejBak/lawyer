@@ -1,5 +1,6 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,12 @@ import pl.bartekbak.lawyer.generate.jooq.tables.records.DbAddressRecord;
 @Builder
 public class Address {
 
+    @JsonProperty("address_id")
     private int addressId;
 
     private String street;
 
+    @JsonProperty("zip_code")
     private String zipCode;
 
     private String city;
