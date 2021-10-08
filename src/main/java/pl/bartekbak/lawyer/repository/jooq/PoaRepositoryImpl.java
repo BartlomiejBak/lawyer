@@ -2,6 +2,7 @@ package pl.bartekbak.lawyer.repository.jooq;
 
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.bartekbak.lawyer.common.DatabaseContext;
 import pl.bartekbak.lawyer.entity.Poa;
 import pl.bartekbak.lawyer.repository.PoaRepository;
@@ -34,6 +35,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
     }
 
     @Override
+    @Transactional
     public void add(Poa poa) {
         dslContext().insertInto(DB_POA)
                 .set(DB_POA.TYPE, poa.getType())
@@ -49,6 +51,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
     }
 
     @Override
+    @Transactional
     public void update(Poa poa) {
         dslContext().update(DB_POA)
                 .set(DB_POA.TYPE, poa.getType())
@@ -64,6 +67,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         dslContext().deleteFrom(DB_POA)
                 .where(DB_POA.POA_ID.eq(id))

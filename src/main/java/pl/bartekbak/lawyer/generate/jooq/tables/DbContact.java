@@ -5,15 +5,13 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row17;
+import org.jooq.Row15;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -95,11 +93,6 @@ public class DbContact extends TableImpl<DbContactRecord> {
     public final TableField<DbContactRecord, String> PESEL = createField(DSL.name("pesel"), SQLDataType.VARCHAR(15), this, "");
 
     /**
-     * The column <code>public.db_contact.address</code>.
-     */
-    public final TableField<DbContactRecord, Integer> ADDRESS = createField(DSL.name("address"), SQLDataType.INTEGER, this, "");
-
-    /**
      * The column <code>public.db_contact.company_name</code>.
      */
     public final TableField<DbContactRecord, String> COMPANY_NAME = createField(DSL.name("company_name"), SQLDataType.VARCHAR(45), this, "");
@@ -128,11 +121,6 @@ public class DbContact extends TableImpl<DbContactRecord> {
      * The column <code>public.db_contact.modified</code>.
      */
     public final TableField<DbContactRecord, LocalDateTime> MODIFIED = createField(DSL.name("modified"), SQLDataType.LOCALDATETIME(6), this, "");
-
-    /**
-     * The column <code>public.db_contact.secondary_address</code>.
-     */
-    public final TableField<DbContactRecord, Integer> SECONDARY_ADDRESS = createField(DSL.name("secondary_address"), SQLDataType.INTEGER, this, "");
 
     private DbContact(Name alias, Table<DbContactRecord> aliased) {
         this(alias, aliased, null);
@@ -183,28 +171,6 @@ public class DbContact extends TableImpl<DbContactRecord> {
     }
 
     @Override
-    public List<ForeignKey<DbContactRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.DB_CONTACT__CONTACT_ADDRESS_FKEY, Keys.DB_CONTACT__CONTACT_SECONDARY_ADDRESS_FKEY);
-    }
-
-    private transient DbAddress _contactAddressFkey;
-    private transient DbAddress _contactSecondaryAddressFkey;
-
-    public DbAddress contactAddressFkey() {
-        if (_contactAddressFkey == null)
-            _contactAddressFkey = new DbAddress(this, Keys.DB_CONTACT__CONTACT_ADDRESS_FKEY);
-
-        return _contactAddressFkey;
-    }
-
-    public DbAddress contactSecondaryAddressFkey() {
-        if (_contactSecondaryAddressFkey == null)
-            _contactSecondaryAddressFkey = new DbAddress(this, Keys.DB_CONTACT__CONTACT_SECONDARY_ADDRESS_FKEY);
-
-        return _contactSecondaryAddressFkey;
-    }
-
-    @Override
     public DbContact as(String alias) {
         return new DbContact(DSL.name(alias), this);
     }
@@ -231,11 +197,11 @@ public class DbContact extends TableImpl<DbContactRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row17 type methods
+    // Row15 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row17<Integer, String, String, String, String, String, String, String, String, Integer, String, String, String, String, LocalDateTime, LocalDateTime, Integer> fieldsRow() {
-        return (Row17) super.fieldsRow();
+    public Row15<Integer, String, String, String, String, String, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row15) super.fieldsRow();
     }
 }
