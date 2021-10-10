@@ -50,16 +50,16 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
     }
 
     /**
-     * Setter for <code>public.db_court_address.contact</code>.
+     * Setter for <code>public.db_court_address.court</code>.
      */
-    public void setContact(Integer value) {
+    public void setCourt(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.db_court_address.contact</code>.
+     * Getter for <code>public.db_court_address.court</code>.
      */
-    public Integer getContact() {
+    public Integer getCourt() {
         return (Integer) get(2);
     }
 
@@ -98,7 +98,7 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
 
     @Override
     public Field<Integer> field3() {
-        return DbCourtAddress.DB_COURT_ADDRESS.CONTACT;
+        return DbCourtAddress.DB_COURT_ADDRESS.COURT;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
 
     @Override
     public Integer component3() {
-        return getContact();
+        return getCourt();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
 
     @Override
     public Integer value3() {
-        return getContact();
+        return getCourt();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
 
     @Override
     public DbCourtAddressRecord value3(Integer value) {
-        setContact(value);
+        setCourt(value);
         return this;
     }
 
@@ -171,11 +171,11 @@ public class DbCourtAddressRecord extends UpdatableRecordImpl<DbCourtAddressReco
     /**
      * Create a detached, initialised DbCourtAddressRecord
      */
-    public DbCourtAddressRecord(Integer id, Integer address, Integer contact) {
+    public DbCourtAddressRecord(Integer id, Integer address, Integer court) {
         super(DbCourtAddress.DB_COURT_ADDRESS);
 
         setId(id);
         setAddress(address);
-        setContact(contact);
+        setCourt(court);
     }
 }

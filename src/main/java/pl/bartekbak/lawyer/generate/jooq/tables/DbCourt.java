@@ -4,15 +4,12 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row5;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -62,11 +59,6 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
      * The column <code>public.db_court.description</code>.
      */
     public final TableField<DbCourtRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(500), this, "");
-
-    /**
-     * The column <code>public.db_court.address</code>.
-     */
-    public final TableField<DbCourtRecord, Integer> ADDRESS = createField(DSL.name("address"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>public.db_court.phone</code>.
@@ -122,20 +114,6 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     }
 
     @Override
-    public List<ForeignKey<DbCourtRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.DB_COURT__COURT_ADDRESS_FKEY);
-    }
-
-    private transient DbAddress _dbAddress;
-
-    public DbAddress dbAddress() {
-        if (_dbAddress == null)
-            _dbAddress = new DbAddress(this, Keys.DB_COURT__COURT_ADDRESS_FKEY);
-
-        return _dbAddress;
-    }
-
-    @Override
     public DbCourt as(String alias) {
         return new DbCourt(DSL.name(alias), this);
     }
@@ -162,11 +140,11 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, String, Integer, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row4<Integer, String, String, String> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

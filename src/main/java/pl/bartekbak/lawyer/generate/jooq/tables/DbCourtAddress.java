@@ -59,9 +59,9 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
     public final TableField<DbCourtAddressRecord, Integer> ADDRESS = createField(DSL.name("address"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.db_court_address.contact</code>.
+     * The column <code>public.db_court_address.court</code>.
      */
-    public final TableField<DbCourtAddressRecord, Integer> CONTACT = createField(DSL.name("contact"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbCourtAddressRecord, Integer> COURT = createField(DSL.name("court"), SQLDataType.INTEGER, this, "");
 
     private DbCourtAddress(Name alias, Table<DbCourtAddressRecord> aliased) {
         this(alias, aliased, null);
