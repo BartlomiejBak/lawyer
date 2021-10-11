@@ -10,5 +10,6 @@ public interface CourtRepository {
     List<Court> list();
     Optional<Court> courtById(int id);
     void add(Court court);
+    void update(Court court);
     void deleteById(int id);
 }
