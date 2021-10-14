@@ -1,9 +1,15 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -13,22 +19,28 @@ import java.time.LocalDateTime;
 @Builder
 public class Contact {
 
+    @JsonProperty("contact_id")
     private int contactId;
 
     private String name;
 
+    @JsonProperty("first_name")
     private String firstName;
 
+    @JsonProperty("last_name")
     private String lastName;
 
     private String email;
 
+    @JsonProperty("alt_email")
     private String altEmail;
 
     private String phone;
 
+    @JsonProperty("alt_phone")
     private String altPhone;
 
+    @JsonProperty("company_name")
     private String companyName;
 
     private String pesel;
@@ -39,8 +51,14 @@ public class Contact {
 
     private String krs;
 
+    @JsonProperty("date_created")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateCreated;
 
+    @JsonProperty("modified")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateModified;
 
     @ToString.Exclude
@@ -67,8 +85,8 @@ public class Contact {
                 .krs(krs)
                 .dateCreated(dateCreated)
                 .dateModified(dateModified)
-                .address(address.toDto())
-                .correspondenceAddress(correspondenceAddress.toDto())
+                .address(Objects.nonNull(address) ? address.toDto() : null)
+                .correspondenceAddress(Objects.nonNull(correspondenceAddress) ? correspondenceAddress.toDto() : null)
                 .build();
     }
 
