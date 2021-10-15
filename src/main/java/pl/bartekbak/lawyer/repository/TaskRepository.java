@@ -10,5 +10,6 @@ public interface TaskRepository {
     List<Task> list();
     Optional<Task> taskById(int id);
     void add(Task task);
+    void update(Task task);
     void deleteById(int id);
 }
