@@ -1,5 +1,10 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.*;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 
@@ -15,36 +20,43 @@ import java.util.stream.Collectors;
 @Builder
 public class Lawsuit {
 
+    @JsonProperty("lawsuit_id")
     private int lawsuitId;
 
     private String name;
 
+    @JsonProperty("case_side")
     private String caseSide;
 
+    @JsonProperty("input_date")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate inputDate;
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate deadline;
 
     private String signature;
 
+    @JsonProperty("claim_amount")
     private double claimAmount;
 
+    @JsonProperty("additional_info")
     private String additionalInfo;
 
     @Builder.Default
-    @ToString.Exclude
-    private Set<ContactRole> contacts = new HashSet<>();
+    private List<ContactRole> contacts = new ArrayList<>();
 
     @Builder.Default
-    @ToString.Exclude
-    private Set<Task> taskList = new HashSet<>();
+    private List<Task> tasklist = new ArrayList<>();
 
     @Builder.Default
-    @ToString.Exclude
-    private Set<Event> eventSet = new HashSet<>();
+    @JsonProperty("event_set")
+    private List<Event> eventSet = new ArrayList<>();
 
     public void addTask(Task task) {
-        this.taskList.add(task);
+        this.tasklist.add(task);
     }
 
     public void addContact(Contact contact) {
@@ -82,22 +94,28 @@ public class Lawsuit {
                 .signature(signature)
                 .claimAmount(claimAmount)
                 .additionalInfo(additionalInfo)
-                .contactList(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.CONTACT))
+                .contactList(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.CONTACT))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
-                .taskList(taskList.stream().map(Task::toDto).collect(Collectors.toList()))
-                .plaintiff(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.PLAINTIFF))
+                        .collect(Collectors.toList())
+                )
+                .taskList(tasklist.stream().map(Task::toDto).collect(Collectors.toList()))
+                .plaintiff(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.PLAINTIFF))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
-                .defendant(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.DEFENDANT))
+                        .collect(Collectors.toList())
+                )
+                .defendant(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.DEFENDANT))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList())
+                )
                 .eventSet(eventSet.stream().map(Event::toDto).collect(Collectors.toSet()))
                 .build();
     }
@@ -112,9 +130,9 @@ public class Lawsuit {
                 .signature(dto.getSignature())
                 .claimAmount(dto.getClaimAmount())
                 .additionalInfo(dto.getAdditionalInfo())
-                .contacts(contacts(dto))
-                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toSet()))
-                .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toSet()))
+                .contacts(new ArrayList<>(contacts(dto)))
+                .tasklist(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toList()))
+                .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toList()))
                 .build();
     }
 

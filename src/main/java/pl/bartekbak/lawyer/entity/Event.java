@@ -1,5 +1,10 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbEventRecord;
@@ -14,10 +19,14 @@ import java.time.LocalDateTime;
 @Builder
 public class Event {
 
+    @JsonProperty("event_id")
     private int eventId;
 
     private String title;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonProperty("date_time")
     private LocalDateTime dateTime;
 
     private String description;
