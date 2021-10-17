@@ -58,9 +58,9 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     public final TableField<DbLawsuitRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>public.db_lawsuit.cas_side</code>.
+     * The column <code>public.db_lawsuit.case_side</code>.
      */
-    public final TableField<DbLawsuitRecord, String> CAS_SIDE = createField(DSL.name("cas_side"), SQLDataType.VARCHAR(50), this, "");
+    public final TableField<DbLawsuitRecord, String> CASE_SIDE = createField(DSL.name("case_side"), SQLDataType.VARCHAR(50), this, "");
 
     /**
      * The column <code>public.db_lawsuit.input_date</code>.
@@ -83,9 +83,9 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     public final TableField<DbLawsuitRecord, Double> CLAIM_AMOUNT = createField(DSL.name("claim_amount"), SQLDataType.DOUBLE, this, "");
 
     /**
-     * The column <code>public.db_lawsuit.add_info</code>.
+     * The column <code>public.db_lawsuit.additional_info</code>.
      */
-    public final TableField<DbLawsuitRecord, String> ADD_INFO = createField(DSL.name("add_info"), SQLDataType.VARCHAR(500), this, "");
+    public final TableField<DbLawsuitRecord, String> ADDITIONAL_INFO = createField(DSL.name("additional_info"), SQLDataType.VARCHAR(500), this, "");
 
     private DbLawsuit(Name alias, Table<DbLawsuitRecord> aliased) {
         this(alias, aliased, null);

@@ -52,16 +52,16 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
     }
 
     /**
-     * Setter for <code>public.db_lawsuit.cas_side</code>.
+     * Setter for <code>public.db_lawsuit.case_side</code>.
      */
-    public void setCasSide(String value) {
+    public void setCaseSide(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.db_lawsuit.cas_side</code>.
+     * Getter for <code>public.db_lawsuit.case_side</code>.
      */
-    public String getCasSide() {
+    public String getCaseSide() {
         return (String) get(2);
     }
 
@@ -122,16 +122,16 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
     }
 
     /**
-     * Setter for <code>public.db_lawsuit.add_info</code>.
+     * Setter for <code>public.db_lawsuit.additional_info</code>.
      */
-    public void setAddInfo(String value) {
+    public void setAdditionalInfo(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>public.db_lawsuit.add_info</code>.
+     * Getter for <code>public.db_lawsuit.additional_info</code>.
      */
-    public String getAddInfo() {
+    public String getAdditionalInfo() {
         return (String) get(7);
     }
 
@@ -170,7 +170,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public Field<String> field3() {
-        return DbLawsuit.DB_LAWSUIT.CAS_SIDE;
+        return DbLawsuit.DB_LAWSUIT.CASE_SIDE;
     }
 
     @Override
@@ -195,7 +195,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public Field<String> field8() {
-        return DbLawsuit.DB_LAWSUIT.ADD_INFO;
+        return DbLawsuit.DB_LAWSUIT.ADDITIONAL_INFO;
     }
 
     @Override
@@ -210,7 +210,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public String component3() {
-        return getCasSide();
+        return getCaseSide();
     }
 
     @Override
@@ -235,7 +235,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public String component8() {
-        return getAddInfo();
+        return getAdditionalInfo();
     }
 
     @Override
@@ -250,7 +250,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public String value3() {
-        return getCasSide();
+        return getCaseSide();
     }
 
     @Override
@@ -275,7 +275,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public String value8() {
-        return getAddInfo();
+        return getAdditionalInfo();
     }
 
     @Override
@@ -292,7 +292,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public DbLawsuitRecord value3(String value) {
-        setCasSide(value);
+        setCaseSide(value);
         return this;
     }
 
@@ -322,7 +322,7 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
 
     @Override
     public DbLawsuitRecord value8(String value) {
-        setAddInfo(value);
+        setAdditionalInfo(value);
         return this;
     }
 
@@ -353,16 +353,16 @@ public class DbLawsuitRecord extends UpdatableRecordImpl<DbLawsuitRecord> implem
     /**
      * Create a detached, initialised DbLawsuitRecord
      */
-    public DbLawsuitRecord(Integer lawsuitId, String name, String casSide, LocalDate inputDate, LocalDate deadline, String signature, Double claimAmount, String addInfo) {
+    public DbLawsuitRecord(Integer lawsuitId, String name, String caseSide, LocalDate inputDate, LocalDate deadline, String signature, Double claimAmount, String additionalInfo) {
         super(DbLawsuit.DB_LAWSUIT);
 
         setLawsuitId(lawsuitId);
         setName(name);
-        setCasSide(casSide);
+        setCaseSide(caseSide);
         setInputDate(inputDate);
         setDeadline(deadline);
         setSignature(signature);
         setClaimAmount(claimAmount);
-        setAddInfo(addInfo);
+        setAdditionalInfo(additionalInfo);
     }
 }
