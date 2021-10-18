@@ -10,5 +10,6 @@ public interface LawsuitRepository {
     List<Lawsuit> list();
     Optional<Lawsuit> lawsuitById(int id);
     void add(Lawsuit lawsuit);
+    void update(Lawsuit lawsuit);
     void deleteById(int id);
 }
