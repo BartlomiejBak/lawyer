@@ -12,7 +12,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -62,6 +62,11 @@ public class DbContactAddress extends TableImpl<DbContactAddressRecord> {
      * The column <code>public.db_contact_address.contact</code>.
      */
     public final TableField<DbContactAddressRecord, Integer> CONTACT = createField(DSL.name("contact"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.db_contact_address.type</code>.
+     */
+    public final TableField<DbContactAddressRecord, String> TYPE = createField(DSL.name("type"), SQLDataType.VARCHAR(32).nullable(false).defaultValue(DSL.field("'primary'::character varying", SQLDataType.VARCHAR)), this, "");
 
     private DbContactAddress(Name alias, Table<DbContactAddressRecord> aliased) {
         this(alias, aliased, null);
@@ -160,11 +165,11 @@ public class DbContactAddress extends TableImpl<DbContactAddressRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Integer, Integer, Integer, String> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

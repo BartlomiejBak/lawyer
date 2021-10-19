@@ -60,6 +60,7 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
                                         .join(DB_CONTACT_ADDRESS)
                                         .on(DB_ADDRESS.ADDRESS_ID.eq(DB_CONTACT_ADDRESS.ADDRESS))
                                         .where(DB_CONTACT_ADDRESS.CONTACT.eq(DB_CONTACT.CONTACT_ID))
+                                        .and(DB_CONTACT_ADDRESS.TYPE.eq("primary"))
                         )
                                 .as("address"),
                         field(
@@ -68,6 +69,7 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
                                         .join(DB_CONTACT_ADDRESS)
                                         .on(secondary.ADDRESS_ID.eq(DB_CONTACT_ADDRESS.ADDRESS))
                                         .where(DB_CONTACT_ADDRESS.CONTACT.eq(DB_CONTACT.CONTACT_ID))
+                                        .and(DB_CONTACT_ADDRESS.TYPE.eq("secondary"))
                         )
                                 .as("correspondenceAddress")
                 )
