@@ -33,7 +33,7 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     @Override
     public List<Lawsuit> list() {
 
-        final List<Lawsuit> lawsuits = dslContext().select(
+        return dslContext().select(
                         DB_LAWSUIT.asterisk(),
                         multiset(
                                 select(
@@ -68,15 +68,47 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
                 )
                 .from(DB_LAWSUIT)
                 .fetchInto(Lawsuit.class);
-
-        System.out.println(lawsuits);
-
-        return lawsuits;
     }
 
     @Override
     public Optional<Lawsuit> lawsuitById(int id) {
-        return Optional.empty();
+
+        return Optional.ofNullable(dslContext().select(
+                        DB_LAWSUIT.asterisk(),
+                        multiset(
+                                select(
+                                        DB_CONTACT_ROLE.ID,
+                                        DB_CONTACT_ROLE.ROLE,
+                                        field(
+                                                select(jsonObject(DB_CONTACT.fields()))
+                                                        .from(DB_CONTACT)
+                                                        .where(DB_CONTACT.CONTACT_ID.eq(DB_CONTACT_ROLE.CONTACT))
+                                        ).as("contact")
+                                )
+                                        .from(DB_CONTACT_ROLE)
+                                        .join(DB_CONTACT_ROLE_LAWSUIT)
+                                        .on(DB_CONTACT_ROLE.ID.eq(DB_CONTACT_ROLE_LAWSUIT.CONTACT_ROLE))
+                                        .where(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT.eq(DB_LAWSUIT.LAWSUIT_ID))
+                        )
+                                .as("contacts"),
+                        multiset(
+                                select(DB_TASK.fields())
+                                        .from(DB_TASK)
+                                        .join(DB_LAWSUIT_TASK)
+                                        .on(DB_TASK.TASK_ID.eq(DB_LAWSUIT_TASK.TASK))
+                                        .where(DB_LAWSUIT_TASK.LAWSUIT.eq(DB_LAWSUIT.LAWSUIT_ID))
+                        ).as("tasklist"),
+                        multiset(
+                                select(DB_EVENT.fields())
+                                        .from(DB_EVENT)
+                                        .join(DB_EVENT_LAWSUIT)
+                                        .on(DB_EVENT.EVENT_ID.eq(DB_EVENT_LAWSUIT.EVENT))
+                                        .where(DB_EVENT_LAWSUIT.LAWSUIT.eq(DB_LAWSUIT.LAWSUIT_ID))
+                        ).as("event_set")
+                )
+                .from(DB_LAWSUIT)
+                .where(DB_LAWSUIT.LAWSUIT_ID.eq(id))
+                .fetchOneInto(Lawsuit.class));
     }
 
     @Override
