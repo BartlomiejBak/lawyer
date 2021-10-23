@@ -12,7 +12,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -62,11 +62,6 @@ public class DbContactRoleLawsuit extends TableImpl<DbContactRoleLawsuitRecord> 
      * The column <code>public.db_contact_role_lawsuit.contact_role</code>.
      */
     public final TableField<DbContactRoleLawsuitRecord, Integer> CONTACT_ROLE = createField(DSL.name("contact_role"), SQLDataType.INTEGER, this, "");
-
-    /**
-     * The column <code>public.db_contact_role_lawsuit.role</code>.
-     */
-    public final TableField<DbContactRoleLawsuitRecord, String> ROLE = createField(DSL.name("role"), SQLDataType.VARCHAR(25), this, "");
 
     private DbContactRoleLawsuit(Name alias, Table<DbContactRoleLawsuitRecord> aliased) {
         this(alias, aliased, null);
@@ -167,11 +162,11 @@ public class DbContactRoleLawsuit extends TableImpl<DbContactRoleLawsuitRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Integer, Integer, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row3<Integer, Integer, Integer> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }
