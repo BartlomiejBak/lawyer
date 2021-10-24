@@ -114,7 +114,38 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     @Override
     @Transactional
     public void add(Lawsuit lawsuit) {
-
+        final var id = dslContext().insertInto(DB_LAWSUIT)
+                .set(DB_LAWSUIT.NAME, lawsuit.getName())
+                .set(DB_LAWSUIT.CASE_SIDE, lawsuit.getCaseSide())
+                .set(DB_LAWSUIT.INPUT_DATE, lawsuit.getInputDate())
+                .set(DB_LAWSUIT.DEADLINE, lawsuit.getDeadline())
+                .set(DB_LAWSUIT.SIGNATURE, lawsuit.getSignature())
+                .set(DB_LAWSUIT.CLAIM_AMOUNT, lawsuit.getClaimAmount())
+                .set(DB_LAWSUIT.ADDITIONAL_INFO, lawsuit.getAdditionalInfo())
+                .onDuplicateKeyIgnore()
+                .returningResult(DB_LAWSUIT.LAWSUIT_ID)
+                .execute();
+        lawsuit.getContacts().forEach(
+                c -> dslContext().insertInto(DB_CONTACT_ROLE_LAWSUIT)
+                        .set(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT, id)
+                        .set(DB_CONTACT_ROLE_LAWSUIT.CONTACT_ROLE, c.getId())
+                        .onDuplicateKeyIgnore()
+                        .execute()
+        );
+        lawsuit.getTasklist().forEach(
+                t -> dslContext().insertInto(DB_LAWSUIT_TASK)
+                        .set(DB_LAWSUIT_TASK.LAWSUIT, id)
+                        .set(DB_LAWSUIT_TASK.TASK, t.getTaskId())
+                        .onDuplicateKeyIgnore()
+                        .execute()
+        );
+        lawsuit.getEventSet().forEach(
+                e -> dslContext().insertInto(DB_EVENT_LAWSUIT)
+                        .set(DB_EVENT_LAWSUIT.LAWSUIT, id)
+                        .set(DB_EVENT_LAWSUIT.EVENT, e.getEventId())
+                        .onDuplicateKeyIgnore()
+                        .execute()
+        );
     }
 
     @Override
