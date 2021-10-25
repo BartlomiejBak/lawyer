@@ -157,6 +157,8 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     @Override
     @Transactional
     public void deleteById(int id) {
-
+        dslContext().deleteFrom(DB_LAWSUIT)
+                .where(DB_LAWSUIT.LAWSUIT_ID.eq(id))
+                .execute();
     }
 }
