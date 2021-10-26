@@ -151,7 +151,22 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     @Override
     @Transactional
     public void update(Lawsuit lawsuit) {
+        final var current = lawsuitById(lawsuit.getLawsuitId());
+        if (!current.isPresent()) {
+            add(lawsuit);
+        } else {
+            dslContext().update(DB_LAWSUIT)
+                    .set(DB_LAWSUIT.NAME, lawsuit.getName())
+                    .set(DB_LAWSUIT.CASE_SIDE, lawsuit.getCaseSide())
+                    .set(DB_LAWSUIT.INPUT_DATE, lawsuit.getInputDate())
+                    .set(DB_LAWSUIT.DEADLINE, lawsuit.getDeadline())
+                    .set(DB_LAWSUIT.SIGNATURE, lawsuit.getSignature())
+                    .set(DB_LAWSUIT.CLAIM_AMOUNT, lawsuit.getClaimAmount())
+                    .set(DB_LAWSUIT.ADDITIONAL_INFO, lawsuit.getAdditionalInfo())
+                    .where(DB_LAWSUIT.LAWSUIT_ID.eq(lawsuit.getLawsuitId()))
+                    .execute();
 
+        }
     }
 
     @Override
