@@ -4,9 +4,13 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.bartekbak.lawyer.common.DatabaseContext;
+import pl.bartekbak.lawyer.entity.ContactRole;
+import pl.bartekbak.lawyer.entity.Event;
 import pl.bartekbak.lawyer.entity.Lawsuit;
+import pl.bartekbak.lawyer.entity.Task;
 import pl.bartekbak.lawyer.repository.LawsuitRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,6 +159,7 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
         if (!current.isPresent()) {
             add(lawsuit);
         } else {
+            var currentLawsuit = current.get();
             dslContext().update(DB_LAWSUIT)
                     .set(DB_LAWSUIT.NAME, lawsuit.getName())
                     .set(DB_LAWSUIT.CASE_SIDE, lawsuit.getCaseSide())
@@ -165,7 +170,15 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
                     .set(DB_LAWSUIT.ADDITIONAL_INFO, lawsuit.getAdditionalInfo())
                     .where(DB_LAWSUIT.LAWSUIT_ID.eq(lawsuit.getLawsuitId()))
                     .execute();
-
+            updateContacts(toAdd(currentLawsuit.getContacts(), lawsuit.getContacts()),
+                    toRemove(currentLawsuit.getContacts(), lawsuit.getContacts()),
+                    lawsuit.getLawsuitId());
+            updateTasks(toAdd(currentLawsuit.getTasklist(), lawsuit.getTasklist()),
+                    toRemove(currentLawsuit.getTasklist(), lawsuit.getTasklist()),
+                    lawsuit.getLawsuitId());
+            updateEvents(toAdd(currentLawsuit.getEventSet(), lawsuit.getEventSet()),
+                    toRemove(currentLawsuit.getEventSet(), lawsuit.getEventSet()),
+                    lawsuit.getLawsuitId());
         }
     }
 
@@ -175,5 +188,65 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
         dslContext().deleteFrom(DB_LAWSUIT)
                 .where(DB_LAWSUIT.LAWSUIT_ID.eq(id))
                 .execute();
+    }
+
+    @Transactional
+    public void updateContacts(List<ContactRole> toAdd, List<ContactRole> toRemove, int lawsuitId) {
+        toAdd.forEach(c ->
+                dslContext().insertInto(DB_CONTACT_ROLE_LAWSUIT)
+                        .set(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT, lawsuitId)
+                        .set(DB_CONTACT_ROLE_LAWSUIT.CONTACT_ROLE, c.getId())
+                        .execute()
+        );
+        toRemove.forEach(c ->
+                dslContext().deleteFrom(DB_CONTACT_ROLE_LAWSUIT)
+                        .where(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT.eq(lawsuitId))
+                        .and(DB_CONTACT_ROLE_LAWSUIT.CONTACT_ROLE.eq(c.getId()))
+                        .execute()
+        );
+    }
+
+    @Transactional
+    public void updateTasks(List<Task> toAdd, List<Task> toRemove, int lawsuitId) {
+        toAdd.forEach(t ->
+                dslContext().insertInto(DB_LAWSUIT_TASK)
+                        .set(DB_LAWSUIT_TASK.LAWSUIT, lawsuitId)
+                        .set(DB_LAWSUIT_TASK.TASK, t.getTaskId())
+                        .execute()
+        );
+        toRemove.forEach(t ->
+                dslContext().deleteFrom(DB_LAWSUIT_TASK)
+                        .where(DB_LAWSUIT_TASK.LAWSUIT.eq(lawsuitId))
+                        .and(DB_LAWSUIT_TASK.TASK.eq(t.getTaskId()))
+                        .execute()
+        );
+    }
+
+    @Transactional
+    public void updateEvents(List<Event> toAdd, List<Event> toRemove, int lawsuitId) {
+        toAdd.forEach(e ->
+                dslContext().insertInto(DB_EVENT_LAWSUIT)
+                        .set(DB_EVENT_LAWSUIT.LAWSUIT, lawsuitId)
+                        .set(DB_EVENT_LAWSUIT.EVENT, e.getEventId())
+                        .execute()
+        );
+        toRemove.forEach(e ->
+                dslContext().deleteFrom(DB_EVENT_LAWSUIT)
+                        .where(DB_EVENT_LAWSUIT.LAWSUIT.eq(lawsuitId))
+                        .and(DB_EVENT_LAWSUIT.EVENT.eq(e.getEventId()))
+                        .execute()
+        );
+    }
+
+    public <T> List<T> toAdd(List<T> current, List<T> updated) {
+        var toAdd = new ArrayList<>(updated);
+        toAdd.removeAll(current);
+        return toAdd;
+    }
+
+    public <T> List<T> toRemove(List<T> current, List<T> updated) {
+        var toRemove = new ArrayList<>(current);
+        toRemove.removeAll(updated);
+        return toRemove;
     }
 }
