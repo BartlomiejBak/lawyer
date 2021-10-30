@@ -113,7 +113,7 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
 
     @Override
     public List<ForeignKey<DbCourtAddressRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.DB_COURT_ADDRESS__COURT_ADDRESS_ADDRESS_FKEY, Keys.DB_COURT_ADDRESS__COURT_ADDRESS_CONTACT_FKEY);
+        return Arrays.asList(Keys.DB_COURT_ADDRESS__COURT_ADDRESS_ADDRESS_FKEY, Keys.DB_COURT_ADDRESS__COURT_ADDRESS_COURT_FKEY);
     }
 
     private transient DbAddress _dbAddress;
@@ -128,7 +128,7 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
 
     public DbCourt dbCourt() {
         if (_dbCourt == null)
-            _dbCourt = new DbCourt(this, Keys.DB_COURT_ADDRESS__COURT_ADDRESS_CONTACT_FKEY);
+            _dbCourt = new DbCourt(this, Keys.DB_COURT_ADDRESS__COURT_ADDRESS_COURT_FKEY);
 
         return _dbCourt;
     }
