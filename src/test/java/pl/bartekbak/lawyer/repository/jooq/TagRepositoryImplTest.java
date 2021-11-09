@@ -56,4 +56,25 @@ class TagRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_tag() {
+        // given
+        int tagId = 1;
+        // when
+        final var result = repository.tagById(tagId);
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getTagId()).isEqualTo(tagId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int tagId = Integer.MAX_VALUE;
+        // when
+        final var result = repository.tagById(tagId);
+        // then
+        assertThat(result).isEmpty();
+    }
 }
