@@ -61,4 +61,29 @@ class NoteRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_note() {
+        // given
+        int noteId = 7;
+
+        // when
+        final var result = repository.noteById(noteId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getNoteId()).isEqualTo(noteId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int noteId = Integer.MAX_VALUE;
+
+        // when
+        final var result = repository.noteById(noteId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
 }
