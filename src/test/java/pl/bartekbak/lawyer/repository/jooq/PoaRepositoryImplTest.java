@@ -61,4 +61,29 @@ class PoaRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_poa() {
+        // given
+        int poaId = 13;
+
+        // when
+        final var result = repository.poaById(poaId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getPoaId()).isEqualTo(poaId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int poaId = Integer.MAX_VALUE;
+
+        // when
+        final var result = repository.poaById(poaId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
 }
