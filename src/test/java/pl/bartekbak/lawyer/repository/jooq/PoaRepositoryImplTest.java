@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
+import pl.bartekbak.lawyer.entity.Poa;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -86,4 +87,40 @@ class PoaRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_add_poa_when_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String type = faker.dog().name();
+        var givenpoa = Poa.builder().poaId(givenId).type(type).build();
+
+        // when
+        repository.add(givenpoa);
+        var result = repository.poaById(givenId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getType()).isEqualTo(type);
+    }
+
+    @Test
+    void should_do_nothing_when_adding_non_unique_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String name = faker.dog().name();
+        String newName = faker.cat().name();
+        var givenPoa = Poa.builder().poaId(givenId).type(name).build();
+        var duplicatePoa = Poa.builder().poaId(givenId).type(newName).build();
+
+        // when
+        repository.add(givenPoa);
+        repository.add(duplicatePoa);
+        var result = repository.poaById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getType()).isEqualTo(name);
+    }
+    
 }
