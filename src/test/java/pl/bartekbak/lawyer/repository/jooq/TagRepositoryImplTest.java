@@ -121,6 +121,56 @@ class TagRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_update_value_when_tag_exists() {
+        // given
+        int givenId = 1;
+        String name = faker.cat().name();
+        Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
+
+        // when
+        repository.update(givenTag);
+        var result = repository.tagById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getName()).isEqualTo(name);
+    }
+
+    @Test
+    void should_do_nothing_when_update_duplicates_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        int updatedId = 1;
+        String name = faker.dog().name();
+        Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
+        Tag updatedTag = Tag.builder().tagId(updatedId).name(name).build();
+
+        // when
+        repository.add(givenTag);
+        repository.update(updatedTag);
+        var result = repository.tagById(updatedId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getName()).isNotEqualTo(name);
+    }
+
+    @Test
+    void should_do_nothing_when_tag_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String name = faker.cat().name();
+        Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
+
+        // when
+        repository.update(givenTag);
+        var result = repository.tagById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
     
     @Test
     void should_delete_record_when_exists() {
