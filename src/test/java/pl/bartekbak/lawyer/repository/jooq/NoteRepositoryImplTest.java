@@ -128,6 +128,56 @@ class NoteRepositoryImplTest {
     }
 
     @Test
+    void should_update_value_when_note_exists() {
+        // given
+        int givenId = 1;
+        String title = faker.cat().name();
+        var givenNote = Note.builder().noteId(givenId).title(title).build();
+
+        // when
+        repository.update(givenNote);
+        var result = repository.noteById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getTitle()).isEqualTo(title);
+    }
+
+    @Test
+    void should_do_nothing_when_update_duplicates_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        int updatedId = 1;
+        String title = faker.dog().name();
+        var givenNote = Note.builder().noteId(givenId).title(title).build();
+        var updatedNote = Note.builder().noteId(updatedId).title(title).build();
+
+        // when
+        repository.add(givenNote);
+        repository.update(updatedNote);
+        var result = repository.noteById(updatedId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getTitle()).isNotEqualTo(title);
+    }
+
+    @Test
+    void should_do_nothing_when_note_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String name = faker.cat().name();
+        var givenNote = Note.builder().noteId(givenId).title(name).build();
+
+        // when
+        repository.update(givenNote);
+        var result = repository.noteById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
     void should_delete_record_when_exists() {
         // given
         int givenId = 1;
