@@ -124,6 +124,37 @@ class PoaRepositoryImplTest {
     }
 
     @Test
+    void should_update_value_when_poa_exists() {
+        // given
+        int givenId = 1;
+        String type = faker.cat().name();
+        var givenPoa = Poa.builder().poaId(givenId).type(type).build();
+
+        // when
+        repository.update(givenPoa);
+        var result = repository.poaById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getType()).isEqualTo(type);
+    }
+
+    @Test
+    void should_do_nothing_when_poa_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String name = faker.cat().name();
+        var givenPoa = Poa.builder().poaId(givenId).type(name).build();
+
+        // when
+        repository.update(givenPoa);
+        var result = repository.poaById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
     void should_delete_record_when_exists() {
         // given
         int givenId = 13;
