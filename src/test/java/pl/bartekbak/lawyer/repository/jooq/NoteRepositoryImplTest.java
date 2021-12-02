@@ -67,7 +67,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_note() {
         // given
-        int noteId = 7;
+        int noteId = DataProvider.NOTE_ID;
 
         // when
         final var result = repository.noteById(noteId);
@@ -130,7 +130,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_update_value_when_note_exists() {
         // given
-        int givenId = 1;
+        int givenId = DataProvider.NOTE_ID;
         String title = faker.cat().name();
         var givenNote = Note.builder().noteId(givenId).title(title).build();
 
@@ -147,7 +147,7 @@ class NoteRepositoryImplTest {
     void should_do_nothing_when_update_duplicates_value() {
         // given
         int givenId = Integer.MAX_VALUE;
-        int updatedId = 1;
+        int updatedId = DataProvider.NOTE_ID;
         String title = faker.dog().name();
         var givenNote = Note.builder().noteId(givenId).title(title).build();
         var updatedNote = Note.builder().noteId(updatedId).title(title).build();
@@ -180,7 +180,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = 1;
+        int givenId = DataProvider.NOTE_ID;
         var beforeDelete = repository.noteById(givenId);
 
         // when

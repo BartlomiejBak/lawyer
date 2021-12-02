@@ -16,26 +16,30 @@ public class DataProvider {
     private final DSLContext context;
     private final Faker faker = Faker.instance(new Locale("pl"));
 
+    public static int TAG_ID = 1;
+    public static int NOTE_ID = 7;
+    public static int POA_ID = 13;
+
     public DataProvider(DSLContext context) {
         this.context = context;
     }
 
     public void initStandardScenario() {
-        addRandomTag(1);
+        addRandomTag(TAG_ID);
         addRandomTag(2);
         addRandomTag(3);
         addRandomTag(4);
         addRandomTag(5);
         addRandomTag(6);
 
-        addRandomNote(7);
+        addRandomNote(NOTE_ID);
         addRandomNote(8);
         addRandomNote(9);
         addRandomNote(10);
         addRandomNote(11);
         addRandomNote(12);
 
-        addRandomPoa(13);
+        addRandomPoa(POA_ID);
         addRandomPoa(14);
         addRandomPoa(15);
         addRandomPoa(16);

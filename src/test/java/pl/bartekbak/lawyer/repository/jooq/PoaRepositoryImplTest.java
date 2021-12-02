@@ -66,7 +66,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_poa() {
         // given
-        int poaId = 13;
+        int poaId = DataProvider.POA_ID;
 
         // when
         final var result = repository.poaById(poaId);
@@ -126,7 +126,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_update_value_when_poa_exists() {
         // given
-        int givenId = 1;
+        int givenId = DataProvider.POA_ID;
         String type = faker.cat().name();
         var givenPoa = Poa.builder().poaId(givenId).type(type).build();
 
@@ -157,7 +157,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = 13;
+        int givenId = DataProvider.POA_ID;
         var beforeDelete = repository.poaById(givenId);
 
         // when

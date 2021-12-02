@@ -66,7 +66,7 @@ class TagRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_tag() {
         // given
-        int tagId = 1;
+        int tagId = DataProvider.TAG_ID;
 
         // when
         final var result = repository.tagById(tagId);
@@ -125,7 +125,7 @@ class TagRepositoryImplTest {
     @Test
     void should_update_value_when_tag_exists() {
         // given
-        int givenId = 1;
+        int givenId = DataProvider.TAG_ID;
         String name = faker.cat().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
 
@@ -142,7 +142,7 @@ class TagRepositoryImplTest {
     void should_do_nothing_when_update_duplicates_value() {
         // given
         int givenId = Integer.MAX_VALUE;
-        int updatedId = 1;
+        int updatedId = DataProvider.TAG_ID;
         String name = faker.dog().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
         Tag updatedTag = Tag.builder().tagId(updatedId).name(name).build();
@@ -175,7 +175,7 @@ class TagRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = 1;
+        int givenId = DataProvider.TAG_ID;
         var beforeDelete = repository.tagById(givenId);
 
         // when
