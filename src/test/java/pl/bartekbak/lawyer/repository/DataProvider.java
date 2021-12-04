@@ -113,5 +113,6 @@ public class DataProvider {
         context.deleteFrom(DB_TAG).execute();
         context.deleteFrom(DB_NOTE).execute();
         context.deleteFrom(DB_POA).execute();
+        context.deleteFrom(DB_PAYMENT).execute();
     }
 }
