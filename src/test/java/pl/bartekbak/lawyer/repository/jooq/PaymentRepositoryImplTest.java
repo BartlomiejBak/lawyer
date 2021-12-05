@@ -62,4 +62,29 @@ class PaymentRepositoryImplTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void should_return_optional_of_existing_payment() {
+        // given
+        int paymentId = DataProvider.PAYMENT_ID;
+
+        // when
+        final var result = repository.paymentById(paymentId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getPaymentId()).isEqualTo(paymentId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int poaId = Integer.MAX_VALUE;
+
+        // when
+        final var result = repository.paymentById(poaId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
 }
