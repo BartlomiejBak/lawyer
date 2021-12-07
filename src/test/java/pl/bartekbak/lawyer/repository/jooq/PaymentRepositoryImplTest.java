@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
+import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class PaymentRepositoryImplTest {
@@ -78,13 +78,48 @@ class PaymentRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int poaId = Integer.MAX_VALUE;
+        int paymentId = Integer.MAX_VALUE;
 
         // when
-        final var result = repository.paymentById(poaId);
+        final var result = repository.paymentById(paymentId);
 
         // then
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_add_payment_when_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String comment = faker.dog().name();
+        var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
+
+        // when
+        repository.add(givenPayment);
+        var result = repository.paymentById(givenId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getComment()).isEqualTo(comment);
+    }
+
+    @Test
+    void should_do_nothing_when_adding_non_unique_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String comment = faker.dog().name();
+        String newComment = faker.cat().name();
+        var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
+        var duplicatePayment = Payment.builder().paymentId(givenId).comment(newComment).build();
+
+        // when
+        repository.add(givenPayment);
+        repository.add(duplicatePayment);
+        var result = repository.paymentById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getComment()).isEqualTo(comment);
     }
 
 }
