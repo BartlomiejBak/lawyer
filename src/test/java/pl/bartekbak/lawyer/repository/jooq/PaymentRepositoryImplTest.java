@@ -122,4 +122,35 @@ class PaymentRepositoryImplTest {
         assertThat(result.get().getComment()).isEqualTo(comment);
     }
 
+    @Test
+    void should_update_value_when_payment_exists() {
+        // given
+        int givenId = DataProvider.POA_ID;
+        String comment = faker.cat().name();
+        var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
+
+        // when
+        repository.update(givenPayment);
+        var result = repository.paymentById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getComment()).isEqualTo(comment);
+    }
+
+    @Test
+    void should_do_nothing_when_payment_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        String comment = faker.cat().name();
+        var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
+
+        // when
+        repository.update(givenPayment);
+        var result = repository.paymentById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
 }
