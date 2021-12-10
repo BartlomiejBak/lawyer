@@ -5,8 +5,11 @@ import org.jooq.DSLContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_POA;
@@ -21,6 +24,7 @@ public class DataProvider {
     public static int NOTE_ID = 7;
     public static int POA_ID = 13;
     public static int PAYMENT_ID = 19;
+    public static int ADDRESS_ID = 25;
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -54,6 +58,13 @@ public class DataProvider {
         addRandomPayment(22);
         addRandomPayment(23);
         addRandomPayment(24);
+
+        addRandomAddress(ADDRESS_ID);
+        addRandomAddress(26);
+        addRandomAddress(27);
+        addRandomAddress(28);
+        addRandomAddress(29);
+        addRandomAddress(30);
     }
 
     @Transactional
@@ -77,7 +88,7 @@ public class DataProvider {
 
     @Transactional
     public void addRandomPoa(int id) {
-        var date = LocalDate.from(faker.date().birthday().toInstant());
+        var date = LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
         context.insertInto(DB_POA)
                 .set(DB_POA.POA_ID, id)
                 .set(DB_POA.TYPE, faker.name().firstName())
@@ -94,7 +105,7 @@ public class DataProvider {
 
     @Transactional
     public void addRandomPayment(int id) {
-        var date = LocalDate.from(faker.date().birthday().toInstant());
+        var date = LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
         context.insertInto(DB_PAYMENT)
                 .set(DB_PAYMENT.PAYMENT_ID, id)
                 .set(DB_PAYMENT.PAYMENT_VALUE, faker.number().randomDouble(2, 1, Integer.MAX_VALUE))
@@ -109,10 +120,23 @@ public class DataProvider {
     }
 
     @Transactional
+    public void addRandomAddress(int id) {
+        context.insertInto(DB_ADDRESS)
+                .set(DB_ADDRESS.ADDRESS_ID, id)
+                .set(DB_ADDRESS.STREET, faker.address().streetName())
+                .set(DB_ADDRESS.ZIP_CODE, faker.address().zipCode())
+                .set(DB_ADDRESS.CITY, faker.lordOfTheRings().location())
+                .set(DB_ADDRESS.COUNTRY, faker.address().country())
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
+    @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
         context.deleteFrom(DB_NOTE).execute();
         context.deleteFrom(DB_POA).execute();
         context.deleteFrom(DB_PAYMENT).execute();
+        context.deleteFrom(DB_ADDRESS).execute();
     }
 }
