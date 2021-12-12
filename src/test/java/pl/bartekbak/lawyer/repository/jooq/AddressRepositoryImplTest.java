@@ -62,4 +62,29 @@ class AddressRepositoryImplTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void should_return_optional_of_existing_address() {
+        // given
+        int addressId = DataProvider.ADDRESS_ID;
+
+        // when
+        final var result = repository.addressById(addressId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getAddressId()).isEqualTo(addressId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int addressId = Integer.MAX_VALUE;
+
+        // when
+        final var result = repository.addressById(addressId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
 }
