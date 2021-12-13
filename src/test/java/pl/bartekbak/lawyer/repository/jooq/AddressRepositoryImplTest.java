@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
+import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -82,6 +83,56 @@ class AddressRepositoryImplTest {
 
         // when
         final var result = repository.addressById(addressId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_add_address_when_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        var givenAddress = Address.builder()
+                .addressId(givenId)
+                .street(faker.address().streetName())
+                .city(faker.address().city())
+                .country(faker.address().country())
+                .zipCode(faker.address().zipCode())
+                .build();
+
+        // when
+        repository.add(givenAddress);
+        var result = repository.addressById(givenId);
+
+        // then
+        assertThat(result).isPresent().contains(givenAddress);
+    }
+
+    @Test
+    void should_do_nothing_when_adding_non_unique_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        int duplicateId = givenId - 1;
+
+        var givenAddress = Address.builder()
+                .addressId(givenId)
+                .street(faker.address().streetName())
+                .city(faker.address().city())
+                .country(faker.address().country())
+                .zipCode(faker.address().zipCode())
+                .build();
+        var duplicateAddress = Address.builder()
+                .addressId(duplicateId)
+                .street(givenAddress.getStreet())
+                .city(givenAddress.getCity())
+                .country(givenAddress.getCountry())
+                .zipCode(givenAddress.getZipCode())
+                .build();
+
+        // when
+        repository.add(givenAddress);
+        repository.add(duplicateAddress);
+        var result = repository.addressById(duplicateId);
 
         // then
         assertThat(result).isEmpty();
