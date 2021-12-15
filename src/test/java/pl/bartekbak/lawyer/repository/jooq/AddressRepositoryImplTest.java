@@ -138,4 +138,76 @@ class AddressRepositoryImplTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void should_update_value_when_address_exists() {
+        // given
+        int givenId = DataProvider.ADDRESS_ID;
+        var givenAddress = Address.builder()
+                .addressId(givenId)
+                .street(faker.address().streetName())
+                .city(faker.address().city())
+                .country(faker.address().country())
+                .zipCode(faker.address().zipCode())
+                .build();
+
+        // when
+        repository.update(givenAddress);
+        var result = repository.addressById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get()).isEqualTo(givenAddress);
+    }
+
+    @Test
+    void should_do_nothing_when_update_duplicates_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        int updatedId = DataProvider.NOTE_ID;
+
+        var givenAddress = Address.builder()
+                .addressId(givenId)
+                .street(faker.address().streetName())
+                .city(faker.address().city())
+                .country(faker.address().country())
+                .zipCode(faker.address().zipCode())
+                .build();
+        var duplicateAddress = Address.builder()
+                .addressId(updatedId)
+                .street(givenAddress.getStreet())
+                .city(givenAddress.getCity())
+                .country(givenAddress.getCountry())
+                .zipCode(givenAddress.getZipCode())
+                .build();
+
+        // when
+        repository.add(givenAddress);
+        repository.update(duplicateAddress);
+        var result = repository.addressById(updatedId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get()).isNotEqualTo(duplicateAddress);
+    }
+
+    @Test
+    void should_do_nothing_when_address_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        var givenAddress = Address.builder()
+                .addressId(givenId)
+                .street(faker.address().streetName())
+                .city(faker.address().city())
+                .country(faker.address().country())
+                .zipCode(faker.address().zipCode())
+                .build();
+
+        // when
+        repository.update(givenAddress);
+        var result = repository.addressById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
 }
