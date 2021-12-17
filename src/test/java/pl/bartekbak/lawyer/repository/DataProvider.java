@@ -5,11 +5,13 @@ import org.jooq.DSLContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_EVENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_POA;
@@ -25,6 +27,7 @@ public class DataProvider {
     public static int POA_ID = 13;
     public static int PAYMENT_ID = 19;
     public static int ADDRESS_ID = 25;
+    public static int EVENT_ID = 31;
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -65,6 +68,13 @@ public class DataProvider {
         addRandomAddress(28);
         addRandomAddress(29);
         addRandomAddress(30);
+
+        addRandomEvent(EVENT_ID);
+        addRandomEvent(32);
+        addRandomEvent(33);
+        addRandomEvent(34);
+        addRandomEvent(35);
+        addRandomEvent(36);
     }
 
     @Transactional
@@ -132,11 +142,24 @@ public class DataProvider {
     }
 
     @Transactional
+    public void addRandomEvent(int id) {
+        var date = LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
+        context.insertInto(DB_EVENT)
+                .set(DB_EVENT.EVENT_ID, id)
+                .set(DB_EVENT.TITLE, faker.book().title())
+                .set(DB_EVENT.DATE_TIME, date)
+                .set(DB_EVENT.DESCRIPTION, faker.lorem().paragraph())
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
+    @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
         context.deleteFrom(DB_NOTE).execute();
         context.deleteFrom(DB_POA).execute();
         context.deleteFrom(DB_PAYMENT).execute();
         context.deleteFrom(DB_ADDRESS).execute();
+        context.deleteFrom(DB_EVENT).execute();
     }
 }
