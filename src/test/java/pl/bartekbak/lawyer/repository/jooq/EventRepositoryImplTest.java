@@ -61,4 +61,29 @@ class EventRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_event() {
+        // given
+        int eventId = DataProvider.EVENT_ID;
+
+        // when
+        final var result = repository.eventById(eventId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getEventId()).isEqualTo(eventId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        int eventId = Integer.MAX_VALUE;
+
+        // when
+        final var result = repository.eventById(eventId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
 }
