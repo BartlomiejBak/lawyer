@@ -137,4 +137,72 @@ class EventRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_update_value_when_event_exists() {
+        // given
+        int givenId = DataProvider.EVENT_ID;
+        var givenEvent = Event.builder()
+                .eventId(givenId)
+                .title(faker.book().title())
+                .description(faker.lorem().paragraph())
+                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .build();
+
+        // when
+        repository.update(givenEvent);
+        var result = repository.eventById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get()).isEqualTo(givenEvent);
+    }
+
+    @Test
+    void should_do_nothing_when_update_duplicates_value() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        int updatedId = DataProvider.EVENT_ID;
+
+        var givenEvent = Event.builder()
+                .eventId(givenId)
+                .title(faker.book().title())
+                .description(faker.lorem().paragraph())
+                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .build();
+        var duplicateEvent = Event.builder()
+                .eventId(givenId)
+                .title(givenEvent.getTitle())
+                .description(givenEvent.getDescription())
+                .dateTime(givenEvent.getDateTime())
+                .build();
+
+        // when
+        repository.add(givenEvent);
+        repository.update(duplicateEvent);
+        var result = repository.eventById(updatedId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get()).isNotEqualTo(duplicateEvent);
+    }
+
+    @Test
+    void should_do_nothing_when_event_not_exists() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        var givenEvent = Event.builder()
+                .eventId(givenId)
+                .title(faker.book().title())
+                .description(faker.lorem().paragraph())
+                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .build();
+
+        // when
+        repository.update(givenEvent);
+        var result = repository.eventById(givenId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
 }
