@@ -154,8 +154,7 @@ class EventRepositoryImplTest {
         var result = repository.eventById(givenId);
 
         // then
-        assertThat(result).isNotEmpty();
-        assertThat(result.get()).isEqualTo(givenEvent);
+        assertThat(result).isNotEmpty().contains(givenEvent);
     }
 
     @Test
@@ -204,5 +203,34 @@ class EventRepositoryImplTest {
 
         // then
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_delete_record_when_exists() {
+        // given
+        int givenId = DataProvider.EVENT_ID;
+        var beforeDelete = repository.eventById(givenId);
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.eventById(givenId);
+
+        // then
+        assertThat(beforeDelete).isPresent();
+        assertThat(afterDelete).isEmpty();
+    }
+
+    @Test
+    void should_do_nothing_when_delete_nonexistent_record() {
+        // given
+        int givenId = Integer.MAX_VALUE;
+        var beforeDelete = repository.list();
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.list();
+
+        // then
+        assertThat(beforeDelete.size()).isEqualTo(afterDelete.size());
     }
 }
