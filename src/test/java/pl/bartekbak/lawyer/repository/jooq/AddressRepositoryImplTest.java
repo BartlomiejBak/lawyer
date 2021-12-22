@@ -163,7 +163,7 @@ class AddressRepositoryImplTest {
     void should_do_nothing_when_update_duplicates_value() {
         // given
         int givenId = Integer.MAX_VALUE;
-        int updatedId = DataProvider.NOTE_ID;
+        int updatedId = DataProvider.ADDRESS_ID;
 
         var givenAddress = Address.builder()
                 .addressId(givenId)

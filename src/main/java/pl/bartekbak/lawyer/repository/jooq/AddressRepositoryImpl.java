@@ -38,6 +38,7 @@ public class AddressRepositoryImpl extends DatabaseContext implements AddressRep
     @Transactional
     public void add(Address address) {
         dslContext().insertInto(DB_ADDRESS)
+                .set(DB_ADDRESS.ADDRESS_ID, address.getAddressId())
                 .set(DB_ADDRESS.CITY, address.getCity())
                 .set(DB_ADDRESS.COUNTRY, address.getCountry())
                 .set(DB_ADDRESS.STREET, address.getStreet())
@@ -55,6 +56,10 @@ public class AddressRepositoryImpl extends DatabaseContext implements AddressRep
                 .set(DB_ADDRESS.STREET, address.getStreet())
                 .set(DB_ADDRESS.ZIP_CODE, address.getZipCode())
                 .where(DB_ADDRESS.ADDRESS_ID.eq(address.getAddressId()))
+                .andNotExists(dslContext().selectFrom(DB_ADDRESS)
+                        .where(DB_ADDRESS.CITY.eq(address.getCity()))
+                        .and(DB_ADDRESS.STREET.eq(address.getStreet()))
+                        .and(DB_ADDRESS.COUNTRY.eq(address.getCountry())))
                 .execute();
     }
 
