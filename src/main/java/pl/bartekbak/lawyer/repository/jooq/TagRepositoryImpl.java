@@ -36,10 +36,12 @@ public class TagRepositoryImpl extends DatabaseContext implements TagRepository 
 
     @Override
     @Transactional
-    public void add(Tag tag) {
-        dslContext().insertInto(DB_TAG)
+    public int add(Tag tag) {
+        return dslContext().insertInto(DB_TAG)
+                .set(DB_TAG.TAG_ID, tag.getTagId())
                 .set(DB_TAG.NAME, tag.getName())
                 .onDuplicateKeyIgnore()
+                .returningResult(DB_TAG.TAG_ID)
                 .execute();
     }
 
@@ -49,6 +51,8 @@ public class TagRepositoryImpl extends DatabaseContext implements TagRepository 
         dslContext().update(DB_TAG)
                 .set(DB_TAG.NAME, tag.getName())
                 .where(DB_TAG.TAG_ID.eq(tag.getTagId()))
+                .andNotExists(dslContext().selectFrom(DB_TAG)
+                        .where(DB_TAG.NAME.eq(tag.getName())))
                 .execute();
     }
 
