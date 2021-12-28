@@ -39,6 +39,7 @@ public class EventRepositoryImpl extends DatabaseContext implements EventReposit
     @Transactional
     public void add(Event event) {
         dslContext().insertInto(DB_EVENT)
+                .set(DB_EVENT.EVENT_ID, event.getEventId())
                 .set(DB_EVENT.DATE_TIME, event.getDateTime())
                 .set(DB_EVENT.TITLE, event.getTitle())
                 .set(DB_EVENT.DESCRIPTION, event.getDescription())

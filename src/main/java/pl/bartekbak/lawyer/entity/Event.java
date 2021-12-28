@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class Event {
 
     @JsonProperty("event_id")

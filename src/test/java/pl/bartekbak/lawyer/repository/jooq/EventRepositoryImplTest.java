@@ -12,7 +12,8 @@ import pl.bartekbak.lawyer.entity.Event;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,7 +100,7 @@ class EventRepositoryImplTest {
                 .eventId(givenId)
                 .title(faker.book().title())
                 .description(faker.lorem().paragraph())
-                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .dateTime(LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
                 .build();
 
         // when
@@ -120,7 +121,7 @@ class EventRepositoryImplTest {
                 .eventId(givenId)
                 .title(faker.book().title())
                 .description(faker.lorem().paragraph())
-                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .dateTime(LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
                 .build();
         var duplicateEvent = Event.builder()
                 .eventId(givenId)
@@ -146,7 +147,7 @@ class EventRepositoryImplTest {
                 .eventId(givenId)
                 .title(faker.book().title())
                 .description(faker.lorem().paragraph())
-                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .dateTime(LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
                 .build();
 
         // when
@@ -167,7 +168,7 @@ class EventRepositoryImplTest {
                 .eventId(givenId)
                 .title(faker.book().title())
                 .description(faker.lorem().paragraph())
-                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .dateTime(LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
                 .build();
         var duplicateEvent = Event.builder()
                 .eventId(givenId)
@@ -194,7 +195,7 @@ class EventRepositoryImplTest {
                 .eventId(givenId)
                 .title(faker.book().title())
                 .description(faker.lorem().paragraph())
-                .dateTime(LocalDateTime.now().plus(100, ChronoUnit.DAYS))
+                .dateTime(LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
                 .build();
 
         // when
