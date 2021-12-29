@@ -38,6 +38,7 @@ public class NoteRepositoryImpl extends DatabaseContext implements NoteRepositor
     @Transactional
     public void add(Note note) {
         dslContext().insertInto(DB_NOTE)
+                .set(DB_NOTE.NOTE_ID, note.getNoteId())
                 .set(DB_NOTE.TITLE, note.getTitle())
                 .set(DB_NOTE.TEXT, note.getText())
                 .onDuplicateKeyIgnore()
@@ -51,6 +52,8 @@ public class NoteRepositoryImpl extends DatabaseContext implements NoteRepositor
                 .set(DB_NOTE.TITLE, note.getTitle())
                 .set(DB_NOTE.TEXT, note.getText())
                 .where(DB_NOTE.NOTE_ID.eq(note.getNoteId()))
+                .andNotExists(dslContext().selectFrom(DB_NOTE)
+                        .where(DB_NOTE.TITLE.eq(note.getTitle())))
                 .execute();
     }
 

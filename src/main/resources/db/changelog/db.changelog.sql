@@ -273,3 +273,6 @@ ALTER TABLE IF EXISTS DB_ADDRESS ADD CONSTRAINT unique_address UNIQUE (street, c
 
 --changeset bbak:29
 ALTER TABLE IF EXISTS DB_TAG ADD CONSTRAINT unique_tag UNIQUE (name);
+
+--changeset bbak:30
+ALTER TABLE IF EXISTS DB_NOTE ADD CONSTRAINT unique_note UNIQUE (title);
