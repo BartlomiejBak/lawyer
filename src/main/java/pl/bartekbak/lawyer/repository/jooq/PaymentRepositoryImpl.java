@@ -38,6 +38,7 @@ public class PaymentRepositoryImpl extends DatabaseContext implements PaymentRep
     @Transactional
     public void add(Payment payment) {
         dslContext().insertInto(DB_PAYMENT)
+                .set(DB_PAYMENT.PAYMENT_ID, payment.getPaymentId())
                 .set(DB_PAYMENT.PAYMENT_DATE, payment.getPaymentDate())
                 .set(DB_PAYMENT.PAYMENT_VALUE, payment.getPaymentValue())
                 .set(DB_PAYMENT.PAID, payment.isPaid())
