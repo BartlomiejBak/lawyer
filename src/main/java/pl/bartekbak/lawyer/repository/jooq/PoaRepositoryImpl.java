@@ -38,6 +38,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
     @Transactional
     public void add(Poa poa) {
         dslContext().insertInto(DB_POA)
+                .set(DB_POA.POA_ID, poa.getPoaId())
                 .set(DB_POA.TYPE, poa.getType())
                 .set(DB_POA.PAYMENT, poa.getPayment())
                 .set(DB_POA.KPC, poa.isKpc())

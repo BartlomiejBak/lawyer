@@ -108,7 +108,7 @@ public class DataProvider {
                 .set(DB_POA.START_DATE, date)
                 .set(DB_POA.END_DATE, date.plusDays(faker.number().randomDigitNotZero()))
                 .set(DB_POA.NOTIFICATION_DUTY, true)
-                .set(DB_POA.NOTIFICATION_DUTY, faker.bool().bool())
+                .set(DB_POA.DUTY_COMPLETED, faker.bool().bool())
                 .onDuplicateKeyIgnore()
                 .execute();
     }
