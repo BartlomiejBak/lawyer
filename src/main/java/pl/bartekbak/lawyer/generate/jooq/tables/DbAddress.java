@@ -4,6 +4,9 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -68,7 +71,7 @@ public class DbAddress extends TableImpl<DbAddressRecord> {
     /**
      * The column <code>public.db_address.country</code>.
      */
-    public final TableField<DbAddressRecord, String> COUNTRY = createField(DSL.name("country"), SQLDataType.VARCHAR(20), this, "");
+    public final TableField<DbAddressRecord, String> COUNTRY = createField(DSL.name("country"), SQLDataType.VARCHAR(128), this, "");
 
     private DbAddress(Name alias, Table<DbAddressRecord> aliased) {
         this(alias, aliased, null);
@@ -116,6 +119,11 @@ public class DbAddress extends TableImpl<DbAddressRecord> {
     @Override
     public UniqueKey<DbAddressRecord> getPrimaryKey() {
         return Keys.ADDRESS_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbAddressRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_ADDRESS);
     }
 
     @Override

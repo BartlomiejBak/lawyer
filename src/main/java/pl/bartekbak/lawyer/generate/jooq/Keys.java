@@ -60,6 +60,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<DbAddressRecord> ADDRESS_PKEY = Internal.createUniqueKey(DbAddress.DB_ADDRESS, DSL.name("address_pkey"), new TableField[] { DbAddress.DB_ADDRESS.ADDRESS_ID }, true);
+    public static final UniqueKey<DbAddressRecord> UNIQUE_ADDRESS = Internal.createUniqueKey(DbAddress.DB_ADDRESS, DSL.name("unique_address"), new TableField[] { DbAddress.DB_ADDRESS.STREET, DbAddress.DB_ADDRESS.CITY, DbAddress.DB_ADDRESS.COUNTRY }, true);
     public static final UniqueKey<DbContactRecord> CONTACT_PKEY = Internal.createUniqueKey(DbContact.DB_CONTACT, DSL.name("contact_pkey"), new TableField[] { DbContact.DB_CONTACT.CONTACT_ID }, true);
     public static final UniqueKey<DbContactAddressRecord> CONTACT_ADDRESS_PKEY = Internal.createUniqueKey(DbContactAddress.DB_CONTACT_ADDRESS, DSL.name("contact_address_pkey"), new TableField[] { DbContactAddress.DB_CONTACT_ADDRESS.ID }, true);
     public static final UniqueKey<DbContactRoleRecord> CONTACT_ROLE_PKEY = Internal.createUniqueKey(DbContactRole.DB_CONTACT_ROLE, DSL.name("contact_role_pkey"), new TableField[] { DbContactRole.DB_CONTACT_ROLE.ID }, true);
@@ -72,9 +73,11 @@ public class Keys {
     public static final UniqueKey<DbLawsuitContactRecord> LAWSUIT_CONTACT_PKEY = Internal.createUniqueKey(DbLawsuitContact.DB_LAWSUIT_CONTACT, DSL.name("lawsuit_contact_pkey"), new TableField[] { DbLawsuitContact.DB_LAWSUIT_CONTACT.ID }, true);
     public static final UniqueKey<DbLawsuitTaskRecord> LAWSUIT_TASK_PKEY = Internal.createUniqueKey(DbLawsuitTask.DB_LAWSUIT_TASK, DSL.name("lawsuit_task_pkey"), new TableField[] { DbLawsuitTask.DB_LAWSUIT_TASK.ID }, true);
     public static final UniqueKey<DbNoteRecord> NOTE_PKEY = Internal.createUniqueKey(DbNote.DB_NOTE, DSL.name("note_pkey"), new TableField[] { DbNote.DB_NOTE.NOTE_ID }, true);
+    public static final UniqueKey<DbNoteRecord> UNIQUE_NOTE = Internal.createUniqueKey(DbNote.DB_NOTE, DSL.name("unique_note"), new TableField[] { DbNote.DB_NOTE.TITLE }, true);
     public static final UniqueKey<DbPaymentRecord> PAYMENT_PKEY = Internal.createUniqueKey(DbPayment.DB_PAYMENT, DSL.name("payment_pkey"), new TableField[] { DbPayment.DB_PAYMENT.PAYMENT_ID }, true);
     public static final UniqueKey<DbPoaRecord> POA_PKEY = Internal.createUniqueKey(DbPoa.DB_POA, DSL.name("poa_pkey"), new TableField[] { DbPoa.DB_POA.POA_ID }, true);
     public static final UniqueKey<DbTagRecord> TAG_PKEY = Internal.createUniqueKey(DbTag.DB_TAG, DSL.name("tag_pkey"), new TableField[] { DbTag.DB_TAG.TAG_ID }, true);
+    public static final UniqueKey<DbTagRecord> UNIQUE_TAG = Internal.createUniqueKey(DbTag.DB_TAG, DSL.name("unique_tag"), new TableField[] { DbTag.DB_TAG.NAME }, true);
     public static final UniqueKey<DbTaskRecord> TASK_PKEY = Internal.createUniqueKey(DbTask.DB_TASK, DSL.name("task_pkey"), new TableField[] { DbTask.DB_TASK.TASK_ID }, true);
     public static final UniqueKey<DbTaskContactRecord> TASK_CONTACT_PKEY = Internal.createUniqueKey(DbTaskContact.DB_TASK_CONTACT, DSL.name("task_contact_pkey"), new TableField[] { DbTaskContact.DB_TASK_CONTACT.ID }, true);
 

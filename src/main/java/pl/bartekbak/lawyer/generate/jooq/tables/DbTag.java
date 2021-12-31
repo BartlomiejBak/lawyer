@@ -4,6 +4,9 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -101,6 +104,11 @@ public class DbTag extends TableImpl<DbTagRecord> {
     @Override
     public UniqueKey<DbTagRecord> getPrimaryKey() {
         return Keys.TAG_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbTagRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_TAG);
     }
 
     @Override

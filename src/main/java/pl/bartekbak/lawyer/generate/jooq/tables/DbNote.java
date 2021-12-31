@@ -4,6 +4,9 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -106,6 +109,11 @@ public class DbNote extends TableImpl<DbNoteRecord> {
     @Override
     public UniqueKey<DbNoteRecord> getPrimaryKey() {
         return Keys.NOTE_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbNoteRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_NOTE);
     }
 
     @Override
