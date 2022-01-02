@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,17 +51,17 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
     /**
      * The column <code>public.db_court_address.id</code>.
      */
-    public final TableField<DbCourtAddressRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbCourtAddressRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_court_address.address</code>.
      */
-    public final TableField<DbCourtAddressRecord, Integer> ADDRESS = createField(DSL.name("address"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbCourtAddressRecord, UUID> ADDRESS = createField(DSL.name("address"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_court_address.court</code>.
      */
-    public final TableField<DbCourtAddressRecord, Integer> COURT = createField(DSL.name("court"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbCourtAddressRecord, UUID> COURT = createField(DSL.name("court"), SQLDataType.UUID, this, "");
 
     private DbCourtAddress(Name alias, Table<DbCourtAddressRecord> aliased) {
         this(alias, aliased, null);
@@ -99,11 +99,6 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbCourtAddressRecord, Integer> getIdentity() {
-        return (Identity<DbCourtAddressRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -164,7 +159,7 @@ public class DbCourtAddress extends TableImpl<DbCourtAddressRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
+    public Row3<UUID, UUID, UUID> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

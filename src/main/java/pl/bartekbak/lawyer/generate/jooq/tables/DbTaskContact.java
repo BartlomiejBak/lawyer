@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,17 +51,17 @@ public class DbTaskContact extends TableImpl<DbTaskContactRecord> {
     /**
      * The column <code>public.db_task_contact.id</code>.
      */
-    public final TableField<DbTaskContactRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbTaskContactRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_task_contact.task</code>.
      */
-    public final TableField<DbTaskContactRecord, Integer> TASK = createField(DSL.name("task"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbTaskContactRecord, UUID> TASK = createField(DSL.name("task"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_task_contact.contact</code>.
      */
-    public final TableField<DbTaskContactRecord, Integer> CONTACT = createField(DSL.name("contact"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbTaskContactRecord, UUID> CONTACT = createField(DSL.name("contact"), SQLDataType.UUID, this, "");
 
     private DbTaskContact(Name alias, Table<DbTaskContactRecord> aliased) {
         this(alias, aliased, null);
@@ -99,11 +99,6 @@ public class DbTaskContact extends TableImpl<DbTaskContactRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbTaskContactRecord, Integer> getIdentity() {
-        return (Identity<DbTaskContactRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -164,7 +159,7 @@ public class DbTaskContact extends TableImpl<DbTaskContactRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
+    public Row3<UUID, UUID, UUID> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

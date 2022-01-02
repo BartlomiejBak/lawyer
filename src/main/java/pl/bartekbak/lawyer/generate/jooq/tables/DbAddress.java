@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row5;
@@ -51,7 +51,7 @@ public class DbAddress extends TableImpl<DbAddressRecord> {
     /**
      * The column <code>public.db_address.address_id</code>.
      */
-    public final TableField<DbAddressRecord, Integer> ADDRESS_ID = createField(DSL.name("address_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbAddressRecord, UUID> ADDRESS_ID = createField(DSL.name("address_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_address.street</code>.
@@ -112,11 +112,6 @@ public class DbAddress extends TableImpl<DbAddressRecord> {
     }
 
     @Override
-    public Identity<DbAddressRecord, Integer> getIdentity() {
-        return (Identity<DbAddressRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbAddressRecord> getPrimaryKey() {
         return Keys.ADDRESS_PKEY;
     }
@@ -157,7 +152,7 @@ public class DbAddress extends TableImpl<DbAddressRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, String, String, String> fieldsRow() {
+    public Row5<UUID, String, String, String, String> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 }

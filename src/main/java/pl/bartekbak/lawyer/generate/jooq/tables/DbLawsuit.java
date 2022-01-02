@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row8;
@@ -50,7 +50,7 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     /**
      * The column <code>public.db_lawsuit.lawsuit_id</code>.
      */
-    public final TableField<DbLawsuitRecord, Integer> LAWSUIT_ID = createField(DSL.name("lawsuit_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbLawsuitRecord, UUID> LAWSUIT_ID = createField(DSL.name("lawsuit_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_lawsuit.name</code>.
@@ -126,11 +126,6 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     }
 
     @Override
-    public Identity<DbLawsuitRecord, Integer> getIdentity() {
-        return (Identity<DbLawsuitRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbLawsuitRecord> getPrimaryKey() {
         return Keys.LAWSUIT_PKEY;
     }
@@ -166,7 +161,7 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, String, String, LocalDate, LocalDate, String, Double, String> fieldsRow() {
+    public Row8<UUID, String, String, LocalDate, LocalDate, String, Double, String> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }

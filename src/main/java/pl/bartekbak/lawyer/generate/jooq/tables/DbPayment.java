@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row8;
@@ -50,7 +50,7 @@ public class DbPayment extends TableImpl<DbPaymentRecord> {
     /**
      * The column <code>public.db_payment.payment_id</code>.
      */
-    public final TableField<DbPaymentRecord, Integer> PAYMENT_ID = createField(DSL.name("payment_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbPaymentRecord, UUID> PAYMENT_ID = createField(DSL.name("payment_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_payment.payment_value</code>.
@@ -126,11 +126,6 @@ public class DbPayment extends TableImpl<DbPaymentRecord> {
     }
 
     @Override
-    public Identity<DbPaymentRecord, Integer> getIdentity() {
-        return (Identity<DbPaymentRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbPaymentRecord> getPrimaryKey() {
         return Keys.PAYMENT_PKEY;
     }
@@ -166,7 +161,7 @@ public class DbPayment extends TableImpl<DbPaymentRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, Double, LocalDate, Boolean, LocalDate, String, Boolean, Boolean> fieldsRow() {
+    public Row8<UUID, Double, LocalDate, Boolean, LocalDate, String, Boolean, Boolean> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }

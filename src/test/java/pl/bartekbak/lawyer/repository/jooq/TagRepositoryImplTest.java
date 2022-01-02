@@ -11,15 +11,16 @@ import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.entity.Tag;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class TagRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static TagRepositoryImpl repository;
@@ -66,7 +67,7 @@ class TagRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_tag() {
         // given
-        int tagId = DataProvider.TAG_ID;
+        var tagId = DataProvider.TAG_ID;
 
         // when
         final var result = repository.tagById(tagId);
@@ -79,7 +80,7 @@ class TagRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int tagId = Integer.MAX_VALUE;
+        var tagId = UUID.randomUUID();
 
         // when
         final var result = repository.tagById(tagId);
@@ -91,7 +92,7 @@ class TagRepositoryImplTest {
     @Test
     void should_add_tag_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String name = faker.dog().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
 
@@ -107,8 +108,8 @@ class TagRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int additionalId = Integer.MAX_VALUE - 1;
+        var givenId = UUID.randomUUID();
+        var additionalId = UUID.randomUUID();
         String name = faker.dog().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
         Tag duplicateTag = Tag.builder().tagId(additionalId).name(name).build();
@@ -125,7 +126,7 @@ class TagRepositoryImplTest {
     @Test
     void should_update_value_when_tag_exists() {
         // given
-        int givenId = DataProvider.TAG_ID;
+        var givenId = DataProvider.TAG_ID;
         String name = faker.cat().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
 
@@ -141,8 +142,8 @@ class TagRepositoryImplTest {
     @Test
     void should_do_nothing_when_update_duplicates_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int updatedId = DataProvider.TAG_ID;
+        var givenId = UUID.randomUUID();
+        var updatedId = DataProvider.TAG_ID;
         String name = faker.dog().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
         Tag updatedTag = Tag.builder().tagId(updatedId).name(name).build();
@@ -160,7 +161,7 @@ class TagRepositoryImplTest {
     @Test
     void should_do_nothing_when_tag_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String name = faker.cat().name();
         Tag givenTag = Tag.builder().tagId(givenId).name(name).build();
 
@@ -175,7 +176,7 @@ class TagRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.TAG_ID;
+        var givenId = DataProvider.TAG_ID;
         var beforeDelete = repository.tagById(givenId);
 
         // when
@@ -190,7 +191,7 @@ class TagRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

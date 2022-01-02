@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,17 +51,17 @@ public class DbEventLawsuit extends TableImpl<DbEventLawsuitRecord> {
     /**
      * The column <code>public.db_event_lawsuit.id</code>.
      */
-    public final TableField<DbEventLawsuitRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbEventLawsuitRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_event_lawsuit.event</code>.
      */
-    public final TableField<DbEventLawsuitRecord, Integer> EVENT = createField(DSL.name("event"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbEventLawsuitRecord, UUID> EVENT = createField(DSL.name("event"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_event_lawsuit.lawsuit</code>.
      */
-    public final TableField<DbEventLawsuitRecord, Integer> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbEventLawsuitRecord, UUID> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.UUID, this, "");
 
     private DbEventLawsuit(Name alias, Table<DbEventLawsuitRecord> aliased) {
         this(alias, aliased, null);
@@ -99,11 +99,6 @@ public class DbEventLawsuit extends TableImpl<DbEventLawsuitRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbEventLawsuitRecord, Integer> getIdentity() {
-        return (Identity<DbEventLawsuitRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -164,7 +159,7 @@ public class DbEventLawsuit extends TableImpl<DbEventLawsuitRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
+    public Row3<UUID, UUID, UUID> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

@@ -12,15 +12,16 @@ import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.entity.Note;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class NoteRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static NoteRepositoryImpl repository;
@@ -67,7 +68,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_note() {
         // given
-        int noteId = DataProvider.NOTE_ID;
+        var noteId = DataProvider.NOTE_ID;
 
         // when
         final var result = repository.noteById(noteId);
@@ -80,7 +81,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int noteId = Integer.MAX_VALUE;
+        var noteId = UUID.randomUUID();
 
         // when
         final var result = repository.noteById(noteId);
@@ -92,7 +93,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_add_note_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String title = faker.book().title();
         String text = faker.lorem().paragraph();
         var givenNote = Note.builder().noteId(givenId)
@@ -112,8 +113,8 @@ class NoteRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int additionalId = Integer.MAX_VALUE - 1;
+        var givenId = UUID.randomUUID();
+        var additionalId = UUID.randomUUID();
         String title = faker.dog().name();
         var givenNote = Note.builder().noteId(givenId).title(title).text(Strings.EMPTY).build();
         var duplicateNote = Note.builder().noteId(additionalId).title(title).text(Strings.EMPTY).build();
@@ -130,7 +131,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_update_value_when_note_exists() {
         // given
-        int givenId = DataProvider.NOTE_ID;
+        var givenId = DataProvider.NOTE_ID;
         String title = faker.cat().name();
         var givenNote = Note.builder().noteId(givenId).title(title).build();
 
@@ -146,8 +147,8 @@ class NoteRepositoryImplTest {
     @Test
     void should_do_nothing_when_update_duplicates_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int updatedId = DataProvider.NOTE_ID;
+        var givenId = UUID.randomUUID();
+        var updatedId = DataProvider.NOTE_ID;
         String title = faker.dog().name();
         var givenNote = Note.builder().noteId(givenId).title(title).build();
         var updatedNote = Note.builder().noteId(updatedId).title(title).build();
@@ -165,7 +166,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_do_nothing_when_note_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String name = faker.cat().name();
         var givenNote = Note.builder().noteId(givenId).title(name).build();
 
@@ -180,7 +181,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.NOTE_ID;
+        var givenId = DataProvider.NOTE_ID;
         var beforeDelete = repository.noteById(givenId);
 
         // when
@@ -195,7 +196,7 @@ class NoteRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

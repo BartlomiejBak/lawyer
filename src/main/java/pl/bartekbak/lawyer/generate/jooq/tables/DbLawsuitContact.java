@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row4;
@@ -51,17 +51,17 @@ public class DbLawsuitContact extends TableImpl<DbLawsuitContactRecord> {
     /**
      * The column <code>public.db_lawsuit_contact.id</code>.
      */
-    public final TableField<DbLawsuitContactRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbLawsuitContactRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_lawsuit_contact.contact</code>.
      */
-    public final TableField<DbLawsuitContactRecord, Integer> CONTACT = createField(DSL.name("contact"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbLawsuitContactRecord, UUID> CONTACT = createField(DSL.name("contact"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_lawsuit_contact.lawsuit</code>.
      */
-    public final TableField<DbLawsuitContactRecord, Integer> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbLawsuitContactRecord, UUID> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_lawsuit_contact.role</code>.
@@ -104,11 +104,6 @@ public class DbLawsuitContact extends TableImpl<DbLawsuitContactRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbLawsuitContactRecord, Integer> getIdentity() {
-        return (Identity<DbLawsuitContactRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -169,7 +164,7 @@ public class DbLawsuitContact extends TableImpl<DbLawsuitContactRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Integer, Integer, String> fieldsRow() {
+    public Row4<UUID, UUID, UUID, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

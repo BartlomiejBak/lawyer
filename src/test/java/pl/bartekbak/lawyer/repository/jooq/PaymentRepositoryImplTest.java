@@ -11,6 +11,8 @@ import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
@@ -18,7 +20,7 @@ class PaymentRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static PaymentRepositoryImpl repository;
@@ -65,7 +67,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_payment() {
         // given
-        int paymentId = DataProvider.PAYMENT_ID;
+        var paymentId = DataProvider.PAYMENT_ID;
 
         // when
         final var result = repository.paymentById(paymentId);
@@ -78,7 +80,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int paymentId = Integer.MAX_VALUE;
+        var paymentId = UUID.randomUUID();
 
         // when
         final var result = repository.paymentById(paymentId);
@@ -90,7 +92,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_add_payment_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String comment = faker.dog().name();
         var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
 
@@ -106,7 +108,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String comment = faker.dog().name();
         String newComment = faker.cat().name();
         var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
@@ -125,7 +127,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_update_value_when_payment_exists() {
         // given
-        int givenId = DataProvider.PAYMENT_ID;
+        var givenId = DataProvider.PAYMENT_ID;
         String comment = faker.cat().name();
         var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
 
@@ -141,7 +143,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_do_nothing_when_payment_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String comment = faker.cat().name();
         var givenPayment = Payment.builder().paymentId(givenId).comment(comment).build();
 
@@ -156,7 +158,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.PAYMENT_ID;
+        var givenId = DataProvider.PAYMENT_ID;
         var beforeDelete = repository.paymentById(givenId);
 
         // when
@@ -171,7 +173,7 @@ class PaymentRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

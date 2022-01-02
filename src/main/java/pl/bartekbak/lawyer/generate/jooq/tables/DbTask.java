@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row4;
@@ -50,7 +50,7 @@ public class DbTask extends TableImpl<DbTaskRecord> {
     /**
      * The column <code>public.db_task.task_id</code>.
      */
-    public final TableField<DbTaskRecord, Integer> TASK_ID = createField(DSL.name("task_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbTaskRecord, UUID> TASK_ID = createField(DSL.name("task_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_task.priority</code>.
@@ -106,11 +106,6 @@ public class DbTask extends TableImpl<DbTaskRecord> {
     }
 
     @Override
-    public Identity<DbTaskRecord, Integer> getIdentity() {
-        return (Identity<DbTaskRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbTaskRecord> getPrimaryKey() {
         return Keys.TASK_PKEY;
     }
@@ -146,7 +141,7 @@ public class DbTask extends TableImpl<DbTaskRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Boolean, LocalDateTime, String> fieldsRow() {
+    public Row4<UUID, Boolean, LocalDateTime, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

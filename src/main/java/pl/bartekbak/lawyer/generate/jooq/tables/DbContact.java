@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row15;
@@ -50,7 +50,7 @@ public class DbContact extends TableImpl<DbContactRecord> {
     /**
      * The column <code>public.db_contact.contact_id</code>.
      */
-    public final TableField<DbContactRecord, Integer> CONTACT_ID = createField(DSL.name("contact_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbContactRecord, UUID> CONTACT_ID = createField(DSL.name("contact_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_contact.name</code>.
@@ -161,11 +161,6 @@ public class DbContact extends TableImpl<DbContactRecord> {
     }
 
     @Override
-    public Identity<DbContactRecord, Integer> getIdentity() {
-        return (Identity<DbContactRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbContactRecord> getPrimaryKey() {
         return Keys.CONTACT_PKEY;
     }
@@ -201,7 +196,7 @@ public class DbContact extends TableImpl<DbContactRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Integer, String, String, String, String, String, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
+    public Row15<UUID, String, String, String, String, String, String, String, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 }

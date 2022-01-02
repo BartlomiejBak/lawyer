@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,17 +51,17 @@ public class DbLawsuitTask extends TableImpl<DbLawsuitTaskRecord> {
     /**
      * The column <code>public.db_lawsuit_task.id</code>.
      */
-    public final TableField<DbLawsuitTaskRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbLawsuitTaskRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_lawsuit_task.task</code>.
      */
-    public final TableField<DbLawsuitTaskRecord, Integer> TASK = createField(DSL.name("task"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbLawsuitTaskRecord, UUID> TASK = createField(DSL.name("task"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_lawsuit_task.lawsuit</code>.
      */
-    public final TableField<DbLawsuitTaskRecord, Integer> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbLawsuitTaskRecord, UUID> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.UUID, this, "");
 
     private DbLawsuitTask(Name alias, Table<DbLawsuitTaskRecord> aliased) {
         this(alias, aliased, null);
@@ -99,11 +99,6 @@ public class DbLawsuitTask extends TableImpl<DbLawsuitTaskRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbLawsuitTaskRecord, Integer> getIdentity() {
-        return (Identity<DbLawsuitTaskRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -164,7 +159,7 @@ public class DbLawsuitTask extends TableImpl<DbLawsuitTaskRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
+    public Row3<UUID, UUID, UUID> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

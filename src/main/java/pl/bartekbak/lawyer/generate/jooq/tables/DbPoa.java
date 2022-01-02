@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row9;
@@ -50,7 +50,7 @@ public class DbPoa extends TableImpl<DbPoaRecord> {
     /**
      * The column <code>public.db_poa.poa_id</code>.
      */
-    public final TableField<DbPoaRecord, Integer> POA_ID = createField(DSL.name("poa_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbPoaRecord, UUID> POA_ID = createField(DSL.name("poa_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_poa.type</code>.
@@ -131,11 +131,6 @@ public class DbPoa extends TableImpl<DbPoaRecord> {
     }
 
     @Override
-    public Identity<DbPoaRecord, Integer> getIdentity() {
-        return (Identity<DbPoaRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbPoaRecord> getPrimaryKey() {
         return Keys.POA_PKEY;
     }
@@ -171,7 +166,7 @@ public class DbPoa extends TableImpl<DbPoaRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Integer, String, String, Boolean, Boolean, LocalDate, LocalDate, Boolean, Boolean> fieldsRow() {
+    public Row9<UUID, String, String, Boolean, Boolean, LocalDate, LocalDate, Boolean, Boolean> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 }

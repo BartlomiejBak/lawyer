@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,17 +51,17 @@ public class DbContactRoleLawsuit extends TableImpl<DbContactRoleLawsuitRecord> 
     /**
      * The column <code>public.db_contact_role_lawsuit.id</code>.
      */
-    public final TableField<DbContactRoleLawsuitRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbContactRoleLawsuitRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_contact_role_lawsuit.lawsuit</code>.
      */
-    public final TableField<DbContactRoleLawsuitRecord, Integer> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbContactRoleLawsuitRecord, UUID> LAWSUIT = createField(DSL.name("lawsuit"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_contact_role_lawsuit.contact_role</code>.
      */
-    public final TableField<DbContactRoleLawsuitRecord, Integer> CONTACT_ROLE = createField(DSL.name("contact_role"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbContactRoleLawsuitRecord, UUID> CONTACT_ROLE = createField(DSL.name("contact_role"), SQLDataType.UUID, this, "");
 
     private DbContactRoleLawsuit(Name alias, Table<DbContactRoleLawsuitRecord> aliased) {
         this(alias, aliased, null);
@@ -101,11 +101,6 @@ public class DbContactRoleLawsuit extends TableImpl<DbContactRoleLawsuitRecord> 
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbContactRoleLawsuitRecord, Integer> getIdentity() {
-        return (Identity<DbContactRoleLawsuitRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -166,7 +161,7 @@ public class DbContactRoleLawsuit extends TableImpl<DbContactRoleLawsuitRecord> 
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Integer, Integer> fieldsRow() {
+    public Row3<UUID, UUID, UUID> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

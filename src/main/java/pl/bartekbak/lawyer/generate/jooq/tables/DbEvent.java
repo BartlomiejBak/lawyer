@@ -5,10 +5,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row4;
@@ -50,7 +50,7 @@ public class DbEvent extends TableImpl<DbEventRecord> {
     /**
      * The column <code>public.db_event.event_id</code>.
      */
-    public final TableField<DbEventRecord, Integer> EVENT_ID = createField(DSL.name("event_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbEventRecord, UUID> EVENT_ID = createField(DSL.name("event_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_event.title</code>.
@@ -106,11 +106,6 @@ public class DbEvent extends TableImpl<DbEventRecord> {
     }
 
     @Override
-    public Identity<DbEventRecord, Integer> getIdentity() {
-        return (Identity<DbEventRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbEventRecord> getPrimaryKey() {
         return Keys.EVENT_PKEY;
     }
@@ -146,7 +141,7 @@ public class DbEvent extends TableImpl<DbEventRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, LocalDateTime, String> fieldsRow() {
+    public Row4<UUID, String, LocalDateTime, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

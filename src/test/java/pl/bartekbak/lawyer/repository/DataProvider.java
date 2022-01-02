@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
@@ -22,12 +23,12 @@ public class DataProvider {
     private final DSLContext context;
     private final Faker faker = Faker.instance(new Locale("pl"));
 
-    public static int TAG_ID = 1;
-    public static int NOTE_ID = 7;
-    public static int POA_ID = 13;
-    public static int PAYMENT_ID = 19;
-    public static int ADDRESS_ID = 25;
-    public static int EVENT_ID = 31;
+    public static UUID TAG_ID = UUID.randomUUID();
+    public static UUID NOTE_ID = UUID.randomUUID();
+    public static UUID POA_ID = UUID.randomUUID();
+    public static UUID PAYMENT_ID = UUID.randomUUID();
+    public static UUID ADDRESS_ID = UUID.randomUUID();
+    public static UUID EVENT_ID = UUID.randomUUID();
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -35,50 +36,54 @@ public class DataProvider {
 
     public void initStandardScenario() {
         addRandomTag(TAG_ID);
-        addRandomTag(2);
-        addRandomTag(3);
-        addRandomTag(4);
-        addRandomTag(5);
-        addRandomTag(6);
+        addRandomTag();
+        addRandomTag();
+        addRandomTag();
+        addRandomTag();
+        addRandomTag();
 
         addRandomNote(NOTE_ID);
-        addRandomNote(8);
-        addRandomNote(9);
-        addRandomNote(10);
-        addRandomNote(11);
-        addRandomNote(12);
+        addRandomNote();
+        addRandomNote();
+        addRandomNote();
+        addRandomNote();
+        addRandomNote();
 
         addRandomPoa(POA_ID);
-        addRandomPoa(14);
-        addRandomPoa(15);
-        addRandomPoa(16);
-        addRandomPoa(17);
-        addRandomPoa(18);
+        addRandomPoa();
+        addRandomPoa();
+        addRandomPoa();
+        addRandomPoa();
+        addRandomPoa();
 
         addRandomPayment(PAYMENT_ID);
-        addRandomPayment(20);
-        addRandomPayment(21);
-        addRandomPayment(22);
-        addRandomPayment(23);
-        addRandomPayment(24);
+        addRandomPayment();
+        addRandomPayment();
+        addRandomPayment();
+        addRandomPayment();
+        addRandomPayment();
 
         addRandomAddress(ADDRESS_ID);
-        addRandomAddress(26);
-        addRandomAddress(27);
-        addRandomAddress(28);
-        addRandomAddress(29);
-        addRandomAddress(30);
+        addRandomAddress();
+        addRandomAddress();
+        addRandomAddress();
+        addRandomAddress();
+        addRandomAddress();
 
         addRandomEvent(EVENT_ID);
-        addRandomEvent(32);
-        addRandomEvent(33);
-        addRandomEvent(34);
-        addRandomEvent(35);
-        addRandomEvent(36);
+        addRandomEvent();
+        addRandomEvent();
+        addRandomEvent();
+        addRandomEvent();
+        addRandomEvent();
+    }
+
+    public void addRandomTag() {
+        addRandomTag(UUID.randomUUID());
     }
 
     @Transactional
-    public void addRandomTag(int id) {
+    public void addRandomTag(UUID id) {
         context.insertInto(DB_TAG)
                 .set(DB_TAG.TAG_ID, id)
                 .set(DB_TAG.NAME, faker.dog().name())
@@ -86,8 +91,12 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomNote() {
+        addRandomNote(UUID.randomUUID());
+    }
+
     @Transactional
-    public void addRandomNote(int id) {
+    public void addRandomNote(UUID id) {
         context.insertInto(DB_NOTE)
                 .set(DB_NOTE.NOTE_ID, id)
                 .set(DB_NOTE.TITLE, faker.book().title())
@@ -96,8 +105,12 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomPoa() {
+        addRandomPoa(UUID.randomUUID());
+    }
+
     @Transactional
-    public void addRandomPoa(int id) {
+    public void addRandomPoa(UUID id) {
         var date = LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
         context.insertInto(DB_POA)
                 .set(DB_POA.POA_ID, id)
@@ -113,8 +126,12 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomPayment() {
+        addRandomPayment(UUID.randomUUID());
+    }
+
     @Transactional
-    public void addRandomPayment(int id) {
+    public void addRandomPayment(UUID id) {
         var date = LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
         context.insertInto(DB_PAYMENT)
                 .set(DB_PAYMENT.PAYMENT_ID, id)
@@ -129,8 +146,12 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomAddress() {
+        addRandomAddress(UUID.randomUUID());
+    }
+
     @Transactional
-    public void addRandomAddress(int id) {
+    public void addRandomAddress(UUID id) {
         context.insertInto(DB_ADDRESS)
                 .set(DB_ADDRESS.ADDRESS_ID, id)
                 .set(DB_ADDRESS.STREET, faker.address().streetName())
@@ -141,8 +162,12 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomEvent() {
+        addRandomEvent(UUID.randomUUID());
+    }
+
     @Transactional
-    public void addRandomEvent(int id) {
+    public void addRandomEvent(UUID id) {
         var date = LocalDateTime.ofInstant(faker.date().future(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault());
         context.insertInto(DB_EVENT)
                 .set(DB_EVENT.EVENT_ID, id)

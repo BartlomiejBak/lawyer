@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row2;
@@ -51,7 +51,7 @@ public class DbTag extends TableImpl<DbTagRecord> {
     /**
      * The column <code>public.db_tag.tag_id</code>.
      */
-    public final TableField<DbTagRecord, Integer> TAG_ID = createField(DSL.name("tag_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbTagRecord, UUID> TAG_ID = createField(DSL.name("tag_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_tag.name</code>.
@@ -97,11 +97,6 @@ public class DbTag extends TableImpl<DbTagRecord> {
     }
 
     @Override
-    public Identity<DbTagRecord, Integer> getIdentity() {
-        return (Identity<DbTagRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbTagRecord> getPrimaryKey() {
         return Keys.TAG_PKEY;
     }
@@ -142,7 +137,7 @@ public class DbTag extends TableImpl<DbTagRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<Integer, String> fieldsRow() {
+    public Row2<UUID, String> fieldsRow() {
         return (Row2) super.fieldsRow();
     }
 }

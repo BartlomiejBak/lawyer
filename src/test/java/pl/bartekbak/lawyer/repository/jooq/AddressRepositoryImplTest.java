@@ -11,15 +11,16 @@ import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class AddressRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static AddressRepositoryImpl repository;
@@ -66,7 +67,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_address() {
         // given
-        int addressId = DataProvider.ADDRESS_ID;
+        var addressId = DataProvider.ADDRESS_ID;
 
         // when
         final var result = repository.addressById(addressId);
@@ -79,7 +80,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int addressId = Integer.MAX_VALUE;
+        var addressId = UUID.randomUUID();
 
         // when
         final var result = repository.addressById(addressId);
@@ -91,7 +92,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_add_address_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var givenAddress = Address.builder()
                 .addressId(givenId)
                 .street(faker.address().streetName())
@@ -111,8 +112,8 @@ class AddressRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int duplicateId = givenId - 1;
+        var givenId = UUID.randomUUID();
+        var duplicateId = UUID.randomUUID();
 
         var givenAddress = Address.builder()
                 .addressId(givenId)
@@ -141,7 +142,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_update_value_when_address_exists() {
         // given
-        int givenId = DataProvider.ADDRESS_ID;
+        var givenId = DataProvider.ADDRESS_ID;
         var givenAddress = Address.builder()
                 .addressId(givenId)
                 .street(faker.address().streetName())
@@ -162,8 +163,8 @@ class AddressRepositoryImplTest {
     @Test
     void should_do_nothing_when_update_duplicates_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int updatedId = DataProvider.ADDRESS_ID;
+        var givenId = UUID.randomUUID();
+        var updatedId = DataProvider.ADDRESS_ID;
 
         var givenAddress = Address.builder()
                 .addressId(givenId)
@@ -193,7 +194,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_do_nothing_when_address_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var givenAddress = Address.builder()
                 .addressId(givenId)
                 .street(faker.address().streetName())
@@ -213,7 +214,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.ADDRESS_ID;
+        var givenId = DataProvider.ADDRESS_ID;
         var beforeDelete = repository.addressById(givenId);
 
         // when
@@ -228,7 +229,7 @@ class AddressRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

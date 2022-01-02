@@ -13,17 +13,17 @@ import pl.bartekbak.lawyer.repository.DataProvider;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class EventRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static EventRepositoryImpl repository;
@@ -70,7 +70,7 @@ class EventRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_event() {
         // given
-        int eventId = DataProvider.EVENT_ID;
+        var eventId = DataProvider.EVENT_ID;
 
         // when
         final var result = repository.eventById(eventId);
@@ -83,7 +83,7 @@ class EventRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int eventId = Integer.MAX_VALUE;
+        var eventId = UUID.randomUUID();
 
         // when
         final var result = repository.eventById(eventId);
@@ -95,7 +95,7 @@ class EventRepositoryImplTest {
     @Test
     void should_add_event_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var givenEvent = Event.builder()
                 .eventId(givenId)
                 .title(faker.book().title())
@@ -114,8 +114,8 @@ class EventRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int duplicateId = givenId - 1;
+        var givenId = UUID.randomUUID();
+        var duplicateId = UUID.randomUUID();
 
         var givenEvent = Event.builder()
                 .eventId(givenId)
@@ -142,7 +142,7 @@ class EventRepositoryImplTest {
     @Test
     void should_update_value_when_event_exists() {
         // given
-        int givenId = DataProvider.EVENT_ID;
+        var givenId = DataProvider.EVENT_ID;
         var givenEvent = Event.builder()
                 .eventId(givenId)
                 .title(faker.book().title())
@@ -161,8 +161,8 @@ class EventRepositoryImplTest {
     @Test
     void should_do_nothing_when_update_duplicates_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
-        int updatedId = DataProvider.EVENT_ID;
+        var givenId = UUID.randomUUID();
+        var updatedId = DataProvider.EVENT_ID;
 
         var givenEvent = Event.builder()
                 .eventId(givenId)
@@ -190,7 +190,7 @@ class EventRepositoryImplTest {
     @Test
     void should_do_nothing_when_event_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var givenEvent = Event.builder()
                 .eventId(givenId)
                 .title(faker.book().title())
@@ -209,7 +209,7 @@ class EventRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.EVENT_ID;
+        var givenId = DataProvider.EVENT_ID;
         var beforeDelete = repository.eventById(givenId);
 
         // when
@@ -224,7 +224,7 @@ class EventRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

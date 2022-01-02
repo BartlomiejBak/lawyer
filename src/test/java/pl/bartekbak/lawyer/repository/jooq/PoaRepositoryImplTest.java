@@ -11,15 +11,16 @@ import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.entity.Poa;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 class PoaRepositoryImplTest {
 
     @Container
     public static PostgreSQLJooqContainer container = new PostgreSQLJooqContainer();
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
     static DataProvider provider;
     static PoaRepositoryImpl repository;
@@ -66,7 +67,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_return_optional_of_existing_poa() {
         // given
-        int poaId = DataProvider.POA_ID;
+        var poaId = DataProvider.POA_ID;
 
         // when
         final var result = repository.poaById(poaId);
@@ -79,7 +80,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_return_empty_optional() {
         // given
-        int poaId = Integer.MAX_VALUE;
+        var poaId = UUID.randomUUID();
 
         // when
         final var result = repository.poaById(poaId);
@@ -91,7 +92,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_add_poa_when_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String type = faker.dog().name();
         var givenpoa = Poa.builder().poaId(givenId).type(type).build();
 
@@ -107,7 +108,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_do_nothing_when_adding_non_unique_value() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String name = faker.dog().name();
         String newName = faker.cat().name();
         var givenPoa = Poa.builder().poaId(givenId).type(name).build();
@@ -126,7 +127,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_update_value_when_poa_exists() {
         // given
-        int givenId = DataProvider.POA_ID;
+        var givenId = DataProvider.POA_ID;
         String type = faker.cat().name();
         var givenPoa = Poa.builder().poaId(givenId).type(type).build();
 
@@ -142,7 +143,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_do_nothing_when_poa_not_exists() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         String name = faker.cat().name();
         var givenPoa = Poa.builder().poaId(givenId).type(name).build();
 
@@ -157,7 +158,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_delete_record_when_exists() {
         // given
-        int givenId = DataProvider.POA_ID;
+        var givenId = DataProvider.POA_ID;
         var beforeDelete = repository.poaById(givenId);
 
         // when
@@ -172,7 +173,7 @@ class PoaRepositoryImplTest {
     @Test
     void should_do_nothing_when_delete_nonexistent_record() {
         // given
-        int givenId = Integer.MAX_VALUE;
+        var givenId = UUID.randomUUID();
         var beforeDelete = repository.list();
 
         // when

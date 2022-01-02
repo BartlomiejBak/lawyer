@@ -4,9 +4,10 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
+import java.util.UUID;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row4;
@@ -48,7 +49,7 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     /**
      * The column <code>public.db_court.court_id</code>.
      */
-    public final TableField<DbCourtRecord, Integer> COURT_ID = createField(DSL.name("court_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbCourtRecord, UUID> COURT_ID = createField(DSL.name("court_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_court.name</code>.
@@ -104,11 +105,6 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     }
 
     @Override
-    public Identity<DbCourtRecord, Integer> getIdentity() {
-        return (Identity<DbCourtRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbCourtRecord> getPrimaryKey() {
         return Keys.COURT_PKEY;
     }
@@ -144,7 +140,7 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, String, String> fieldsRow() {
+    public Row4<UUID, String, String, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

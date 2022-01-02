@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row4;
@@ -51,17 +51,17 @@ public class DbContactAddress extends TableImpl<DbContactAddressRecord> {
     /**
      * The column <code>public.db_contact_address.id</code>.
      */
-    public final TableField<DbContactAddressRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbContactAddressRecord, UUID> ID = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_contact_address.address</code>.
      */
-    public final TableField<DbContactAddressRecord, Integer> ADDRESS = createField(DSL.name("address"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbContactAddressRecord, UUID> ADDRESS = createField(DSL.name("address"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_contact_address.contact</code>.
      */
-    public final TableField<DbContactAddressRecord, Integer> CONTACT = createField(DSL.name("contact"), SQLDataType.INTEGER, this, "");
+    public final TableField<DbContactAddressRecord, UUID> CONTACT = createField(DSL.name("contact"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>public.db_contact_address.type</code>.
@@ -104,11 +104,6 @@ public class DbContactAddress extends TableImpl<DbContactAddressRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<DbContactAddressRecord, Integer> getIdentity() {
-        return (Identity<DbContactAddressRecord, Integer>) super.getIdentity();
     }
 
     @Override
@@ -169,7 +164,7 @@ public class DbContactAddress extends TableImpl<DbContactAddressRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Integer, Integer, String> fieldsRow() {
+    public Row4<UUID, UUID, UUID, String> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

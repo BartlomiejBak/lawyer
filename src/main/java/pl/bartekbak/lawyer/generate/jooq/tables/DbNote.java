@@ -6,10 +6,10 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row3;
@@ -51,7 +51,7 @@ public class DbNote extends TableImpl<DbNoteRecord> {
     /**
      * The column <code>public.db_note.note_id</code>.
      */
-    public final TableField<DbNoteRecord, Integer> NOTE_ID = createField(DSL.name("note_id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<DbNoteRecord, UUID> NOTE_ID = createField(DSL.name("note_id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field("gen_random_uuid()", SQLDataType.UUID)), this, "");
 
     /**
      * The column <code>public.db_note.title</code>.
@@ -102,11 +102,6 @@ public class DbNote extends TableImpl<DbNoteRecord> {
     }
 
     @Override
-    public Identity<DbNoteRecord, Integer> getIdentity() {
-        return (Identity<DbNoteRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<DbNoteRecord> getPrimaryKey() {
         return Keys.NOTE_PKEY;
     }
@@ -147,7 +142,7 @@ public class DbNote extends TableImpl<DbNoteRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, String, String> fieldsRow() {
+    public Row3<UUID, String, String> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }
