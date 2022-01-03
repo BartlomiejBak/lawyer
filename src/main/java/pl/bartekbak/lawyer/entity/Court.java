@@ -3,6 +3,8 @@ package pl.bartekbak.lawyer.entity;
 import lombok.*;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
@@ -10,7 +12,8 @@ import pl.bartekbak.lawyer.dto.CourtDTO;
 @AllArgsConstructor
 @Builder
 public class Court {
-    private int courtId;
+
+    private UUID courtId;
 
     private String name;
 

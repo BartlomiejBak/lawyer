@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbPaymentRecord;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Builder
 public class Payment {
 
-    private int paymentId;
+    private UUID paymentId;
 
     private double paymentValue;
 

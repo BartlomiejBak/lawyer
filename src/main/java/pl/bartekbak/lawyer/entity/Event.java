@@ -10,6 +10,7 @@ import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbEventRecord;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public class Event {
 
     @JsonProperty("event_id")
-    private int eventId;
+    private UUID eventId;
 
     private String title;
 

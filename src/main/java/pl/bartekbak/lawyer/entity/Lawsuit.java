@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class Lawsuit {
 
     @JsonProperty("lawsuit_id")
-    private int lawsuitId;
+    private UUID lawsuitId;
 
     private String name;
 

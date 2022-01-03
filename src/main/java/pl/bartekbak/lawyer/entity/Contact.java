@@ -10,6 +10,7 @@ import pl.bartekbak.lawyer.dto.ContactDTO;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class Contact {
 
     @JsonProperty("contact_id")
-    private int contactId;
+    private UUID contactId;
 
     private String name;
 

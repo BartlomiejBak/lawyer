@@ -7,13 +7,15 @@ import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.TagDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbTagRecord;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Tag {
 
-    private int tagId;
+    private UUID tagId;
 
     private String name;
 

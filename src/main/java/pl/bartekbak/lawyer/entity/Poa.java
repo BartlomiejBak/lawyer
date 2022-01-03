@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbPoaRecord;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Builder
 @Data
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Poa {
 
-    private int poaId;
+    private UUID poaId;
 
     private String type;
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +23,7 @@ import java.util.Set;
 @Setter
 public class LawsuitDTO {
 
-    private int lawsuitId;
+    private UUID lawsuitId;
 
     @Size(min = 2, max = 50)
     private String name;

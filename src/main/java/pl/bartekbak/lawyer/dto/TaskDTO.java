@@ -2,6 +2,7 @@ package pl.bartekbak.lawyer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +13,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
+@EqualsAndHashCode
 public class TaskDTO {
 
-    private int taskId;
+    private UUID taskId;
 
     private boolean priority;
 
@@ -37,25 +40,4 @@ public class TaskDTO {
         this.contactList.add(contactDTO);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TaskDTO taskDTO = (TaskDTO) o;
-
-        if (taskId != taskDTO.taskId) return false;
-        if (priority != taskDTO.priority) return false;
-        if (!Objects.equals(deadline, taskDTO.deadline)) return false;
-        return Objects.equals(description, taskDTO.description);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = taskId;
-        result = 31 * result + (priority ? 1 : 0);
-        result = 31 * result + (deadline != null ? deadline.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
-    }
 }

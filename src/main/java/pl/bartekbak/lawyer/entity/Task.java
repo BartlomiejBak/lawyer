@@ -14,6 +14,7 @@ import pl.bartekbak.lawyer.dto.TaskDTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class Task {
 
     @JsonProperty("task_id")
-    private int taskId;
+    private UUID taskId;
 
     private boolean priority;
 

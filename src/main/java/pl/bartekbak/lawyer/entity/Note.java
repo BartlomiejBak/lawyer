@@ -7,13 +7,15 @@ import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbNoteRecord;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Note {
 
-    private int noteId;
+    private UUID noteId;
 
     private String title;
 

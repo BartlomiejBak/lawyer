@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.generate.jooq.tables.records.DbAddressRecord;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ import pl.bartekbak.lawyer.generate.jooq.tables.records.DbAddressRecord;
 public class Address {
 
     @JsonProperty("address_id")
-    private int addressId;
+    private UUID addressId;
 
     private String street;
 
