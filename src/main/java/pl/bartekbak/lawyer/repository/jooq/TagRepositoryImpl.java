@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.TagRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbTag.DB_TAG;
 
@@ -27,7 +28,7 @@ public class TagRepositoryImpl extends DatabaseContext implements TagRepository 
     }
 
     @Override
-    public Optional<Tag> tagById(int id) {
+    public Optional<Tag> tagById(UUID id) {
         return dslContext().selectFrom(DB_TAG)
                 .where(DB_TAG.TAG_ID.eq(id))
                 .fetchOptional()
@@ -58,7 +59,7 @@ public class TagRepositoryImpl extends DatabaseContext implements TagRepository 
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_TAG)
                 .where(DB_TAG.TAG_ID.eq(id))
                 .execute();

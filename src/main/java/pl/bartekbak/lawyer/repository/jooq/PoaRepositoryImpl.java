@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.PoaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbPoa.DB_POA;
 
@@ -27,7 +28,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
     }
 
     @Override
-    public Optional<Poa> poaById(int id) {
+    public Optional<Poa> poaById(UUID id) {
         return dslContext().selectFrom(DB_POA)
                 .where(DB_POA.POA_ID.eq(id))
                 .fetchOptional()
@@ -69,7 +70,7 @@ public class PoaRepositoryImpl extends DatabaseContext implements PoaRepository 
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_POA)
                 .where(DB_POA.POA_ID.eq(id))
                 .execute();

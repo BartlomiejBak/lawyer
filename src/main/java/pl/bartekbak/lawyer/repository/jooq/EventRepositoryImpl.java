@@ -10,6 +10,7 @@ import pl.bartekbak.lawyer.repository.EventRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbEvent.DB_EVENT;
 
@@ -28,7 +29,7 @@ public class EventRepositoryImpl extends DatabaseContext implements EventReposit
     }
 
     @Override
-    public Optional<Event> eventById(int id) {
+    public Optional<Event> eventById(UUID id) {
         return dslContext().selectFrom(DB_EVENT)
                 .where(DB_EVENT.EVENT_ID.eq(id))
                 .fetchOptional()
@@ -60,7 +61,7 @@ public class EventRepositoryImpl extends DatabaseContext implements EventReposit
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_EVENT)
                 .where(DB_EVENT.EVENT_ID.eq(id))
                 .execute();

@@ -10,6 +10,7 @@ import pl.bartekbak.lawyer.repository.ContactRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.jooq.impl.DSL.*;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
@@ -51,7 +52,7 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
     }
 
     @Override
-    public Optional<Contact> contactById(int id) {
+    public Optional<Contact> contactById(UUID id) {
         return Optional.ofNullable(dslContext().select(
                         DB_CONTACT.asterisk(),
                         field(
@@ -126,10 +127,7 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
 
     @Override
     @Transactional
-    public void deleteById(int id) {
-        dslContext().deleteFrom(DB_CONTACT_ADDRESS)
-                .where(DB_CONTACT_ADDRESS.CONTACT.eq(id))
-                .execute();
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_CONTACT)
                 .where(DB_CONTACT.CONTACT_ID.eq(id))
                 .execute();

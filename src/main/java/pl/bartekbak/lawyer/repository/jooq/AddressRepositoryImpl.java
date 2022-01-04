@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.AddressRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbAddress.DB_ADDRESS;
 
@@ -27,7 +28,7 @@ public class AddressRepositoryImpl extends DatabaseContext implements AddressRep
     }
 
     @Override
-    public Optional<Address> addressById(int id) {
+    public Optional<Address> addressById(UUID id) {
         return dslContext().selectFrom(DB_ADDRESS)
                 .where(DB_ADDRESS.ADDRESS_ID.eq(id))
                 .fetchOptional()
@@ -65,7 +66,7 @@ public class AddressRepositoryImpl extends DatabaseContext implements AddressRep
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_ADDRESS)
                 .where(DB_ADDRESS.ADDRESS_ID.eq(id))
                 .execute();

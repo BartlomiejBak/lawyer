@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.CourtRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.jooq.impl.DSL.*;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.*;
@@ -38,7 +39,7 @@ public class CourtRepositoryImpl extends DatabaseContext implements CourtReposit
     }
 
     @Override
-    public Optional<Court> courtById(int id) {
+    public Optional<Court> courtById(UUID id) {
         return Optional.ofNullable(dslContext().select(
                         DB_COURT.asterisk(),
                         field(
@@ -80,10 +81,7 @@ public class CourtRepositoryImpl extends DatabaseContext implements CourtReposit
 
     @Override
     @Transactional
-    public void deleteById(int id) {
-        dslContext().deleteFrom(DB_COURT_ADDRESS)
-                .where(DB_COURT_ADDRESS.COURT.eq(id))
-                .execute();
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_COURT)
                 .where(DB_COURT.COURT_ID.eq(id))
                 .execute();

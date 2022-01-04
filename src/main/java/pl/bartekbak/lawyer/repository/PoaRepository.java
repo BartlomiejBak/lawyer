@@ -4,12 +4,13 @@ import pl.bartekbak.lawyer.entity.Poa;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface PoaRepository {
 
     List<Poa> list();
-    Optional<Poa> poaById(int id);
+    Optional<Poa> poaById(UUID id);
     void add(Poa poa);
     void update(Poa poa);
-    void deleteById(int id);
+    void deleteById(UUID id);
 }

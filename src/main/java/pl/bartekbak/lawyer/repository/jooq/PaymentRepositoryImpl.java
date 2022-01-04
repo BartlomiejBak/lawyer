@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.PaymentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbPayment.DB_PAYMENT;
 
@@ -27,7 +28,7 @@ public class PaymentRepositoryImpl extends DatabaseContext implements PaymentRep
     }
 
     @Override
-    public Optional<Payment> paymentById(int id) {
+    public Optional<Payment> paymentById(UUID id) {
         return dslContext().selectFrom(DB_PAYMENT)
                 .where(DB_PAYMENT.PAYMENT_ID.eq(id))
                 .fetchOptional()
@@ -67,7 +68,7 @@ public class PaymentRepositoryImpl extends DatabaseContext implements PaymentRep
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_PAYMENT)
                 .where(DB_PAYMENT.PAYMENT_ID.eq(id))
                 .execute();

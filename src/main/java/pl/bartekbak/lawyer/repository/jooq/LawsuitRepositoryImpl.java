@@ -13,6 +13,7 @@ import pl.bartekbak.lawyer.repository.LawsuitRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.jsonObject;
@@ -75,7 +76,7 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     }
 
     @Override
-    public Optional<Lawsuit> lawsuitById(int id) {
+    public Optional<Lawsuit> lawsuitById(UUID id) {
 
         return Optional.ofNullable(dslContext().select(
                         DB_LAWSUIT.asterisk(),
@@ -118,7 +119,8 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     @Override
     @Transactional
     public void add(Lawsuit lawsuit) {
-        final var id = dslContext().insertInto(DB_LAWSUIT)
+        dslContext().insertInto(DB_LAWSUIT)
+                .set(DB_LAWSUIT.LAWSUIT_ID, lawsuit.getLawsuitId())
                 .set(DB_LAWSUIT.NAME, lawsuit.getName())
                 .set(DB_LAWSUIT.CASE_SIDE, lawsuit.getCaseSide())
                 .set(DB_LAWSUIT.INPUT_DATE, lawsuit.getInputDate())
@@ -131,21 +133,21 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
                 .execute();
         lawsuit.getContacts().forEach(
                 c -> dslContext().insertInto(DB_CONTACT_ROLE_LAWSUIT)
-                        .set(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT, id)
+                        .set(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT, lawsuit.getLawsuitId())
                         .set(DB_CONTACT_ROLE_LAWSUIT.CONTACT_ROLE, c.getId())
                         .onDuplicateKeyIgnore()
                         .execute()
         );
         lawsuit.getTasklist().forEach(
                 t -> dslContext().insertInto(DB_LAWSUIT_TASK)
-                        .set(DB_LAWSUIT_TASK.LAWSUIT, id)
+                        .set(DB_LAWSUIT_TASK.LAWSUIT, lawsuit.getLawsuitId())
                         .set(DB_LAWSUIT_TASK.TASK, t.getTaskId())
                         .onDuplicateKeyIgnore()
                         .execute()
         );
         lawsuit.getEventSet().forEach(
                 e -> dslContext().insertInto(DB_EVENT_LAWSUIT)
-                        .set(DB_EVENT_LAWSUIT.LAWSUIT, id)
+                        .set(DB_EVENT_LAWSUIT.LAWSUIT, lawsuit.getLawsuitId())
                         .set(DB_EVENT_LAWSUIT.EVENT, e.getEventId())
                         .onDuplicateKeyIgnore()
                         .execute()
@@ -184,14 +186,14 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_LAWSUIT)
                 .where(DB_LAWSUIT.LAWSUIT_ID.eq(id))
                 .execute();
     }
 
     @Transactional
-    public void updateContacts(List<ContactRole> toAdd, List<ContactRole> toRemove, int lawsuitId) {
+    public void updateContacts(List<ContactRole> toAdd, List<ContactRole> toRemove, UUID lawsuitId) {
         toAdd.forEach(c ->
                 dslContext().insertInto(DB_CONTACT_ROLE_LAWSUIT)
                         .set(DB_CONTACT_ROLE_LAWSUIT.LAWSUIT, lawsuitId)
@@ -207,7 +209,7 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     }
 
     @Transactional
-    public void updateTasks(List<Task> toAdd, List<Task> toRemove, int lawsuitId) {
+    public void updateTasks(List<Task> toAdd, List<Task> toRemove, UUID lawsuitId) {
         toAdd.forEach(t ->
                 dslContext().insertInto(DB_LAWSUIT_TASK)
                         .set(DB_LAWSUIT_TASK.LAWSUIT, lawsuitId)
@@ -223,7 +225,7 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
     }
 
     @Transactional
-    public void updateEvents(List<Event> toAdd, List<Event> toRemove, int lawsuitId) {
+    public void updateEvents(List<Event> toAdd, List<Event> toRemove, UUID lawsuitId) {
         toAdd.forEach(e ->
                 dslContext().insertInto(DB_EVENT_LAWSUIT)
                         .set(DB_EVENT_LAWSUIT.LAWSUIT, lawsuitId)

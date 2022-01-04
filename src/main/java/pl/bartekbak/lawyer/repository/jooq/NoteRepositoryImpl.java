@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.NoteRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pl.bartekbak.lawyer.generate.jooq.tables.DbNote.DB_NOTE;
 
@@ -27,7 +28,7 @@ public class NoteRepositoryImpl extends DatabaseContext implements NoteRepositor
     }
 
     @Override
-    public Optional<Note> noteById(int id) {
+    public Optional<Note> noteById(UUID id) {
         return dslContext().selectFrom(DB_NOTE)
                 .where(DB_NOTE.NOTE_ID.eq(id))
                 .fetchOptional()
@@ -59,7 +60,7 @@ public class NoteRepositoryImpl extends DatabaseContext implements NoteRepositor
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_NOTE)
                 .where(DB_NOTE.NOTE_ID.eq(id))
                 .execute();

@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.repository.TaskRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.jooq.impl.DSL.*;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_TASK_CONTACT;
@@ -40,7 +41,7 @@ public class TaskRepositoryImpl extends DatabaseContext implements TaskRepositor
     }
 
     @Override
-    public Optional<Task> taskById(int id) {
+    public Optional<Task> taskById(UUID id) {
         return Optional.ofNullable(
                 dslContext().select(
                                 DB_TASK.asterisk(),
@@ -85,7 +86,7 @@ public class TaskRepositoryImpl extends DatabaseContext implements TaskRepositor
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         dslContext().deleteFrom(DB_TASK)
                 .where(DB_TASK.TASK_ID.eq(id))
                 .execute();
