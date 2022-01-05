@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.ContactService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class ContactServiceJooq implements ContactService {
     }
 
     @Override
-    public ContactDTO findContactById(int id) {
+    public ContactDTO findContactById(UUID id) {
         Optional<Contact> result = contactRepository.contactById(id);
         ContactDTO contact;
         contact = result.map(Contact::toDto).orElse(null);
@@ -43,7 +44,7 @@ public class ContactServiceJooq implements ContactService {
     }
 
     @Override
-    public void deleteContactById(int id) {
+    public void deleteContactById(UUID id) {
         contactRepository.deleteById(id);
     }
 }

@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.TagService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class TagServiceJooq implements TagService {
     }
 
     @Override
-    public TagDTO findTagById(int id) {
+    public TagDTO findTagById(UUID id) {
         Optional<Tag> result = tagRepository.tagById(id);
         TagDTO tag;
         tag = result.map(Tag::toDto).orElse(null);
@@ -42,7 +43,7 @@ public class TagServiceJooq implements TagService {
     }
 
     @Override
-    public void deleteTagById(int id) {
+    public void deleteTagById(UUID id) {
         tagRepository.deleteById(id);
     }
 }

@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.CourtService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class CourtServiceJooq implements CourtService {
     }
 
     @Override
-    public CourtDTO findCourtById(int id) {
+    public CourtDTO findCourtById(UUID id) {
         Optional<Court> result = courtRepository.courtById(id);
         CourtDTO court;
         court = result.map(Court::toDto).orElse(null);
@@ -43,7 +44,7 @@ public class CourtServiceJooq implements CourtService {
     }
 
     @Override
-    public void deleteCourtById(int id) {
+    public void deleteCourtById(UUID id) {
         courtRepository.deleteById(id);
     }
 }

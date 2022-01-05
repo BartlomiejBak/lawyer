@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.NoteService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class NoteServiceJooq implements NoteService {
     }
 
     @Override
-    public NoteDTO findNoteById(int id) {
+    public NoteDTO findNoteById(UUID id) {
         Optional<Note> result = noteRepository.noteById(id);
         NoteDTO note;
         note = result.map(Note::toDto).orElse(null);
@@ -43,7 +44,7 @@ public class NoteServiceJooq implements NoteService {
     }
 
     @Override
-    public void deleteNoteById(int id) {
+    public void deleteNoteById(UUID id) {
         noteRepository.deleteById(id);
     }
 }

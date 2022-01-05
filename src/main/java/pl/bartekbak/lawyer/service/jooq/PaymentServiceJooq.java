@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.service.PaymentService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class PaymentServiceJooq implements PaymentService {
     }
 
     @Override
-    public PaymentDTO findPaymentById(int id) {
+    public PaymentDTO findPaymentById(UUID id) {
         Optional<Payment> result = repository.paymentById(id);
         PaymentDTO payment;
         payment = result.map(Payment::toDto).orElse(null);
@@ -41,7 +42,7 @@ public class PaymentServiceJooq implements PaymentService {
     }
 
     @Override
-    public void deletePaymentById(int id) {
+    public void deletePaymentById(UUID id) {
         repository.deleteById(id);
     }
 }

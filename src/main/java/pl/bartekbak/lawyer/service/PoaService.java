@@ -3,13 +3,14 @@ package pl.bartekbak.lawyer.service;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PoaService {
     List<PoaDTO> findAllPoa();
 
-    PoaDTO findPoaById(int id);
+    PoaDTO findPoaById(UUID id);
 
     void savePoa(PoaDTO poa);
 
-    void deletePoaById(int id);
+    void deletePoaById(UUID id);
 }

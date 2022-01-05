@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.service.PoaService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class PoaServiceJooq implements PoaService {
     }
 
     @Override
-    public PoaDTO findPoaById(int id) {
+    public PoaDTO findPoaById(UUID id) {
         Optional<Poa> result = repository.poaById(id);
         PoaDTO poa;
         poa = result.map(Poa::toDto).orElse(null);
@@ -41,7 +42,7 @@ public class PoaServiceJooq implements PoaService {
     }
 
     @Override
-    public void deletePoaById(int id) {
+    public void deletePoaById(UUID id) {
         repository.deleteById(id);
     }
 }

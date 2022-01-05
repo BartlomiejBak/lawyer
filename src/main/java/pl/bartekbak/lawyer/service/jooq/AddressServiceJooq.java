@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.service.AddressService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class AddressServiceJooq implements AddressService {
     }
 
     @Override
-    public AddressDTO findAddressById(int id) {
+    public AddressDTO findAddressById(UUID id) {
         Optional<Address> result = addressRepository.addressById(id);
         AddressDTO address;
         address = result.map(Address::toDto).orElse(null);
@@ -41,7 +42,7 @@ public class AddressServiceJooq implements AddressService {
     }
 
     @Override
-    public void deleteAddressById(int id) {
+    public void deleteAddressById(UUID id) {
         addressRepository.deleteById(id);
     }
 }

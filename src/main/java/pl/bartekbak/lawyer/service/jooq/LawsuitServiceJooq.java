@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.LawsuitService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class LawsuitServiceJooq implements LawsuitService {
     }
 
     @Override
-    public LawsuitDTO findLawsuitById(int id) {
+    public LawsuitDTO findLawsuitById(UUID id) {
         Optional<Lawsuit> result = lawsuitRepository.lawsuitById(id);
         LawsuitDTO lawsuit;
         lawsuit = result.map(Lawsuit::toDto).orElse(null);
@@ -43,7 +44,7 @@ public class LawsuitServiceJooq implements LawsuitService {
     }
 
     @Override
-    public void deleteLawsuitById(int id) {
+    public void deleteLawsuitById(UUID id) {
         lawsuitRepository.deleteById(id);
     }
 }

@@ -9,6 +9,7 @@ import pl.bartekbak.lawyer.service.TaskService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class TaskServiceJooq implements TaskService {
     }
 
     @Override
-    public TaskDTO findTaskById(int id) {
+    public TaskDTO findTaskById(UUID id) {
         Optional<Task> result = taskRepository.taskById(id);
         TaskDTO task;
         task = result.map(Task::toDto).orElse(null);
@@ -42,7 +43,7 @@ public class TaskServiceJooq implements TaskService {
     }
 
     @Override
-    public void deleteTaskById(int id) {
+    public void deleteTaskById(UUID id) {
         taskRepository.deleteById(id);
     }
 }

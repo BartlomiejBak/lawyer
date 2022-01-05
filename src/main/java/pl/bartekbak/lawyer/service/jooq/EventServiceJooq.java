@@ -8,6 +8,7 @@ import pl.bartekbak.lawyer.service.EventService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class EventServiceJooq implements EventService {
     }
 
     @Override
-    public EventDTO findEventById(int id) {
+    public EventDTO findEventById(UUID id) {
         Optional<Event> result = eventRepository.eventById(id);
         EventDTO event;
         event = result.map(Event::toDto).orElse(null);
@@ -41,7 +42,7 @@ public class EventServiceJooq implements EventService {
     }
 
     @Override
-    public void deleteEventById(int id) {
+    public void deleteEventById(UUID id) {
         eventRepository.deleteById(id);
     }
 }
