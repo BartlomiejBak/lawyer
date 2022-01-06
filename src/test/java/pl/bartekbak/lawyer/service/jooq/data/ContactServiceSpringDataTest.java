@@ -1,27 +1,29 @@
 package pl.bartekbak.lawyer.service.jooq.data;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.bartekbak.lawyer.repository.ContactRepository;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.entity.Address;
 import pl.bartekbak.lawyer.entity.Contact;
+import pl.bartekbak.lawyer.repository.ContactRepository;
 import pl.bartekbak.lawyer.service.jooq.ContactServiceJooq;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@Disabled
 @ExtendWith(MockitoExtension.class)
 class ContactServiceSpringDataTest {
 
@@ -31,8 +33,12 @@ class ContactServiceSpringDataTest {
     @Mock
     ContactRepository repository;
 
+    private final UUID first = UUID.randomUUID();
+    private final UUID second = UUID.randomUUID();
+    private final UUID third = UUID.randomUUID();
+
     Contact contactOne = Contact.builder()
-            .contactId(1)
+            .contactId(first)
             .name("n1")
             .firstName("fn1")
             .lastName("ln1")
@@ -42,10 +48,10 @@ class ContactServiceSpringDataTest {
 
     @Test
     void findAllContactsTest() {
-        //given
+        // given
         List<Contact> list = new ArrayList<>();
         Contact contactTwo = Contact.builder()
-                .contactId(2)
+                .contactId(second)
                 .name("n2")
                 .firstName("fn2")
                 .lastName("ln2")
@@ -53,7 +59,7 @@ class ContactServiceSpringDataTest {
                 .correspondenceAddress(Address.builder().build())
                 .build();
         Contact contactThree = Contact.builder()
-                .contactId(3)
+                .contactId(third)
                 .name("n3")
                 .firstName("fn3")
                 .lastName("ln3")
@@ -64,30 +70,31 @@ class ContactServiceSpringDataTest {
         list.add(contactTwo);
         list.add(contactThree);
 
-        //when
+        // when
         when(repository.list()).thenReturn(list);
         List<ContactDTO> result = service.findAllContacts();
 
-        //then
+        // then
         assertEquals(2, result.size());
         verify(repository, times(1)).list();
     }
 
     @Test
     void findContactByIdTest() {
-        //given
-        //when
-        when(repository.contactById(1))
+        // given
+        // when
+        when(repository.contactById(first))
                 .thenReturn(Optional.of(contactOne));
-        ContactDTO result = service.findContactById(1);
-        //then
+        ContactDTO result = service.findContactById(first);
+
+        // then
         assertEquals("fn1", result.getFirstName());
         assertEquals("ln1", result.getLastName());
     }
 
     @Test
     void saveContactTest() {
-        //given
+        // given
         ContactDTO contactDTO = ContactDTO.builder()
                 .name("1 contact")
                 .firstName("1 name")
@@ -107,20 +114,23 @@ class ContactServiceSpringDataTest {
                 .dateCreated(LocalDateTime.now())
                 .pesel("12345678901")
                 .build();
-        //when
+
+        // when
         service.saveContact(contactDTO);
-        //then
+
+        // then
         verify(repository, times(1)).add(any());
     }
 
     @Test
     void deleteContactByIdTest() {
-        //given
-        //when
-        service.deleteContactById(1);
-        service.deleteContactById(2);
-        //then
-        verify(repository, times(1)).deleteById(1);
+        // given
+        // when
+        service.deleteContactById(first);
+        service.deleteContactById(second);
+
+        // then
+        verify(repository, times(1)).deleteById(first);
         verify(repository, times(2)).deleteById(any());
     }
 }
