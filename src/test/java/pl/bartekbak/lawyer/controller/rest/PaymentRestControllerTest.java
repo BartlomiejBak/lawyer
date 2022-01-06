@@ -18,6 +18,7 @@ import pl.bartekbak.lawyer.dto.PaymentDTO;
 import pl.bartekbak.lawyer.service.jooq.PaymentServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,16 +49,18 @@ class PaymentRestControllerTest {
 
     @Test
     void getAllPayments_shouldReturnPayments() throws Exception {
-        //given
+        // given
         when(paymentService.findAllPayments()).thenReturn(payments);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/payments")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<PaymentDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -66,16 +69,18 @@ class PaymentRestControllerTest {
 
     @Test
     void getPayment_shouldReturnFirstPayment() throws Exception {
-        //given
-        when(paymentService.findPaymentById(100)).thenReturn(firstPayment);
-        //when
+        // given
+        when(paymentService.findPaymentById(any())).thenReturn(firstPayment);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/payments/100")
+                        .get("/api/payments/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final PaymentDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -84,9 +89,10 @@ class PaymentRestControllerTest {
 
     @Test
     void addPayment_shouldInvokePostSavePaymentOnce() throws Exception {
-        //given
+        // given
         doNothing().when(paymentService).savePayment(any(PaymentDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/payments")
                         .content(objectMapper.writeValueAsString(firstPayment))
@@ -94,15 +100,17 @@ class PaymentRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(paymentService, times(1)).savePayment(any(PaymentDTO.class));
     }
 
     @Test
     void updatePayment_shouldInvokePutPaymentOnce() throws Exception {
-        //given
+        // given
         doNothing().when(paymentService).savePayment(any(PaymentDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/payments")
                         .content(objectMapper.writeValueAsString(firstPayment))
@@ -110,23 +118,25 @@ class PaymentRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(paymentService, times(1)).savePayment(any(PaymentDTO.class));
     }
 
     @Test
     void deletePayment_shouldInvokeDeletePaymentByIdOnce() throws Exception {
-        //given
-        doNothing().when(paymentService).deletePaymentById(anyInt());
-        when(paymentService.findPaymentById(anyInt())).thenReturn(firstPayment);
-        //when
+        // given
+        doNothing().when(paymentService).deletePaymentById(any());
+        when(paymentService.findPaymentById(any())).thenReturn(firstPayment);
 
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/payments/100")
+                        .delete("/api/payments/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(paymentService, times(1)).deletePaymentById(anyInt());
+
+        // then
+        verify(paymentService, times(1)).deletePaymentById(any());
     }
 }

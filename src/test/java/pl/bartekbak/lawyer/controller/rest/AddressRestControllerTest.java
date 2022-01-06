@@ -18,6 +18,7 @@ import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.service.jooq.AddressServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,14 +36,13 @@ class AddressRestControllerTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private AddressRestController addressRestController;
 
     @Mock
     private AddressServiceJooq addressService;
 
     @BeforeEach
     void setUp() {
-        addressRestController = new AddressRestController(addressService);
+        AddressRestController addressRestController = new AddressRestController(addressService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(addressRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -50,17 +50,18 @@ class AddressRestControllerTest {
 
     @Test
     void getAllAddresses_shouldReturnAddresses() throws Exception {
-        //given
+        // given
         when(addressService.findAllAddresses()).thenReturn(addresses);
 
-        //when
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/addresses")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<AddressDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -69,17 +70,18 @@ class AddressRestControllerTest {
 
     @Test
     void getAddress_shouldReturnFirstAddress() throws Exception {
-        //given
-        when(addressService.findAddressById(100)).thenReturn(firstAddress);
+        // given
+        when(addressService.findAddressById(any())).thenReturn(firstAddress);
 
-        //when
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/addresses/100")
+                        .get("/api/addresses/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final AddressDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -88,52 +90,54 @@ class AddressRestControllerTest {
 
     @Test
     void addAddress_shouldInvokePostSaveAddressOnce() throws Exception {
-        //given
+        // given
         doNothing().when(addressService).saveAddress(any(AddressDTO.class));
-        //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+
+        // when
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/addresses")
                         .content(objectMapper.writeValueAsString(firstAddress))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(addressService, times(1)).saveAddress(any(AddressDTO.class));
     }
 
     @Test
     void updateAddress_shouldInvokePutSaveAddressOnce() throws Exception{
-        //given
+        // given
         doNothing().when(addressService).saveAddress(any(AddressDTO.class));
-        //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
+
+        // when
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/addresses")
                         .content(objectMapper.writeValueAsString(firstAddress))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(addressService, times(1)).saveAddress(any(AddressDTO.class));
     }
 
     @Test
     void deleteAddress_shouldInvokeDeleteAddressByIdOnce() throws Exception {
-        //given
-        doNothing().when(addressService).deleteAddressById(anyInt());
-        when(addressService.findAddressById(anyInt())).thenReturn(firstAddress);
+        // given
+        doNothing().when(addressService).deleteAddressById(any());
+        when(addressService.findAddressById(any())).thenReturn(firstAddress);
 
-        //when
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete("/api/addresses/100")
+        // when
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/addresses/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(addressService, times(1)).deleteAddressById(anyInt());
+
+        // then
+        verify(addressService, times(1)).deleteAddressById(any());
     }
 }

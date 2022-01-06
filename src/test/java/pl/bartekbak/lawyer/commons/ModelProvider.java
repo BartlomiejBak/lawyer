@@ -15,12 +15,24 @@ import pl.bartekbak.lawyer.dto.TaskDTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class ModelProvider {
 
+    public static final UUID ADDRESS_ID = UUID.randomUUID();
+    public static final UUID CONTACT_ID = UUID.randomUUID();
+    public static final UUID COURT_ID = UUID.randomUUID();
+    public static final UUID EVENT_ID = UUID.randomUUID();
+    public static final UUID LAWSUIT_ID = UUID.randomUUID();
+    public static final UUID NOTE_ID = UUID.randomUUID();
+    public static final UUID PAYMENT_ID = UUID.randomUUID();
+    public static final UUID POA_ID = UUID.randomUUID();
+    public static final UUID TAG_ID = UUID.randomUUID();
+    public static final UUID TASK_ID = UUID.randomUUID();
+
     private final AddressDTO firstAddress = AddressDTO.builder()
-            .addressId(100)
+            .addressId(ADDRESS_ID)
             .street("Main Street")
             .zipCode("00-001")
             .city("Warsaw")
@@ -28,7 +40,7 @@ public class ModelProvider {
             .build();
 
     private final AddressDTO secondAddress = AddressDTO.builder()
-            .addressId(101)
+            .addressId(UUID.randomUUID())
             .zipCode("00001")
             .street("Strasse")
             .city("Berlin")
@@ -36,7 +48,7 @@ public class ModelProvider {
             .build();
 
     private final AddressDTO thirdAddress = AddressDTO.builder()
-            .addressId(102)
+            .addressId(UUID.randomUUID())
             .street("Calle")
             .zipCode("123 123")
             .city("Madrid")
@@ -46,7 +58,7 @@ public class ModelProvider {
     private final List<AddressDTO> addresses = List.of(firstAddress, secondAddress, thirdAddress);
 
     private final ContactDTO firstContact = ContactDTO.builder()
-            .contactId(100)
+            .contactId(CONTACT_ID)
             .name("FirstContact")
             .firstName("First")
             .lastName("ContactA")
@@ -66,7 +78,7 @@ public class ModelProvider {
             .build();
 
     private final ContactDTO secondContact = ContactDTO.builder()
-            .contactId(101)
+            .contactId(UUID.randomUUID())
             .name("SecondContact")
             .firstName("Second")
             .lastName("Contact")
@@ -86,7 +98,7 @@ public class ModelProvider {
             .build();
 
     private final ContactDTO thirdContact = ContactDTO.builder()
-            .contactId(102)
+            .contactId(UUID.randomUUID())
             .name("ThirdContact")
             .firstName("Third")
             .lastName("Contact")
@@ -108,7 +120,7 @@ public class ModelProvider {
     private final List<ContactDTO> contacts = List.of(firstContact, secondContact, thirdContact);
 
     private final CourtDTO firstCourt = CourtDTO.builder()
-            .courtId(100)
+            .courtId(COURT_ID)
             .name("1 court")
             .address(firstAddress)
             .description("first court")
@@ -116,7 +128,7 @@ public class ModelProvider {
             .build();
 
     private final CourtDTO secondCourt = CourtDTO.builder()
-            .courtId(101)
+            .courtId(UUID.randomUUID())
             .name("2 court")
             .address(secondAddress)
             .description("second court")
@@ -124,7 +136,7 @@ public class ModelProvider {
             .build();
 
     private final CourtDTO thirdCourt = CourtDTO.builder()
-            .courtId(102)
+            .courtId(UUID.randomUUID())
             .name("3 court")
             .address(thirdAddress)
             .description("third court")
@@ -134,7 +146,7 @@ public class ModelProvider {
     private final List<CourtDTO> courts = List.of(firstCourt, secondCourt, thirdCourt);
 
     private final LawsuitDTO firstLawsuit = LawsuitDTO.builder()
-            .lawsuitId(100)
+            .lawsuitId(LAWSUIT_ID)
             .name("1 lawsuit")
             .caseSide("defendant")
             .inputDate(LocalDate.of(2021, 11, 12))
@@ -150,7 +162,7 @@ public class ModelProvider {
             .build();
 
     private final LawsuitDTO secondLawsuit = LawsuitDTO.builder()
-            .lawsuitId(101)
+            .lawsuitId(UUID.randomUUID())
             .name("2 lawsuit")
             .caseSide("defendant")
             .inputDate(LocalDate.of(2021, 11, 13))
@@ -166,7 +178,7 @@ public class ModelProvider {
             .build();
 
     private final LawsuitDTO thirdLawsuit = LawsuitDTO.builder()
-            .lawsuitId(102)
+            .lawsuitId(UUID.randomUUID())
             .name("3 lawsuit")
             .caseSide("defendant")
             .inputDate(LocalDate.of(2021, 11, 14))
@@ -184,21 +196,21 @@ public class ModelProvider {
     private final List<LawsuitDTO> lawsuits = List.of(firstLawsuit, secondLawsuit, thirdLawsuit);
 
     private final EventDTO firstEvent = EventDTO.builder()
-            .eventId(100)
+            .eventId(EVENT_ID)
             .title("FirstEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,1))
             .description("description")
             .build();
 
     private final EventDTO secondEvent = EventDTO.builder()
-            .eventId(101)
+            .eventId(UUID.randomUUID())
             .title("SecondEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,2))
             .description("description")
             .build();
 
     private final EventDTO thirdEvent = EventDTO.builder()
-            .eventId(102)
+            .eventId(UUID.randomUUID())
             .title("ThirdEvent")
             .dateTime(LocalDateTime.of(2021, 11, 11, 11 ,3))
             .description("description")
@@ -207,19 +219,19 @@ public class ModelProvider {
     private final List<EventDTO> events = List.of(firstEvent, secondEvent, thirdEvent);
 
     private final NoteDTO firstNote = NoteDTO.builder()
-            .noteId(100)
+            .noteId(NOTE_ID)
             .title("1 note")
             .text("text 1")
             .build();
 
     private final NoteDTO secondNote = NoteDTO.builder()
-            .noteId(101)
+            .noteId(UUID.randomUUID())
             .title("2 note")
             .text("text 2")
             .build();
 
     private final NoteDTO thirdNote = NoteDTO.builder()
-            .noteId(102)
+            .noteId(UUID.randomUUID())
             .title("3 note")
             .text("text 3")
             .build();
@@ -227,7 +239,7 @@ public class ModelProvider {
     private final List<NoteDTO> notes = List.of(firstNote, secondNote, thirdNote);
 
     private final PaymentDTO firstPayment = PaymentDTO.builder()
-            .paymentId(100)
+            .paymentId(PAYMENT_ID)
             .paymentValue(500)
             .paymentDate(LocalDate.of(2021, 11, 11))
             .paid(true)
@@ -238,7 +250,7 @@ public class ModelProvider {
             .build();
 
     private final PaymentDTO secondPayment = PaymentDTO.builder()
-            .paymentId(101)
+            .paymentId(UUID.randomUUID())
             .paymentValue(600)
             .paymentDate(LocalDate.of(2021, 11, 13))
             .paid(true)
@@ -249,7 +261,7 @@ public class ModelProvider {
             .build();
 
     private final PaymentDTO thirdPayment = PaymentDTO.builder()
-            .paymentId(102)
+            .paymentId(UUID.randomUUID())
             .paymentValue(700)
             .paymentDate(LocalDate.of(2021, 11, 15))
             .paid(true)
@@ -262,7 +274,7 @@ public class ModelProvider {
     List<PaymentDTO> payments = List.of(firstPayment, secondPayment, thirdPayment);
 
     private final PoaDTO firstPoa = PoaDTO.builder()
-            .poaId(100)
+            .poaId(POA_ID)
             .poaType("regular")
             .payment("500")
             .kpc(true)
@@ -274,7 +286,7 @@ public class ModelProvider {
             .build();
 
     private final PoaDTO secondPoa = PoaDTO.builder()
-            .poaId(101)
+            .poaId(UUID.randomUUID())
             .poaType("regular")
             .payment("300")
             .kpc(true)
@@ -286,7 +298,7 @@ public class ModelProvider {
             .build();
 
     private final PoaDTO thirdPoa = PoaDTO.builder()
-            .poaId(102)
+            .poaId(UUID.randomUUID())
             .poaType("regular")
             .payment("200")
             .kpc(true)
@@ -300,24 +312,24 @@ public class ModelProvider {
     List<PoaDTO> poaList = List.of(firstPoa, secondPoa, thirdPoa);
 
     private final TagDTO firstTag = TagDTO.builder()
-            .tagId(100)
+            .tagId(TAG_ID)
             .name("1 tag")
             .build();
 
     private final TagDTO secondTag = TagDTO.builder()
-            .tagId(101)
+            .tagId(UUID.randomUUID())
             .name("2 tag")
             .build();
 
     private final TagDTO thirdTag = TagDTO.builder()
-            .tagId(102)
+            .tagId(UUID.randomUUID())
             .name("3 tag")
             .build();
 
     private final List<TagDTO> tags = List.of(firstTag, secondTag, thirdTag);
 
     private final TaskDTO firstTask = TaskDTO.builder()
-            .taskId(100)
+            .taskId(TASK_ID)
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 11))
             .description("1 task to do")
@@ -325,7 +337,7 @@ public class ModelProvider {
             .build();
 
     private final TaskDTO secondTask = TaskDTO.builder()
-            .taskId(101)
+            .taskId(UUID.randomUUID())
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 12))
             .description("2 task to do")
@@ -333,7 +345,7 @@ public class ModelProvider {
             .build();
 
     private final TaskDTO thirdTask = TaskDTO.builder()
-            .taskId(102)
+            .taskId(UUID.randomUUID())
             .priority(true)
             .deadline(LocalDateTime.of(20211, 11, 11, 11, 13))
             .description("3 task to do")

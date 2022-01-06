@@ -18,6 +18,7 @@ import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.service.jooq.CourtServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,14 +40,13 @@ class CourtRestControllerTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private CourtRestController courtRestController;
 
     @Mock
     private CourtServiceJooq courtService;
 
     @BeforeEach
     void setUp() {
-        courtRestController = new CourtRestController(courtService);
+        CourtRestController courtRestController = new CourtRestController(courtService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(courtRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -54,16 +54,18 @@ class CourtRestControllerTest {
 
     @Test
     void getAllCourts_shouldReturnCourts() throws Exception {
-        //given
+        // given
         when(courtService.findAllCourts()).thenReturn(courts);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/courts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<CourtDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -72,16 +74,18 @@ class CourtRestControllerTest {
 
     @Test
     void getCourt_shouldReturnFirstCourt() throws Exception {
-        //given
-        when(courtService.findCourtById(100)).thenReturn(firstCourt);
-        //when
+        // given
+        when(courtService.findCourtById(any())).thenReturn(firstCourt);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/courts/100")
+                        .get("/api/courts/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final CourtDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -90,9 +94,10 @@ class CourtRestControllerTest {
 
     @Test
     void addCourt_shouldInvokePostSaveCourtOnce() throws Exception {
-        //given
+        // given
         doNothing().when(courtService).saveCourt(any(CourtDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
@@ -100,15 +105,17 @@ class CourtRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(courtService, times(1)).saveCourt(any(CourtDTO.class));
     }
 
     @Test
     void updateCourt_shouldInvokePutSaveCourtOnce() throws Exception {
-        //given
+        // given
         doNothing().when(courtService).saveCourt(any(CourtDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/courts")
                         .content(objectMapper.writeValueAsString(firstCourt))
@@ -116,22 +123,25 @@ class CourtRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(courtService, times(1)).saveCourt(any(CourtDTO.class));
     }
 
     @Test
     void deleteCourt_shouldInvokeDeleteCourtByIdOnce() throws Exception {
-        //given
-        doNothing().when(courtService).deleteCourtById(anyInt());
-        when(courtService.findCourtById(anyInt())).thenReturn(firstCourt);
-        //when
+        // given
+        doNothing().when(courtService).deleteCourtById(any());
+        when(courtService.findCourtById(any())).thenReturn(firstCourt);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/courts/100")
+                        .delete("/api/courts/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(courtService, times(1)).deleteCourtById(anyInt());
+
+        // then
+        verify(courtService, times(1)).deleteCourtById(any());
     }
 }

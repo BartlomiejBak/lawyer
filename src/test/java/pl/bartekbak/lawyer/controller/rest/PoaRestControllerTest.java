@@ -18,6 +18,7 @@ import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.service.jooq.PoaServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,16 +49,18 @@ class PoaRestControllerTest {
 
     @Test
     void getAllPoas_shouldReturnPoas() throws Exception {
-        //given
+        // given
         when(poaService.findAllPoa()).thenReturn(poaList);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/poas")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<PoaDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -66,16 +69,18 @@ class PoaRestControllerTest {
 
     @Test
     void getPoa_shouldReturnPoa() throws Exception {
-        //given
-        when(poaService.findPoaById(100)).thenReturn(poa);
-        //when
+        // given
+        when(poaService.findPoaById(any())).thenReturn(poa);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/poas/100")
+                        .get("/api/poas/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final PoaDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -84,9 +89,10 @@ class PoaRestControllerTest {
 
     @Test
     void addPoa_shouldInvokePostSavePoaOnce() throws Exception {
-        //given
+        // given
         doNothing().when(poaService).savePoa(any(PoaDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/poas")
                         .content(objectMapper.writeValueAsString(poa))
@@ -94,15 +100,17 @@ class PoaRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(poaService, times(1)).savePoa(any(PoaDTO.class));
     }
 
     @Test
     void updatePoa_shouldInvokePutPoaOnce() throws Exception {
-        //given
+        // given
         doNothing().when(poaService).savePoa(any(PoaDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/poas")
                         .content(objectMapper.writeValueAsString(poa))
@@ -110,24 +118,26 @@ class PoaRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(poaService, times(1)).savePoa(any(PoaDTO.class));
     }
 
     @Test
     void deletePoa_shouldInvokeDeletePoaByIdOnce() throws Exception {
-        //given
-        doNothing().when(poaService).deletePoaById(anyInt());
-        when(poaService.findPoaById(anyInt())).thenReturn(poa);
-        //when
+        // given
+        doNothing().when(poaService).deletePoaById(any());
+        when(poaService.findPoaById(any())).thenReturn(poa);
 
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/poas/100")
+                        .delete("/api/poas/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(poaService, times(1)).deletePoaById(anyInt());
+
+        // then
+        verify(poaService, times(1)).deletePoaById(any());
     }
 
 

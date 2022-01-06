@@ -18,6 +18,7 @@ import pl.bartekbak.lawyer.dto.NoteDTO;
 import pl.bartekbak.lawyer.service.jooq.NoteServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,14 +39,13 @@ class NoteRestControllerTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private NoteRestController noteRestController;
 
     @Mock
     private NoteServiceJooq noteService;
 
     @BeforeEach
     void setUp() {
-        noteRestController = new NoteRestController(noteService);
+        NoteRestController noteRestController = new NoteRestController(noteService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(noteRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -53,16 +53,18 @@ class NoteRestControllerTest {
 
     @Test
     void getAllNotes_shouldReturnNotes() throws Exception {
-        //given
+        // given
         when(noteService.findAllNotes()).thenReturn(notes);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/notes")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<NoteDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -71,16 +73,18 @@ class NoteRestControllerTest {
 
     @Test
     void getNote_shouldReturnFirstNote() throws Exception {
-        //given
-        when(noteService.findNoteById(100)).thenReturn(firstNote);
-        //when
+        // given
+        when(noteService.findNoteById(any())).thenReturn(firstNote);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/notes/100")
+                        .get("/api/notes/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final NoteDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -89,9 +93,10 @@ class NoteRestControllerTest {
 
     @Test
     void addNote_shouldInvokePostSaveNoteOnce() throws Exception {
-        //given
+        // given
         doNothing().when(noteService).saveNote(any(NoteDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/notes")
                         .content(objectMapper.writeValueAsString(firstNote))
@@ -99,15 +104,17 @@ class NoteRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(noteService, times(1)).saveNote(any(NoteDTO.class));
     }
 
     @Test
     void updateNote_shouldInvokePutSaveNoteOnce() throws Exception {
-        //given
+        // given
         doNothing().when(noteService).saveNote(any(NoteDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/notes")
                         .content(objectMapper.writeValueAsString(firstNote))
@@ -115,22 +122,25 @@ class NoteRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(noteService, times(1)).saveNote(any(NoteDTO.class));
     }
 
     @Test
     void deleteNote_shouldInvokeDeleteNoteByIdOnce() throws Exception {
-        //given
-        doNothing().when(noteService).deleteNoteById(anyInt());
-        when(noteService.findNoteById(anyInt())).thenReturn(firstNote);
-        //when
+        // given
+        doNothing().when(noteService).deleteNoteById(any());
+        when(noteService.findNoteById(any())).thenReturn(firstNote);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/notes/100")
+                        .delete("/api/notes/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(noteService, times(1)).deleteNoteById(anyInt());
+
+        // then
+        verify(noteService, times(1)).deleteNoteById(any());
     }
 }

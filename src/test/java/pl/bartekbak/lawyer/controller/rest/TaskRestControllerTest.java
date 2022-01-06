@@ -19,6 +19,7 @@ import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.jooq.TaskServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,16 +54,18 @@ class TaskRestControllerTest {
 
     @Test
     void getAllTasks_shouldReturnTasks() throws Exception {
-        //given
+        // given
         when(taskService.findAllTasks()).thenReturn(tasks);
-        //when
+
+        // when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/tasks")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<TaskDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -71,16 +74,18 @@ class TaskRestControllerTest {
 
     @Test
     void getTask_shouldReturnFirstTask() throws Exception {
-        //given
-        when(taskService.findTaskById(100)).thenReturn(firstTask);
-        //when
+        // given
+        when(taskService.findTaskById(any())).thenReturn(firstTask);
+
+        // when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/tasks/100")
+                        .get("/api/tasks/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final TaskDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -89,9 +94,10 @@ class TaskRestControllerTest {
 
     @Test
     void addTask_shouldInvokePostSaveTaskOnce() throws Exception {
-        //given
+        // given
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
@@ -99,15 +105,17 @@ class TaskRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
     void updateTask_shouldInvokePutSaveTaskOnce() throws Exception {
-        //given
+        // given
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
@@ -115,22 +123,25 @@ class TaskRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
     void deleteTask_shouldInvokeDeleteOrderByIdOnce() throws Exception {
-        //given
-        doNothing().when(taskService).deleteTaskById(anyInt());
-        when(taskService.findTaskById(anyInt())).thenReturn(firstTask);
-        //when
+        // given
+        doNothing().when(taskService).deleteTaskById(any());
+        when(taskService.findTaskById(any())).thenReturn(firstTask);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/tasks/100")
+                        .delete("/api/tasks/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(taskService, times(1)).deleteTaskById(anyInt());
+
+        // then
+        verify(taskService, times(1)).deleteTaskById(any());
     }
 }
