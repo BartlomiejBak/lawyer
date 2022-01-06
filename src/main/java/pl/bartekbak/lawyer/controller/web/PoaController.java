@@ -11,6 +11,7 @@ import pl.bartekbak.lawyer.service.PoaService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -39,7 +40,7 @@ public class PoaController {
     }
 
     @GetMapping("/{poaId}/edit")
-    public String showFormForUpdate(@PathVariable int poaId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID poaId, Model model) {
         PoaDTO poa = poaService.findPoaById(poaId);
         model.addAttribute("poa", poa);
         return POA_ADD_FORM;
@@ -57,13 +58,13 @@ public class PoaController {
     }
 
     @GetMapping("/delete")
-    public String deletePoa(@RequestParam("poaId") int id) {
+    public String deletePoa(@RequestParam("poaId") UUID id) {
         poaService.deletePoaById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{poaId}")
-    public ModelAndView showPoa(@PathVariable int poaId) {
+    public ModelAndView showPoa(@PathVariable UUID poaId) {
         ModelAndView mav = new ModelAndView("poas/poa-details");
         mav.addObject(poaService.findPoaById(poaId));
         return mav;

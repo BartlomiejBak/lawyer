@@ -17,6 +17,7 @@ import pl.bartekbak.lawyer.service.CourtService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -46,7 +47,7 @@ public class CourtController {
     }
 
     @GetMapping("/{courtId}/edit")
-    public String showFormForUpdate(@PathVariable int courtId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID courtId, Model model) {
         CourtDTO court = courtService.findCourtById(courtId);
         model.addAttribute("court", court);
         return COURT_ADD_FORM;
@@ -64,13 +65,13 @@ public class CourtController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("courtId") int id) {
+    public String delete(@RequestParam("courtId") UUID id) {
         courtService.deleteCourtById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{courtId}")
-    public ModelAndView showCourt(@PathVariable int courtId) {
+    public ModelAndView showCourt(@PathVariable UUID courtId) {
         ModelAndView mav = new ModelAndView("courts/court-details");
         mav.addObject(courtService.findCourtById(courtId));
         return mav;

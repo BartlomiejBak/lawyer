@@ -11,6 +11,7 @@ import pl.bartekbak.lawyer.service.TagService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -40,7 +41,7 @@ public class TagController {
     }
 
     @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("tagId") int id, Model model) {
+    public String showFormForUpdate(@RequestParam("tagId") UUID id, Model model) {
         TagDTO tag = tagService.findTagById(id);
         model.addAttribute("tag", tag);
         return TAG_ADD_FORM;
@@ -58,7 +59,7 @@ public class TagController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("tagId") int id) {
+    public String delete(@RequestParam("tagId") UUID id) {
         tagService.deleteTagById(id);
         return "redirect:list";
     }

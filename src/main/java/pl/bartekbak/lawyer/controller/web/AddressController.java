@@ -17,6 +17,7 @@ import pl.bartekbak.lawyer.service.AddressService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -46,7 +47,7 @@ public class AddressController {
     }
 
     @GetMapping("/{addressId}/edit")
-    public String showFormForUpdate(@PathVariable int addressId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID addressId, Model model) {
         AddressDTO address = addressService.findAddressById(addressId);
         model.addAttribute("address", address);
         return ADDRESS_ADD_FORM;
@@ -65,13 +66,13 @@ public class AddressController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("addressId") int id) {
+    public String delete(@RequestParam("addressId") UUID id) {
         addressService.deleteAddressById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{addressId}")
-    public ModelAndView showAddress(@PathVariable int addressId) {
+    public ModelAndView showAddress(@PathVariable UUID addressId) {
         ModelAndView mav = new ModelAndView("addresses/address-details");
         mav.addObject(addressService.findAddressById(addressId));
         return mav;
