@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +13,14 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.TagServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tags")
 public class TagRestController {
-    TagServiceJooq service;
 
-    @Autowired
+    private final TagServiceJooq service;
+
     public TagRestController(TagServiceJooq service) {
         this.service = service;
     }
@@ -31,7 +31,7 @@ public class TagRestController {
     }
 
     @GetMapping("/{tagId}")
-    public TagDTO getTag(@PathVariable int tagId) {
+    public TagDTO getTag(@PathVariable UUID tagId) {
         TagDTO tag = service.findTagById(tagId);
         if (tag == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -41,7 +41,7 @@ public class TagRestController {
 
     @PostMapping
     public TagDTO addTag(@RequestBody TagDTO tag) {
-        tag.setTagId(0);
+        tag.setTagId(UUID.randomUUID());
         service.saveTag(tag);
         return tag;
     }
@@ -53,7 +53,7 @@ public class TagRestController {
     }
 
     @DeleteMapping("/{tagId}")
-    public String deleteTag(@PathVariable int tagId) {
+    public String deleteTag(@PathVariable UUID tagId) {
         TagDTO tag = service.findTagById(tagId);
         if (tag == null) {
             throw new ResourceNotFoundException("No such Id in database");

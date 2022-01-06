@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +13,14 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.LawsuitServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/lawsuits")
 public class LawsuitRestController {
 
-    LawsuitServiceJooq lawsuitService;
+    private final LawsuitServiceJooq lawsuitService;
 
-    @Autowired
     public LawsuitRestController(LawsuitServiceJooq lawsuitService) {
         this.lawsuitService = lawsuitService;
     }
@@ -32,7 +31,7 @@ public class LawsuitRestController {
     }
 
     @GetMapping("/{lawsuitId}")
-    public LawsuitDTO getLawsuit(@PathVariable int lawsuitId) {
+    public LawsuitDTO getLawsuit(@PathVariable UUID lawsuitId) {
         LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -42,7 +41,7 @@ public class LawsuitRestController {
 
     @PostMapping
     public LawsuitDTO addLawsuit(@RequestBody LawsuitDTO lawsuit) {
-        lawsuit.setLawsuitId(0);
+        lawsuit.setLawsuitId(UUID.randomUUID());
         lawsuitService.saveLawsuit(lawsuit);
         return lawsuit;
     }
@@ -54,7 +53,7 @@ public class LawsuitRestController {
     }
 
     @DeleteMapping("/{lawsuitId}")
-    public String deleteLawsuit(@PathVariable int lawsuitId) {
+    public String deleteLawsuit(@PathVariable UUID lawsuitId) {
         LawsuitDTO lawsuit = lawsuitService.findLawsuitById(lawsuitId);
         if (lawsuit == null) {
             throw new ResourceNotFoundException("No such Id in database");

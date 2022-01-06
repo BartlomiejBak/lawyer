@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +13,14 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.NoteServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/notes")
 public class NoteRestController {
-    NoteServiceJooq noteService;
 
-    @Autowired
+    private final NoteServiceJooq noteService;
+
     public NoteRestController(NoteServiceJooq noteService) {
         this.noteService = noteService;
     }
@@ -31,7 +31,7 @@ public class NoteRestController {
     }
 
     @GetMapping("/{noteId}")
-    public NoteDTO getNote(@PathVariable int noteId) {
+    public NoteDTO getNote(@PathVariable UUID noteId) {
         NoteDTO note = noteService.findNoteById(noteId);
         if (note == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -41,7 +41,7 @@ public class NoteRestController {
 
     @PostMapping
     public NoteDTO addNote(@RequestBody NoteDTO note) {
-        note.setNoteId(0);
+        note.setNoteId(UUID.randomUUID());
         noteService.saveNote(note);
         return note;
     }
@@ -53,7 +53,7 @@ public class NoteRestController {
     }
 
     @DeleteMapping("/{noteId}")
-    public String deleteNote(@PathVariable int noteId) {
+    public String deleteNote(@PathVariable UUID noteId) {
         NoteDTO note = noteService.findNoteById(noteId);
         if (note == null) {
             throw new ResourceNotFoundException("No such Id in database");

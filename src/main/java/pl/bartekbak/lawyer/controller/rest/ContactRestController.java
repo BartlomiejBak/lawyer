@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +13,14 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.ContactServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/contacts")
 public class ContactRestController {
 
-    ContactServiceJooq contactService;
+    private final ContactServiceJooq contactService;
 
-    @Autowired
     public ContactRestController(ContactServiceJooq contactService) {
         this.contactService = contactService;
     }
@@ -32,7 +31,7 @@ public class ContactRestController {
     }
 
     @GetMapping("/{contactId}")
-    public ContactDTO getContact(@PathVariable int contactId) {
+    public ContactDTO getContact(@PathVariable UUID contactId) {
         ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -42,7 +41,7 @@ public class ContactRestController {
 
     @PostMapping
     public ContactDTO addContact(@RequestBody ContactDTO contact) {
-        contact.setContactId(0);
+        contact.setContactId(UUID.randomUUID());
         contactService.saveContact(contact);
         return contact;
     }
@@ -54,7 +53,7 @@ public class ContactRestController {
     }
 
     @DeleteMapping("/{contactId}")
-    public String deleteContact(@PathVariable int contactId) {
+    public String deleteContact(@PathVariable UUID contactId) {
         ContactDTO contact = contactService.findContactById(contactId);
         if (contact == null) {
             throw new ResourceNotFoundException("No such Id in database");

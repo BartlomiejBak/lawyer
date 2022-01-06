@@ -13,6 +13,7 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.PaymentServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -30,7 +31,7 @@ public class PaymentRestController {
     }
 
     @GetMapping("/{paymentId}")
-    public PaymentDTO getPayment(@PathVariable int paymentId) {
+    public PaymentDTO getPayment(@PathVariable UUID paymentId) {
         PaymentDTO payment = service.findPaymentById(paymentId);
         if (payment == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -40,7 +41,7 @@ public class PaymentRestController {
 
     @PostMapping
     public PaymentDTO addPayment(@RequestBody PaymentDTO payment) {
-        payment.setPaymentId(0);
+        payment.setPaymentId(UUID.randomUUID());
         service.savePayment(payment);
         return payment;
     }
@@ -52,7 +53,7 @@ public class PaymentRestController {
     }
 
     @DeleteMapping("/{paymentId}")
-    public String deletePayment(@PathVariable int paymentId) {
+    public String deletePayment(@PathVariable UUID paymentId) {
         PaymentDTO payment = service.findPaymentById(paymentId);
         if (payment == null) {
             throw new ResourceNotFoundException("No such Id in database");

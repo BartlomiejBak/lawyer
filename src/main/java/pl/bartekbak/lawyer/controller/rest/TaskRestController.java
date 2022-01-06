@@ -1,6 +1,5 @@
 package pl.bartekbak.lawyer.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +13,14 @@ import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
 import pl.bartekbak.lawyer.service.jooq.TaskServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskRestController {
-    TaskServiceJooq service;
 
-    @Autowired
+    private final TaskServiceJooq service;
+
     public TaskRestController(TaskServiceJooq service) {
         this.service = service;
     }
@@ -31,7 +31,7 @@ public class TaskRestController {
     }
 
     @GetMapping("/{taskId}")
-    public TaskDTO getTask(@PathVariable int taskId) {
+    public TaskDTO getTask(@PathVariable UUID taskId) {
         TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -41,7 +41,7 @@ public class TaskRestController {
 
     @PostMapping
     public TaskDTO addTask(@RequestBody TaskDTO task) {
-        task.setTaskId(0);
+        task.setTaskId(UUID.randomUUID());
         service.saveTask(task);
         return task;
     }
@@ -53,7 +53,7 @@ public class TaskRestController {
     }
 
     @DeleteMapping("/{taskId}")
-    public String deleteTask(@PathVariable int taskId) {
+    public String deleteTask(@PathVariable UUID taskId) {
         TaskDTO task = service.findTaskById(taskId);
         if (task == null) {
             throw new ResourceNotFoundException("No such Id in database");
