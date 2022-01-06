@@ -14,10 +14,10 @@ import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.EventDTO;
 import pl.bartekbak.lawyer.service.EventService;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,10 +64,11 @@ class EventControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findEventById(anyInt())).thenReturn(event);
-        //when
-        mockMvc.perform(get("/events/1/edit"))
+        // given
+        when(service.findEventById(any())).thenReturn(event);
+
+        // when
+        mockMvc.perform(get("/events/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(EVENT_ADD_FORM))
                 .andExpect(model().attributeExists("event"));
@@ -84,20 +85,20 @@ class EventControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/events/delete")
-                .param("eventId", "1"))
+                .param("eventId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showEventTest() throws Exception {
-        //given
-        when(service.findEventById(anyInt())).thenReturn(event);
-        //when
-        mockMvc.perform(get("/events/1"))
+        // given
+        when(service.findEventById(any())).thenReturn(event);
+        // when
+        mockMvc.perform(get("/events/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showEvent(1);
-        //then
+        ModelAndView result = controller.showEvent(event.getEventId());
+        // then
         assertFalse(result.isEmpty());
     }
 }

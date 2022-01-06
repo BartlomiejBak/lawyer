@@ -14,10 +14,10 @@ import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.service.PoaService;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,10 +64,11 @@ class PoaControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findPoaById(anyInt())).thenReturn(poa);
-        //when
-        mockMvc.perform(get("/poas/1/edit"))
+        // given
+        when(service.findPoaById(any())).thenReturn(poa);
+
+        // when
+        mockMvc.perform(get("/poas/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(POA_ADD_FORM))
                 .andExpect(model().attributeExists("poa"));
@@ -84,20 +85,20 @@ class PoaControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/poas/delete")
-                .param("poaId", "1"))
+                .param("poaId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showPoaTest() throws Exception {
-        //given
-        when(service.findPoaById(anyInt())).thenReturn(poa);
-        //when
-        mockMvc.perform(get("/poas/1"))
+        // given
+        when(service.findPoaById(any())).thenReturn(poa);
+        // when
+        mockMvc.perform(get("/poas/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showPoa(1);
-        //then
+        ModelAndView result = controller.showPoa(poa.getPoaId());
+        // then
         assertFalse(result.isEmpty());
     }
 }

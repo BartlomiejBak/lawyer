@@ -11,12 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.commons.ModelProvider;
-import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.CourtDTO;
 import pl.bartekbak.lawyer.service.CourtService;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -63,10 +64,11 @@ class CourtControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findCourtById(anyInt())).thenReturn(court);
-        //when
-        mockMvc.perform(get("/courts/1/edit"))
+        // given
+        when(service.findCourtById(any())).thenReturn(court);
+
+        // when
+        mockMvc.perform(get("/courts/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(COURT_ADD_FORM))
                 .andExpect(model().attributeExists("court"));
@@ -83,20 +85,22 @@ class CourtControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/courts/delete")
-                .param("courtId", "1"))
+                .param("courtId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showCourtTest() throws Exception {
-        //given
-        when(service.findCourtById(anyInt())).thenReturn(court);
-        //when
-        mockMvc.perform(get("/courts/1"))
+        // given
+        when(service.findCourtById(any())).thenReturn(court);
+
+        // when
+        mockMvc.perform(get("/courts/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showCourt(1);
-        //then
+        ModelAndView result = controller.showCourt(court.getCourtId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }

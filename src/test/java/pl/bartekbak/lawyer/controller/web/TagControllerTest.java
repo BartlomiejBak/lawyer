@@ -11,17 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TagDTO;
-import pl.bartekbak.lawyer.entity.Tag;
 import pl.bartekbak.lawyer.service.TagService;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -66,10 +62,11 @@ class TagControllerTest {
     @Test
     void showFormForUpdateTest() throws Exception {
         //given
-        when(service.findTagById(anyInt())).thenReturn(tag);
+        when(service.findTagById(any())).thenReturn(tag);
+
         //when
         mockMvc.perform(get("/tags/showFormForUpdate")
-                    .param("tagId", "1"))
+                    .param("tagId", UUID.randomUUID().toString()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(TAG_ADD_FORM))
                 .andExpect(model().attributeExists("tag"));
@@ -78,7 +75,7 @@ class TagControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/tags/delete")
-                .param("tagId", "1"))
+                .param("tagId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
