@@ -10,6 +10,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
@@ -56,6 +58,31 @@ class CourtRepositoryImplTest {
 
         // when
         final var result = repository.list();
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_return_optional_of_existing_court() {
+        // given
+        var courtId = DataProvider.COURT_ID;
+
+        // when
+        final var result = repository.courtById(courtId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getCourtId()).isEqualTo(courtId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        var courtId = UUID.randomUUID();
+
+        // when
+        final var result = repository.courtById(courtId);
 
         // then
         assertThat(result).isEmpty();

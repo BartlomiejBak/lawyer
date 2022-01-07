@@ -52,6 +52,7 @@ public class CourtRepositoryImpl extends DatabaseContext implements CourtReposit
                                 .as("address")
                 )
                 .from(DB_COURT)
+                        .where(DB_COURT.COURT_ID.eq(id))
                 .fetchOneInto(Court.class));
     }
 
