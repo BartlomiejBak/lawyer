@@ -11,14 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.commons.ModelProvider;
-import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.dto.ContactDTO;
 import pl.bartekbak.lawyer.service.ContactService;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,10 +64,11 @@ class ContactControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findContactById(anyInt())).thenReturn(contact);
-        //when
-        mockMvc.perform(get("/contacts/1/edit"))
+        // given
+        when(service.findContactById(any())).thenReturn(contact);
+
+        // when
+        mockMvc.perform(get("/contacts/"+ UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(CONTACT_ADD_FORM))
                 .andExpect(model().attributeExists("contact"));
@@ -85,20 +85,22 @@ class ContactControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/contacts/delete")
-                .param("contactId", "1"))
+                .param("contactId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showContactTest() throws Exception {
-        //given
-        when(service.findContactById(anyInt())).thenReturn(contact);
-        //when
-        mockMvc.perform(get("/contacts/1"))
+        // given
+        when(service.findContactById(any())).thenReturn(contact);
+
+        // when
+        mockMvc.perform(get("/contacts/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showContact(1);
-        //then
+        ModelAndView result = controller.showContact(contact.getContactId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }

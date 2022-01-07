@@ -12,13 +12,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.EventDTO;
-import pl.bartekbak.lawyer.service.spring.data.EventServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.EventServiceJooq;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,7 +32,7 @@ class EventRestControllerTest {
     ModelProvider provider = new ModelProvider();
 
     @MockBean
-    private EventServiceSpringData eventService;
+    private EventServiceJooq eventService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,10 +56,10 @@ class EventRestControllerTest {
 
     @Test
     void getEvent_shouldReturnFirstEvent() throws Exception {
-        when(eventService.findEventById(100)).thenReturn(firstEvent);
+        when(eventService.findEventById(any())).thenReturn(firstEvent);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/events/100")
+                        .get("/api/events/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("description"))
@@ -97,16 +96,16 @@ class EventRestControllerTest {
     @Test
     void deleteEvent_shouldInvokeDeleteEventByIdOnce() throws Exception {
         //given
-        doNothing().when(eventService).deleteEventById(anyInt());
-        when(eventService.findEventById(anyInt())).thenReturn(firstEvent);
+        doNothing().when(eventService).deleteEventById(any());
+        when(eventService.findEventById(any())).thenReturn(firstEvent);
 
         //when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/events/100")
+                        .delete("/api/events/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         //then
-        verify(eventService, times(1)).deleteEventById(anyInt());
+        verify(eventService, times(1)).deleteEventById(any());
     }
 }

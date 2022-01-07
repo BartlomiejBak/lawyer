@@ -1,82 +1,62 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.*;
-import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "lawsuit")
 public class Lawsuit {
 
-    @Id
-    @Column(name = "lawsuit_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int lawsuitId;
+    @JsonProperty("lawsuit_id")
+    private UUID lawsuitId;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "cas_side")
+    @JsonProperty("case_side")
     private String caseSide;
 
-    @Column(name = "input_date")
+    @JsonProperty("input_date")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate inputDate;
 
-    @Column(name = "deadline")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate deadline;
 
-    @Column(name = "signature")
     private String signature;
 
-    @Column(name = "claim_amount")
+    @JsonProperty("claim_amount")
     private double claimAmount;
 
-    @Column(name = "add_info")
+    @JsonProperty("additional_info")
     private String additionalInfo;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "contact_role_lawsuit",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "contact_role")
-    )
     @Builder.Default
-    @ToString.Exclude
-    private Set<ContactRole> contacts = new HashSet<>();
+    private List<ContactRole> contacts = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "lawsuit_task",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "task")
-    )
     @Builder.Default
-    @ToString.Exclude
-    private Set<Task> taskList = new HashSet<>();
+    private List<Task> tasklist = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "event_lawsuit",
-            joinColumns = @JoinColumn(name = "lawsuit"),
-            inverseJoinColumns = @JoinColumn(name = "event")
-    )
     @Builder.Default
-    @ToString.Exclude
-    private Set<Event> eventSet = new HashSet<>();
+    @JsonProperty("event_set")
+    private List<Event> eventSet = new ArrayList<>();
 
     public void addTask(Task task) {
-        this.taskList.add(task);
+        this.tasklist.add(task);
     }
 
     public void addContact(Contact contact) {
@@ -114,22 +94,28 @@ public class Lawsuit {
                 .signature(signature)
                 .claimAmount(claimAmount)
                 .additionalInfo(additionalInfo)
-                .contactList(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.CONTACT))
+                .contactList(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.CONTACT))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
-                .taskList(taskList.stream().map(Task::toDto).collect(Collectors.toList()))
-                .plaintiff(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.PLAINTIFF))
+                        .collect(Collectors.toList())
+                )
+                .taskList(tasklist.stream().map(Task::toDto).collect(Collectors.toList()))
+                .plaintiff(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.PLAINTIFF))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
-                .defendant(contacts.stream()
-                        .filter(c -> c.getRole().equals(UserRole.DEFENDANT))
+                        .collect(Collectors.toList())
+                )
+                .defendant(
+                        contacts.stream()
+                        .filter(c -> UserRole.valueOf(c.getRole()).equals(UserRole.DEFENDANT))
                         .map(ContactRole::getContact)
                         .map(Contact::toDto)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList())
+                )
                 .eventSet(eventSet.stream().map(Event::toDto).collect(Collectors.toSet()))
                 .build();
     }
@@ -144,9 +130,9 @@ public class Lawsuit {
                 .signature(dto.getSignature())
                 .claimAmount(dto.getClaimAmount())
                 .additionalInfo(dto.getAdditionalInfo())
-                .contacts(contacts(dto))
-                .taskList(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toSet()))
-                .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toSet()))
+                .contacts(new ArrayList<>(contacts(dto)))
+                .tasklist(dto.getTaskList().stream().map(Task::fromDto).collect(Collectors.toList()))
+                .eventSet(dto.getEventSet().stream().map(Event::fromDto).collect(Collectors.toList()))
                 .build();
     }
 
@@ -162,18 +148,5 @@ public class Lawsuit {
                 .map(c -> ContactRole.builder().contact(Contact.fromDto(c)).role(UserRole.DEFENDANT.value).build())
                 .collect(Collectors.toSet()));
         return newContacts;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Lawsuit lawsuit = (Lawsuit) o;
-        return Objects.equals(lawsuitId, lawsuit.lawsuitId);
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
     }
 }

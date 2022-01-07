@@ -1,41 +1,31 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.AddressDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbAddressRecord;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.UUID;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "address")
 public class Address {
 
-    @Id
-    @Column(name = "address_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int addressId;
+    @JsonProperty("address_id")
+    private UUID addressId;
 
-    @Column(name = "street")
     private String street;
 
-    @Column(name = "zip_code")
+    @JsonProperty("zip_code")
     private String zipCode;
 
-    @Column(name = "city")
     private String city;
 
-    @Column(name = "country")
     private String country;
 
     public AddressDTO toDto() {
@@ -57,4 +47,15 @@ public class Address {
                 .country(dto.getCountry())
                 .build();
     }
+
+    public static Address fromDbRecord(DbAddressRecord record) {
+        return Address.builder()
+                .addressId(record.getAddressId())
+                .street(record.getStreet())
+                .zipCode(record.getZipCode())
+                .city(record.getCity())
+                .country(record.getCountry())
+                .build();
+    }
+
 }

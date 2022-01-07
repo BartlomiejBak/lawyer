@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.controller.rest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,9 +16,10 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.LawsuitDTO;
-import pl.bartekbak.lawyer.service.spring.data.LawsuitServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.LawsuitServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +42,7 @@ class LawsuitRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private LawsuitServiceSpringData lawsuitService;
+    private LawsuitServiceJooq lawsuitService;
 
     @BeforeEach
     void setUp() {
@@ -54,16 +54,18 @@ class LawsuitRestControllerTest {
 
     @Test
     void getAllLawsuits_shouldReturnLawsuits() throws Exception {
-        //given
+        // given
         when(lawsuitService.findAllLawsuits()).thenReturn(lawsuits);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/lawsuits")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<LawsuitDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -72,16 +74,18 @@ class LawsuitRestControllerTest {
 
     @Test
     void getLawsuit_shouldReturnFirstLawsuit() throws Exception {
-        //given
-        when(lawsuitService.findLawsuitById(100)).thenReturn(firstLawsuit);
-        //when
+        // given
+        when(lawsuitService.findLawsuitById(any())).thenReturn(firstLawsuit);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/lawsuits/100")
+                        .get("/api/lawsuits/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final LawsuitDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -90,9 +94,10 @@ class LawsuitRestControllerTest {
 
     @Test
     void addLawsuit_shouldInvokePostSaveLawsuitOnce() throws Exception {
-        //given
+        // given
         doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/lawsuits")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
@@ -100,15 +105,17 @@ class LawsuitRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(lawsuitService, times(1)).saveLawsuit(any(LawsuitDTO.class));
     }
 
     @Test
     void updateLawsuit_shouldInvokePutSaveLawsuitOnce() throws Exception {
-        //given
+        // given
         doNothing().when(lawsuitService).saveLawsuit(any(LawsuitDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/lawsuits")
                         .content(objectMapper.writeValueAsString(firstLawsuit))
@@ -116,22 +123,25 @@ class LawsuitRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(lawsuitService, times(1)).saveLawsuit(any(LawsuitDTO.class));
     }
 
     @Test
     void deleteLawsuit_shouldInvokeDeleteLawsuitByIdOnce() throws Exception {
-        //given
-        doNothing().when(lawsuitService).deleteLawsuitById(anyInt());
-        when(lawsuitService.findLawsuitById(anyInt())).thenReturn(firstLawsuit);
-        //when
+        // given
+        doNothing().when(lawsuitService).deleteLawsuitById(any());
+        when(lawsuitService.findLawsuitById(any())).thenReturn(firstLawsuit);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/lawsuits/100")
+                        .delete("/api/lawsuits/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(lawsuitService, times(1)).deleteLawsuitById(anyInt());
+
+        // then
+        verify(lawsuitService, times(1)).deleteLawsuitById(any());
     }
 }

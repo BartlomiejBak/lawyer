@@ -16,9 +16,10 @@ import pl.bartekbak.lawyer.entity.Lawsuit;
 import pl.bartekbak.lawyer.service.LawsuitService;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,10 +66,11 @@ class LawsuitControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findLawsuitById(anyInt())).thenReturn(lawsuit);
-        //when
-        mockMvc.perform(get("/lawsuits/1/edit"))
+        // given
+        when(service.findLawsuitById(any())).thenReturn(lawsuit);
+
+        // when
+        mockMvc.perform(get("/lawsuits/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(LAWSUIT_ADD_FORM))
                 .andExpect(model().attributeExists("lawsuit"));
@@ -76,7 +78,7 @@ class LawsuitControllerTest {
 
     @Test
     void saveLawsuit_validObjectTest() throws Exception {
-        //given
+        // given
         Lawsuit firstLawsuit = Lawsuit.builder()
                 .name("lawsuit no. 1223")
                 .caseSide("defendant")
@@ -86,7 +88,8 @@ class LawsuitControllerTest {
                 .additionalInfo("no important info")
                 .inputDate(LocalDate.now())
                 .build();
-        //when
+
+        // when
         mockMvc.perform(post("/lawsuits/save")
                 .content(objectMapper.writeValueAsString(firstLawsuit)))
                 .andExpect(status().is3xxRedirection())
@@ -96,20 +99,22 @@ class LawsuitControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/lawsuits/delete")
-                .param("lawsuitId", "1"))
+                .param("lawsuitId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showLawsuitTest() throws Exception {
-        //given
-        when(service.findLawsuitById(anyInt())).thenReturn(lawsuit);
-        //when
-        mockMvc.perform(get("/lawsuits/1"))
+        // given
+        when(service.findLawsuitById(any())).thenReturn(lawsuit);
+
+        // when
+        mockMvc.perform(get("/lawsuits/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showLawsuit(1);
-        //then
+        ModelAndView result = controller.showLawsuit(lawsuit.getLawsuitId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }

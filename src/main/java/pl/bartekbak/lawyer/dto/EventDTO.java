@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 public class EventDTO {
 
-    private int eventId;
+    private UUID eventId;
 
     @Size(min = 2, max = 50)
     private String title;

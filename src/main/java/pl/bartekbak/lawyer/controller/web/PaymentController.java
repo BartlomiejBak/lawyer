@@ -11,6 +11,7 @@ import pl.bartekbak.lawyer.service.PaymentService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -39,7 +40,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{paymentId}/edit")
-    public String showFormForUpdate(@PathVariable int paymentId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID paymentId, Model model) {
         PaymentDTO payment = paymentService.findPaymentById(paymentId);
         model.addAttribute("payment", payment);
         return PAYMENT_ADD_FORM;
@@ -57,13 +58,13 @@ public class PaymentController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("paymentId") int id) {
+    public String delete(@RequestParam("paymentId") UUID id) {
         paymentService.deletePaymentById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{paymentId}")
-    public ModelAndView showPayment(@PathVariable int paymentId) {
+    public ModelAndView showPayment(@PathVariable UUID paymentId) {
         ModelAndView mav = new ModelAndView("payments/payment-details");
         mav.addObject(paymentService.findPaymentById(paymentId));
         return mav;

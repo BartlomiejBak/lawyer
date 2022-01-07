@@ -12,16 +12,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.PaymentDTO;
-import pl.bartekbak.lawyer.entity.Payment;
 import pl.bartekbak.lawyer.service.PaymentService;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -65,10 +63,11 @@ class PaymentControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findPaymentById(anyInt())).thenReturn(payment);
-        //when
-        mockMvc.perform(get("/payments/1/edit"))
+        // given
+        when(service.findPaymentById(any())).thenReturn(payment);
+
+        // when
+        mockMvc.perform(get("/payments/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(PAYMENT_ADD_FORM))
                 .andExpect(model().attributeExists("payment"));
@@ -77,20 +76,22 @@ class PaymentControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/payments/delete")
-                .param("paymentId", "1"))
+                .param("paymentId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showPaymentTest() throws Exception {
-        //given
-        when(service.findPaymentById(anyInt())).thenReturn(payment);
-        //when
-        mockMvc.perform(get("/payments/1"))
+        // given
+        when(service.findPaymentById(any())).thenReturn(payment);
+
+        // when
+        mockMvc.perform(get("/payments/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showPayment(1);
-        //then
+        ModelAndView result = controller.showPayment(payment.getPaymentId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }

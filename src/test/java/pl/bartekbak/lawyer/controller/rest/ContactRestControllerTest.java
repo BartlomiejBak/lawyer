@@ -3,7 +3,6 @@ package pl.bartekbak.lawyer.controller.rest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,13 +16,13 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.ContactDTO;
-import pl.bartekbak.lawyer.service.spring.data.ContactServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.ContactServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,7 +42,7 @@ class ContactRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private ContactServiceSpringData contactService;
+    private ContactServiceJooq contactService;
 
     @BeforeEach
     void setUp() {
@@ -55,16 +54,18 @@ class ContactRestControllerTest {
 
     @Test
     void getAllContacts_shouldReturnContacts() throws Exception {
-        //given
+        // given
         when(contactService.findAllContacts()).thenReturn(contacts);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/contacts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<ContactDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -73,16 +74,19 @@ class ContactRestControllerTest {
 
     @Test
     void getContact_shouldReturnFirstContact() throws Exception {
-        //given
-        when(contactService.findContactById(100)).thenReturn(firstContact);
-        //when
+        // given
+        when(contactService.findContactById(any())).thenReturn(firstContact);
+        var uuid = UUID.randomUUID();
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/contacts/100")
+                        .get("/api/contacts/" + uuid)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final ContactDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -91,9 +95,10 @@ class ContactRestControllerTest {
 
     @Test
     void addContact_shouldInvokePostSaveContactOnce() throws Exception {
-        //given
+        // given
         doNothing().when(contactService).saveContact(any(ContactDTO.class));
-        //when
+
+        // when
          mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/contacts")
                         .content(objectMapper.writeValueAsString(firstContact))
@@ -101,15 +106,17 @@ class ContactRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(contactService, times(1)).saveContact(any(ContactDTO.class));
     }
 
     @Test
     void updateContact_shouldInvokePutContactOnce() throws Exception {
-        //given
+        // given
         doNothing().when(contactService).saveContact(any(ContactDTO.class));
-        //when
+
+        // when
          mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/contacts")
                         .content(objectMapper.writeValueAsString(firstContact))
@@ -117,24 +124,25 @@ class ContactRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(contactService, times(1)).saveContact(any(ContactDTO.class));
     }
 
     @Test
     void deleteContact_shouldInvokeDeleteContactByIdOnce() throws Exception {
-        //given
-        doNothing().when(contactService).deleteContactById(anyInt());
-        when(contactService.findContactById(anyInt())).thenReturn(firstContact);
-        //when
+        // given
+        doNothing().when(contactService).deleteContactById(any());
+        when(contactService.findContactById(any())).thenReturn(firstContact);
 
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete("/api/contacts/100")
+        // when
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/contacts/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(contactService, times(1)).deleteContactById(anyInt());
+
+        // then
+        verify(contactService, times(1)).deleteContactById(any());
     }
 }

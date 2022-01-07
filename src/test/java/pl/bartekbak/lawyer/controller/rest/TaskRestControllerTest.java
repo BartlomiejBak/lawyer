@@ -2,18 +2,12 @@ package pl.bartekbak.lawyer.controller.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,11 +16,10 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.LocalDateMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
-import pl.bartekbak.lawyer.service.spring.data.TaskServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.TaskServiceJooq;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,7 +42,7 @@ class TaskRestControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private TaskServiceSpringData taskService;
+    private TaskServiceJooq taskService;
 
     @BeforeEach
     void setUp() {
@@ -61,16 +54,18 @@ class TaskRestControllerTest {
 
     @Test
     void getAllTasks_shouldReturnTasks() throws Exception {
-        //given
+        // given
         when(taskService.findAllTasks()).thenReturn(tasks);
-        //when
+
+        // when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/tasks")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<TaskDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -79,16 +74,18 @@ class TaskRestControllerTest {
 
     @Test
     void getTask_shouldReturnFirstTask() throws Exception {
-        //given
-        when(taskService.findTaskById(100)).thenReturn(firstTask);
-        //when
+        // given
+        when(taskService.findTaskById(any())).thenReturn(firstTask);
+
+        // when
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/tasks/100")
+                        .get("/api/tasks/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final TaskDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -97,9 +94,10 @@ class TaskRestControllerTest {
 
     @Test
     void addTask_shouldInvokePostSaveTaskOnce() throws Exception {
-        //given
+        // given
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
@@ -107,15 +105,17 @@ class TaskRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
     void updateTask_shouldInvokePutSaveTaskOnce() throws Exception {
-        //given
+        // given
         doNothing().when(taskService).saveTask(any(TaskDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/tasks")
                         .content(objectMapper.writeValueAsString(firstTask))
@@ -123,22 +123,25 @@ class TaskRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(taskService, times(1)).saveTask(any(TaskDTO.class));
     }
 
     @Test
     void deleteTask_shouldInvokeDeleteOrderByIdOnce() throws Exception {
-        //given
-        doNothing().when(taskService).deleteTaskById(anyInt());
-        when(taskService.findTaskById(anyInt())).thenReturn(firstTask);
-        //when
+        // given
+        doNothing().when(taskService).deleteTaskById(any());
+        when(taskService.findTaskById(any())).thenReturn(firstTask);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/tasks/100")
+                        .delete("/api/tasks/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(taskService, times(1)).deleteTaskById(anyInt());
+
+        // then
+        verify(taskService, times(1)).deleteTaskById(any());
     }
 }

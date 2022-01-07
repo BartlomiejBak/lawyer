@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.bartekbak.lawyer.dto.PoaDTO;
 import pl.bartekbak.lawyer.exceptions.ResourceNotFoundException;
-import pl.bartekbak.lawyer.service.spring.data.PoaServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.PoaServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/poas")
 public class PoaRestController {
 
-    private final PoaServiceSpringData service;
+    private final PoaServiceJooq service;
 
-    public PoaRestController(PoaServiceSpringData service) {
+    public PoaRestController(PoaServiceJooq service) {
         this.service = service;
     }
 
@@ -30,7 +31,7 @@ public class PoaRestController {
     }
 
     @GetMapping("/{poaId}")
-    public PoaDTO getPoa(@PathVariable int poaId) {
+    public PoaDTO getPoa(@PathVariable UUID poaId) {
         PoaDTO poa = service.findPoaById(poaId);
         if (poa == null) {
             throw new ResourceNotFoundException("No such Id in database");
@@ -40,7 +41,7 @@ public class PoaRestController {
 
     @PostMapping
     public PoaDTO addPoa(@RequestBody PoaDTO poa) {
-        poa.setPoaId(0);
+        poa.setPoaId(UUID.randomUUID());
         service.savePoa(poa);
         return poa;
     }
@@ -52,7 +53,7 @@ public class PoaRestController {
     }
 
     @DeleteMapping("/{poaId}")
-    public String deletePoa(@PathVariable int poaId) {
+    public String deletePoa(@PathVariable UUID poaId) {
         PoaDTO poa = service.findPoaById(poaId);
         if (poa == null) {
             throw new ResourceNotFoundException("No such Id in database");

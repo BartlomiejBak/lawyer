@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class AddressDTO {
 
-    private int addressId;
+    private UUID addressId;
 
     @Size(min = 2, max = 50)
     private String street;

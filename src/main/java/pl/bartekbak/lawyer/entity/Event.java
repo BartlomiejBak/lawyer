@@ -1,35 +1,36 @@
 package pl.bartekbak.lawyer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
-import org.hibernate.Hibernate;
 import pl.bartekbak.lawyer.dto.EventDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbEventRecord;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity
 @AllArgsConstructor
 @Builder
-@Table(name = "event")
+@EqualsAndHashCode
 public class Event {
 
-    @Id
-    @Column(name = "event_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int eventId;
+    @JsonProperty("event_id")
+    private UUID eventId;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "date_time")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonProperty("date_time")
     private LocalDateTime dateTime;
 
-    @Column(name = "description")
     private String description;
 
     public EventDTO toDto() {
@@ -50,16 +51,12 @@ public class Event {
                 .build();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Event event = (Event) o;
-        return Objects.equals(eventId, event.eventId);
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
+    public static Event fromDbRecord(DbEventRecord record) {
+        return Event.builder()
+                .eventId(record.getEventId())
+                .title(record.getTitle())
+                .dateTime(record.getDateTime())
+                .description(record.getDescription())
+                .build();
     }
 }

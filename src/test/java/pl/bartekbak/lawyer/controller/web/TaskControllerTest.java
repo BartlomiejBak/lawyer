@@ -12,14 +12,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
-import pl.bartekbak.lawyer.entity.Task;
 import pl.bartekbak.lawyer.service.TaskService;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,9 +65,9 @@ class TaskControllerTest {
     @Test
     void showFormForUpdateTest() throws Exception {
         //given
-        when(service.findTaskById(anyInt())).thenReturn(task);
+        when(service.findTaskById(any())).thenReturn(task);
         //when
-        mockMvc.perform(get("/tasks/1/edit"))
+        mockMvc.perform(get("/tasks/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(TASK_ADD_FORM))
                 .andExpect(model().attributeExists("task"));
@@ -86,7 +84,7 @@ class TaskControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/tasks/delete")
-                .param("taskId", "1"))
+                .param("taskId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
@@ -94,11 +92,11 @@ class TaskControllerTest {
     @Test
     void showTaskTest() throws Exception {
         //given
-        when(service.findTaskById(anyInt())).thenReturn(task);
+        when(service.findTaskById(any())).thenReturn(task);
         //when
-        mockMvc.perform(get("/tasks/1"))
+        mockMvc.perform(get("/tasks/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showTask(1);
+        ModelAndView result = controller.showTask(task.getTaskId());
         //then
         assertFalse(result.isEmpty());
     }

@@ -3,13 +3,14 @@ package pl.bartekbak.lawyer.service;
 import pl.bartekbak.lawyer.dto.EventDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface EventService {
     List<EventDTO> findAllEvents();
 
-    EventDTO findEventById(int id);
+    EventDTO findEventById(UUID id);
 
     void saveEvent(EventDTO event);
 
-    void deleteEventById(int id);
+    void deleteEventById(UUID id);
 }

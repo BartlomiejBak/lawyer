@@ -17,6 +17,7 @@ import pl.bartekbak.lawyer.service.ContactService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -46,7 +47,7 @@ public class ContactController {
     }
 
     @GetMapping("/{contactId}/edit")
-    public String showFormForUpdate(@PathVariable int contactId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID contactId, Model model) {
         ContactDTO contact = contactService.findContactById(contactId);
         model.addAttribute("contact", contact);
         return CONTACT_ADD_FORM;
@@ -64,13 +65,13 @@ public class ContactController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("contactId") int id) {
+    public String delete(@RequestParam("contactId") UUID id) {
         contactService.deleteContactById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{contactId}")
-    public ModelAndView showContact(@PathVariable int contactId) {
+    public ModelAndView showContact(@PathVariable UUID contactId) {
         ModelAndView mav = new ModelAndView("contacts/contact-details");
         mav.addObject(contactService.findContactById(contactId));
         return mav;

@@ -12,11 +12,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.NoteDTO;
-import pl.bartekbak.lawyer.entity.Note;
 import pl.bartekbak.lawyer.service.NoteService;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -63,10 +64,11 @@ class NoteControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findNoteById(anyInt())).thenReturn(note);
-        //when
-        mockMvc.perform(get("/notes/1/edit"))
+        // given
+        when(service.findNoteById(any())).thenReturn(note);
+
+        // when
+        mockMvc.perform(get("/notes/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(NOTE_ADD_FORM))
                 .andExpect(model().attributeExists("note"));
@@ -83,20 +85,22 @@ class NoteControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/notes/delete")
-                .param("noteId", "1"))
+                .param("noteId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showNoteTest() throws Exception {
-        //given
-        when(service.findNoteById(anyInt())).thenReturn(note);
-        //when
-        mockMvc.perform(get("/notes/1"))
+        // given
+        when(service.findNoteById(any())).thenReturn(note);
+
+        // when
+        mockMvc.perform(get("/notes/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showNote(1);
-        //then
+        ModelAndView result = controller.showNote(note.getNoteId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }

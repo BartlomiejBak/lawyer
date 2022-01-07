@@ -56,6 +56,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Addresses
@@ -127,6 +128,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Contacts
@@ -198,6 +200,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Courts
@@ -267,6 +270,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Lawsuits
@@ -336,6 +340,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Notes
@@ -405,6 +410,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Tags
@@ -474,6 +480,7 @@ paths:
         required: true
         schema:
           type: string
+          format: uuid
     get:
       tags:
         - Tasks
@@ -499,7 +506,8 @@ components:
     Address:
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         street:
           type: string
         zipCode:
@@ -508,7 +516,6 @@ components:
           type: string
         country:
           type: string
-      # Both properties are required
       required:
         - id
         - street
@@ -517,7 +524,8 @@ components:
     Contact:
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         firstName:
@@ -555,7 +563,8 @@ components:
     Court:
       properties:
         courtId:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         address:
@@ -568,7 +577,8 @@ components:
     Lawsuit:
       properties:
         lawsuitId:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
         caseSide:
@@ -609,7 +619,8 @@ components:
     Note:
       properties:
         noteId:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         text:
@@ -618,14 +629,16 @@ components:
     Tag:
       properties:
         tagId:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
 
     Task:
       properties:
         taskId:
-          type: integer
+          type: string
+          format: uuid
         priority:
           type: boolean
         deadline:
@@ -641,7 +654,8 @@ components:
     Event:
       properties:
         eventId:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         dateTime:
@@ -653,7 +667,8 @@ components:
     Payment:
       properties:
         paymentId:
-          type: integer
+          type: string
+          format: uuid
         paymentValue:
           type: number
         paymentDate:
@@ -674,7 +689,8 @@ components:
     Poa:
       properties:
         poaId:
-          type: integer
+          type: string
+          format: uuid
         poaType:
           type: string
         payment:

@@ -11,6 +11,7 @@ import pl.bartekbak.lawyer.service.TaskService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -39,7 +40,7 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}/edit")
-    public String showFormForUpdate(@PathVariable int taskId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID taskId, Model model) {
         TaskDTO task = taskService.findTaskById(taskId);
         model.addAttribute("task", task);
         return TASK_ADD_FORM;
@@ -57,13 +58,13 @@ public class TaskController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("taskId") int id) {
+    public String delete(@RequestParam("taskId") UUID id) {
         taskService.deleteTaskById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{taskId}")
-    public ModelAndView showTask(@PathVariable int taskId) {
+    public ModelAndView showTask(@PathVariable UUID taskId) {
         ModelAndView mav = new ModelAndView("tasks/task-details");
         mav.addObject(taskService.findTaskById(taskId));
         return mav;

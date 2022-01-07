@@ -16,6 +16,7 @@ import pl.bartekbak.lawyer.service.EventService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -44,7 +45,7 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}/edit")
-    public String showFormForUpdate(@PathVariable int eventId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID eventId, Model model) {
         EventDTO event = eventService.findEventById(eventId);
         model.addAttribute("event", event);
         return EVENT_ADD_FORM;
@@ -63,13 +64,13 @@ public class EventController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("eventId") int id) {
+    public String delete(@RequestParam("eventId") UUID id) {
         eventService.deleteEventById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{eventId}")
-    public ModelAndView showEvent(@PathVariable int eventId) {
+    public ModelAndView showEvent(@PathVariable UUID eventId) {
         ModelAndView mav = new ModelAndView("events/event-details");
         mav.addObject(eventService.findEventById(eventId));
         return mav;

@@ -5,50 +5,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.PoaDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbPoaRecord;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.UUID;
 
-@Entity
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "poa")
 public class Poa {
 
-    @Id
-    @Column(name = "poa_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int poaId;
+    private UUID poaId;
 
-    @Column(name = "type")
     private String type;
 
-    @Column(name = "payment")
     private String payment;
 
-    @Column(name = "kpc")
     private boolean kpc;
 
-    @Column(name = "termination")
     private boolean termination;
 
-    @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "notification_duty")
     private boolean terminationNotificationDuty;
 
-    @Column(name = "duty_completed")
     private boolean terminationNotificationDutyCompleted;
 
     public PoaDTO toDto() {
@@ -76,6 +59,20 @@ public class Poa {
                 .endDate(dto.getEndDate())
                 .terminationNotificationDuty(dto.isTerminationNotificationDuty())
                 .terminationNotificationDutyCompleted(dto.isTerminationNotificationDutyCompleted())
+                .build();
+    }
+
+    public static Poa fromDbRecord(DbPoaRecord record) {
+        return Poa.builder()
+                .poaId(record.getPoaId())
+                .type(record.getType())
+                .payment(record.getPayment())
+                .kpc(record.getKpc())
+                .termination(record.getTermination())
+                .startDate(record.getStartDate())
+                .endDate(record.getEndDate())
+                .terminationNotificationDuty(record.getNotificationDuty())
+                .terminationNotificationDutyCompleted(record.getDutyCompleted())
                 .build();
     }
 }

@@ -15,9 +15,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TagDTO;
-import pl.bartekbak.lawyer.service.spring.data.TagServiceSpringData;
+import pl.bartekbak.lawyer.service.jooq.TagServiceJooq;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,14 +40,13 @@ class TagRestControllerTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
-    private TagRestController tagRestController;
 
     @Mock
-    private TagServiceSpringData tagService;
+    private TagServiceJooq tagService;
 
     @BeforeEach
     void setUp() {
-        tagRestController = new TagRestController(tagService);
+        TagRestController tagRestController = new TagRestController(tagService);
         final StandaloneMockMvcBuilder mvcBuilder = MockMvcBuilders.standaloneSetup(tagRestController);
         mockMvc = mvcBuilder.build();
         objectMapper = new ObjectMapper();
@@ -54,16 +54,18 @@ class TagRestControllerTest {
 
     @Test
     void getAllTags_shouldReturnTags() throws Exception {
-        //given
+        // given
         when(tagService.findAllTags()).thenReturn(tags);
-        //when
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/api/tags")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final List<TagDTO> result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -72,16 +74,18 @@ class TagRestControllerTest {
 
     @Test
     void getTag_shouldReturnFirstTag() throws Exception {
-        //given
-        when(tagService.findTagById(100)).thenReturn(firstTag);
-        //when
+        // given
+        when(tagService.findTagById(any())).thenReturn(firstTag);
+
+        // when
         final MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .get("/api/tags/100")
+                        .get("/api/tags/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         final TagDTO result = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsByteArray(), new TypeReference<>() {
                 });
@@ -90,9 +94,10 @@ class TagRestControllerTest {
 
     @Test
     void addTag_shouldInvokePostSaveTagOnce() throws Exception {
-        //given
+        // given
         doNothing().when(tagService).saveTag(any(TagDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
@@ -100,15 +105,17 @@ class TagRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(tagService, times(1)).saveTag(any(TagDTO.class));
     }
 
     @Test
     void updateTag_shouldInvokePutSaveTagOnce() throws Exception {
-        //given
+        // given
         doNothing().when(tagService).saveTag(any(TagDTO.class));
-        //when
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/tags")
                         .content(objectMapper.writeValueAsString(firstTag))
@@ -116,22 +123,25 @@ class TagRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
+
+        // then
         verify(tagService, times(1)).saveTag(any(TagDTO.class));
     }
 
     @Test
     void deleteTag_shouldInvokeDeleteTagByIdOnce() throws Exception {
-        //given
-        doNothing().when(tagService).deleteTagById(anyInt());
-        when(tagService.findTagById(anyInt())).thenReturn(firstTag);
-        //when
+        // given
+        doNothing().when(tagService).deleteTagById(any());
+        when(tagService.findTagById(any())).thenReturn(firstTag);
+
+        // when
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/tags/100")
+                        .delete("/api/tags/" + UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        //then
-        verify(tagService, times(1)).deleteTagById(anyInt());
+
+        // then
+        verify(tagService, times(1)).deleteTagById(any());
     }
 }

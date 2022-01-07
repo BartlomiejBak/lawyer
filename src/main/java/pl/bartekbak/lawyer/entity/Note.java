@@ -5,26 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.bartekbak.lawyer.dto.NoteDTO;
+import pl.bartekbak.lawyer.generate.jooq.tables.records.DbNoteRecord;
 
-import javax.persistence.*;
+import java.util.UUID;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "note")
 public class Note {
 
-    @Id
-    @Column(name = "note_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int noteId;
+    private UUID noteId;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "text")
     private String text;
 
     public NoteDTO toDto() {
@@ -40,6 +34,14 @@ public class Note {
                 .noteId(dto.getNoteId())
                 .title(dto.getTitle())
                 .text(dto.getText())
+                .build();
+    }
+    
+    public static Note fromDbRecord(DbNoteRecord record) {
+        return Note.builder()
+                .noteId(record.getNoteId())
+                .title(record.getTitle())
+                .text(record.getText())
                 .build();
     }
 }

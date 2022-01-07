@@ -11,6 +11,7 @@ import pl.bartekbak.lawyer.service.NoteService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -39,7 +40,7 @@ public class NoteController {
     }
 
     @GetMapping("/{noteId}/edit")
-    public String showFormForUpdate(@PathVariable int noteId, Model model) {
+    public String showFormForUpdate(@PathVariable UUID noteId, Model model) {
         NoteDTO note = noteService.findNoteById(noteId);
         model.addAttribute("note", note);
         return NOTE_ADD_FORM;
@@ -57,13 +58,13 @@ public class NoteController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("noteId") int id) {
+    public String delete(@RequestParam("noteId") UUID id) {
         noteService.deleteNoteById(id);
         return "redirect:list";
     }
 
     @GetMapping("/{noteId}")
-    public ModelAndView showNote(@PathVariable int noteId) {
+    public ModelAndView showNote(@PathVariable UUID noteId) {
         ModelAndView mav = new ModelAndView("notes/note-details");
         mav.addObject(noteService.findNoteById(noteId));
         return mav;

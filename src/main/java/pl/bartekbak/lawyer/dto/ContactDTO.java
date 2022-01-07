@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ContactDTO {
 
-    private int contactId;
+    private UUID contactId;
 
     @Size(min = 2, max = 50)
     private String name;

@@ -14,8 +14,10 @@ import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.AddressDTO;
 import pl.bartekbak.lawyer.service.AddressService;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -62,10 +64,11 @@ class AddressControllerTest {
 
     @Test
     void showFormForUpdateTest() throws Exception {
-        //given
-        when(service.findAddressById(anyInt())).thenReturn(address);
-        //when
-        mockMvc.perform(get("/addresses/1/edit"))
+        // given
+        when(service.findAddressById(any())).thenReturn(address);
+
+        // when
+        mockMvc.perform(get("/addresses/" + UUID.randomUUID() + "/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADDRESS_ADD_FORM))
                 .andExpect(model().attributeExists("address"));
@@ -82,20 +85,22 @@ class AddressControllerTest {
     @Test
     void deleteTest() throws Exception {
         mockMvc.perform(get("/addresses/delete")
-                    .param("addressId", "1"))
+                    .param("addressId", UUID.randomUUID().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:list"));
     }
 
     @Test
     void showAddressTest() throws Exception {
-        //given
-        when(service.findAddressById(anyInt())).thenReturn(address);
-        //when
-        mockMvc.perform(get("/addresses/1"))
+        // given
+        when(service.findAddressById(any())).thenReturn(address);
+
+        // when
+        mockMvc.perform(get("/addresses/" + provider.getFirstAddress().getAddressId()))
                 .andExpect(status().isOk());
-        ModelAndView result = controller.showAddress(1);
-        //then
+        ModelAndView result = controller.showAddress(address.getAddressId());
+
+        // then
         assertFalse(result.isEmpty());
     }
 }
