@@ -10,6 +10,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
@@ -60,4 +62,31 @@ class TaskRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_record() {
+        // given
+        var recordId = DataProvider.TASK_ID;
+
+        // when
+        final var result = repository.taskById(recordId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getTaskId()).isEqualTo(recordId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        var recordId = UUID.randomUUID();
+
+        // when
+        final var result = repository.taskById(recordId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+
 }
