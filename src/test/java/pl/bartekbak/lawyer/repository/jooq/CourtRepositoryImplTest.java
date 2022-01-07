@@ -126,7 +126,7 @@ class CourtRepositoryImplTest {
     @Test
     void should_update_value_when_court_exists() {
         // given
-        var givenId = DataProvider.TAG_ID;
+        var givenId = DataProvider.COURT_ID;
         String name = faker.cat().name();
         Court givenCourt = Court.builder().courtId(givenId).name(name).build();
 
@@ -143,7 +143,7 @@ class CourtRepositoryImplTest {
     void should_do_nothing_when_update_duplicates_value() {
         // given
         var givenId = UUID.randomUUID();
-        var updatedId = DataProvider.TAG_ID;
+        var updatedId = DataProvider.COURT_ID;
         String name = faker.dog().name();
         Court givenCourt = Court.builder().courtId(givenId).name(name).build();
         Court updatedCourt = Court.builder().courtId(updatedId).name(name).build();
@@ -171,6 +171,35 @@ class CourtRepositoryImplTest {
 
         // then
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_delete_record_when_exists() {
+        // given
+        var givenId = DataProvider.COURT_ID;
+        var beforeDelete = repository.courtById(givenId);
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.courtById(givenId);
+
+        // then
+        assertThat(beforeDelete).isPresent();
+        assertThat(afterDelete).isEmpty();
+    }
+
+    @Test
+    void should_do_nothing_when_delete_nonexistent_record() {
+        // given
+        var givenId = UUID.randomUUID();
+        var beforeDelete = repository.list();
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.list();
+
+        // then
+        assertThat(beforeDelete.size()).isEqualTo(afterDelete.size());
     }
 
 }
