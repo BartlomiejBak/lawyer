@@ -4,6 +4,8 @@
 package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.jooq.Field;
@@ -107,6 +109,11 @@ public class DbCourt extends TableImpl<DbCourtRecord> {
     @Override
     public UniqueKey<DbCourtRecord> getPrimaryKey() {
         return Keys.COURT_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbCourtRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_COURT);
     }
 
     @Override

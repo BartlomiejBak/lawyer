@@ -66,6 +66,7 @@ public class Keys {
     public static final UniqueKey<DbContactRoleRecord> CONTACT_ROLE_PKEY = Internal.createUniqueKey(DbContactRole.DB_CONTACT_ROLE, DSL.name("contact_role_pkey"), new TableField[] { DbContactRole.DB_CONTACT_ROLE.ID }, true);
     public static final UniqueKey<DbContactRoleLawsuitRecord> CONTACT_ROLE_LAWSUIT_PKEY = Internal.createUniqueKey(DbContactRoleLawsuit.DB_CONTACT_ROLE_LAWSUIT, DSL.name("contact_role_lawsuit_pkey"), new TableField[] { DbContactRoleLawsuit.DB_CONTACT_ROLE_LAWSUIT.ID }, true);
     public static final UniqueKey<DbCourtRecord> COURT_PKEY = Internal.createUniqueKey(DbCourt.DB_COURT, DSL.name("court_pkey"), new TableField[] { DbCourt.DB_COURT.COURT_ID }, true);
+    public static final UniqueKey<DbCourtRecord> UNIQUE_COURT = Internal.createUniqueKey(DbCourt.DB_COURT, DSL.name("unique_court"), new TableField[] { DbCourt.DB_COURT.NAME }, true);
     public static final UniqueKey<DbCourtAddressRecord> COURT_ADDRESS_PKEY = Internal.createUniqueKey(DbCourtAddress.DB_COURT_ADDRESS, DSL.name("court_address_pkey"), new TableField[] { DbCourtAddress.DB_COURT_ADDRESS.ID }, true);
     public static final UniqueKey<DbEventRecord> EVENT_PKEY = Internal.createUniqueKey(DbEvent.DB_EVENT, DSL.name("event_pkey"), new TableField[] { DbEvent.DB_EVENT.EVENT_ID }, true);
     public static final UniqueKey<DbEventLawsuitRecord> EVENT_LAWSUIT_PKEY = Internal.createUniqueKey(DbEventLawsuit.DB_EVENT_LAWSUIT, DSL.name("event_lawsuit_pkey"), new TableField[] { DbEventLawsuit.DB_EVENT_LAWSUIT.ID }, true);

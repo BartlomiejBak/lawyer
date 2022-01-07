@@ -60,6 +60,7 @@ public class CourtRepositoryImpl extends DatabaseContext implements CourtReposit
     @Transactional
     public void add(Court court) {
         dslContext().insertInto(DB_COURT)
+                .set(DB_COURT.COURT_ID, court.getCourtId())
                 .set(DB_COURT.NAME, court.getName())
                 .set(DB_COURT.DESCRIPTION, court.getDescription())
                 .set(DB_COURT.PHONE, court.getPhone())
@@ -77,6 +78,8 @@ public class CourtRepositoryImpl extends DatabaseContext implements CourtReposit
                 .set(DB_COURT.DESCRIPTION, court.getDescription())
                 .set(DB_COURT.PHONE, court.getPhone())
                 .where(DB_COURT.COURT_ID.eq(court.getCourtId()))
+                .andNotExists(dslContext().selectFrom(DB_COURT)
+                        .where(DB_COURT.NAME.eq(court.getName())))
                 .execute();
     }
 
