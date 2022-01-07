@@ -20,6 +20,7 @@ import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_POA;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_TAG;
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_TASK;
 
 public class DataProvider {
 
@@ -35,6 +36,7 @@ public class DataProvider {
     public static UUID CONTACT_ID = UUID.randomUUID();
     public static UUID COURT_ID = UUID.randomUUID();
     public static UUID LAWSUIT_ID = UUID.randomUUID();
+    public static UUID TASK_ID = UUID.randomUUID();
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -103,6 +105,13 @@ public class DataProvider {
         addRandomLawsuit();
         addRandomLawsuit();
         addRandomLawsuit();
+
+        addRandomTask(TASK_ID);
+        addRandomTask();
+        addRandomTask();
+        addRandomTask();
+        addRandomTask();
+        addRandomTask();
     }
 
     public void addRandomTag() {
@@ -206,7 +215,7 @@ public class DataProvider {
     }
 
     public void addRandomContact() {
-        addRandomEvent(UUID.randomUUID());
+        addRandomContact(UUID.randomUUID());
     }
 
     @Transactional
@@ -232,7 +241,7 @@ public class DataProvider {
     }
 
     public void addRandomCourt() {
-        addRandomEvent(UUID.randomUUID());
+        addRandomCourt(UUID.randomUUID());
     }
 
     @Transactional
@@ -247,7 +256,7 @@ public class DataProvider {
     }
 
     public void addRandomLawsuit() {
-        addRandomEvent(UUID.randomUUID());
+        addRandomLawsuit(UUID.randomUUID());
     }
 
     @Transactional
@@ -265,6 +274,20 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomTask() {
+        addRandomTask(UUID.randomUUID());
+    }
+
+    public void addRandomTask(UUID id) {
+        context.insertInto(DB_TASK)
+                .set(DB_TASK.TASK_ID, id)
+                .set(DB_TASK.PRIORITY, faker.bool().bool())
+                .set(DB_TASK.DEADLINE, LocalDateTime.ofInstant(faker.date().past(10, TimeUnit.HOURS).toInstant(), ZoneId.systemDefault()))
+                .set(DB_TASK.DESCRIPTION, faker.lorem().paragraph())
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
     @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
@@ -276,5 +299,6 @@ public class DataProvider {
         context.deleteFrom(DB_CONTACT).execute();
         context.deleteFrom(DB_COURT).execute();
         context.deleteFrom(DB_LAWSUIT).execute();
+        context.deleteFrom(DB_TASK).execute();
     }
 }
