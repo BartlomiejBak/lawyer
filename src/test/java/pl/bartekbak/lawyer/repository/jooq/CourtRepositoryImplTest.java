@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
+import pl.bartekbak.lawyer.entity.Court;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
 import java.util.UUID;
@@ -83,6 +84,90 @@ class CourtRepositoryImplTest {
 
         // when
         final var result = repository.courtById(courtId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_add_court_when_not_exists() {
+        // given
+        var givenId = UUID.randomUUID();
+        String name = faker.dog().name();
+        Court givenCourt = Court.builder().courtId(givenId).name(name).build();
+
+        // when
+        repository.add(givenCourt);
+        var result = repository.courtById(givenId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getName()).isEqualTo(name);
+    }
+
+    @Test
+    void should_do_nothing_when_adding_non_unique_value() {
+        // given
+        var givenId = UUID.randomUUID();
+        var additionalId = UUID.randomUUID();
+        String name = faker.dog().name();
+        Court givenCourt = Court.builder().courtId(givenId).name(name).build();
+        Court duplicateCourt = Court.builder().courtId(givenId).name(name).build();
+
+        // when
+        repository.add(givenCourt);
+        repository.add(duplicateCourt);
+        var result = repository.courtById(additionalId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void should_update_value_when_court_exists() {
+        // given
+        var givenId = DataProvider.TAG_ID;
+        String name = faker.cat().name();
+        Court givenCourt = Court.builder().courtId(givenId).name(name).build();
+
+        // when
+        repository.update(givenCourt);
+        var result = repository.courtById(givenId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getName()).isEqualTo(name);
+    }
+
+    @Test
+    void should_do_nothing_when_update_duplicates_value() {
+        // given
+        var givenId = UUID.randomUUID();
+        var updatedId = DataProvider.TAG_ID;
+        String name = faker.dog().name();
+        Court givenCourt = Court.builder().courtId(givenId).name(name).build();
+        Court updatedCourt = Court.builder().courtId(updatedId).name(name).build();
+
+        // when
+        repository.add(givenCourt);
+        repository.update(updatedCourt);
+        var result = repository.courtById(updatedId);
+
+        // then
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getName()).isNotEqualTo(name);
+    }
+
+    @Test
+    void should_do_nothing_when_court_not_exists() {
+        // given
+        var givenId = UUID.randomUUID();
+        String name = faker.cat().name();
+        Court givenCourt = Court.builder().courtId(givenId).name(name).build();
+
+        // when
+        repository.update(givenCourt);
+        var result = repository.courtById(givenId);
 
         // then
         assertThat(result).isEmpty();
