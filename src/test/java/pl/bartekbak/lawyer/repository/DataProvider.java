@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_CONTACT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_EVENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
@@ -29,6 +30,7 @@ public class DataProvider {
     public static UUID PAYMENT_ID = UUID.randomUUID();
     public static UUID ADDRESS_ID = UUID.randomUUID();
     public static UUID EVENT_ID = UUID.randomUUID();
+    public static UUID CONTACT_ID = UUID.randomUUID();
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -76,6 +78,14 @@ public class DataProvider {
         addRandomEvent();
         addRandomEvent();
         addRandomEvent();
+
+        addRandomContact(CONTACT_ID);
+        addRandomContact();
+        addRandomContact();
+        addRandomContact();
+        addRandomContact();
+        addRandomContact();
+
     }
 
     public void addRandomTag() {
@@ -178,6 +188,31 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomContact() {
+        addRandomEvent(UUID.randomUUID());
+    }
+
+    public void addRandomContact(UUID id) {
+        context.insertInto(DB_CONTACT)
+                .set(DB_CONTACT.CONTACT_ID, id)
+                .set(DB_CONTACT.NAME, faker.name().name())
+                .set(DB_CONTACT.FIRST_NAME, faker.name().firstName())
+                .set(DB_CONTACT.LAST_NAME, faker.name().lastName())
+                .set(DB_CONTACT.EMAIL, faker.internet().emailAddress())
+                .set(DB_CONTACT.ALT_EMAIL, faker.internet().emailAddress())
+                .set(DB_CONTACT.PHONE, faker.phoneNumber().cellPhone())
+                .set(DB_CONTACT.ALT_PHONE, faker.phoneNumber().cellPhone())
+                .set(DB_CONTACT.PESEL, faker.number().digits(15))
+                .set(DB_CONTACT.COMPANY_NAME, faker.company().name())
+                .set(DB_CONTACT.NIP, faker.number().digits(20))
+                .set(DB_CONTACT.REGON, faker.number().digits(20))
+                .set(DB_CONTACT.KRS, faker.number().digits(20))
+                .set(DB_CONTACT.DATE_CREATED, LocalDateTime.ofInstant(faker.date().past(100, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
+                .set(DB_CONTACT.MODIFIED, LocalDateTime.ofInstant(faker.date().past(10, TimeUnit.HOURS).toInstant(), ZoneId.systemDefault()))
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
     @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
@@ -186,5 +221,6 @@ public class DataProvider {
         context.deleteFrom(DB_PAYMENT).execute();
         context.deleteFrom(DB_ADDRESS).execute();
         context.deleteFrom(DB_EVENT).execute();
+        context.deleteFrom(DB_CONTACT).execute();
     }
 }
