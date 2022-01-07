@@ -5,6 +5,8 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.jooq.Field;
@@ -163,6 +165,11 @@ public class DbContact extends TableImpl<DbContactRecord> {
     @Override
     public UniqueKey<DbContactRecord> getPrimaryKey() {
         return Keys.CONTACT_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbContactRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_CONTACT);
     }
 
     @Override

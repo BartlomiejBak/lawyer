@@ -83,6 +83,7 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
     @Transactional
     public void add(Contact contact) {
         dslContext().insertInto(DB_CONTACT)
+                .set(DB_CONTACT.CONTACT_ID, contact.getContactId())
                 .set(DB_CONTACT.NAME, contact.getName())
                 .set(DB_CONTACT.FIRST_NAME, contact.getFirstName())
                 .set(DB_CONTACT.LAST_NAME, contact.getLastName())
@@ -122,6 +123,8 @@ public class ContactRepositoryImpl extends DatabaseContext implements ContactRep
                 .set(DB_CONTACT.DATE_CREATED, contact.getDateCreated())
                 .set(DB_CONTACT.MODIFIED, contact.getDateModified())
                 .where(DB_CONTACT.CONTACT_ID.eq(contact.getContactId()))
+                .andNotExists(dslContext().selectFrom(DB_CONTACT)
+                        .where(DB_CONTACT.NAME.eq(contact.getName())))
                 .execute();
     }
 

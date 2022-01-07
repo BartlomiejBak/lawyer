@@ -401,3 +401,6 @@ ALTER TABLE IF EXISTS DB_TASK_CONTACT ADD CONSTRAINT task_contact_task_fkey FORE
 
 --changeset bbak:32
 ALTER TABLE IF EXISTS DB_COURT ADD CONSTRAINT unique_court UNIQUE (name);
+
+--changeset bbak:33
+ALTER TABLE IF EXISTS DB_CONTACT ADD CONSTRAINT unique_contact UNIQUE (name);
