@@ -171,6 +171,9 @@ public class LawsuitRepositoryImpl extends DatabaseContext implements LawsuitRep
                     .set(DB_LAWSUIT.CLAIM_AMOUNT, lawsuit.getClaimAmount())
                     .set(DB_LAWSUIT.ADDITIONAL_INFO, lawsuit.getAdditionalInfo())
                     .where(DB_LAWSUIT.LAWSUIT_ID.eq(lawsuit.getLawsuitId()))
+                    .andNotExists(dslContext().selectFrom(DB_LAWSUIT)
+                            .where(DB_LAWSUIT.SIGNATURE.eq(lawsuit.getSignature()))
+                            .and(DB_LAWSUIT.LAWSUIT_ID.ne(lawsuit.getLawsuitId())))
                     .execute();
             updateContacts(toAdd(currentLawsuit.getContacts(), lawsuit.getContacts()),
                     toRemove(currentLawsuit.getContacts(), lawsuit.getContacts()),

@@ -5,6 +5,8 @@ package pl.bartekbak.lawyer.generate.jooq.tables;
 
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.jooq.Field;
@@ -128,6 +130,11 @@ public class DbLawsuit extends TableImpl<DbLawsuitRecord> {
     @Override
     public UniqueKey<DbLawsuitRecord> getPrimaryKey() {
         return Keys.LAWSUIT_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<DbLawsuitRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.UNIQUE_LAWSUIT);
     }
 
     @Override

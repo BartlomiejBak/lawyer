@@ -102,7 +102,7 @@ class LawsuitRepositoryImplTest {
 
         // then
         assertThat(result).isPresent();
-        assertThat(result.get().getName()).isEqualTo(signature);
+        assertThat(result.get().getSignature()).isEqualTo(signature);
     }
 
     @Test
@@ -136,7 +136,7 @@ class LawsuitRepositoryImplTest {
 
         // then
         assertThat(result).isNotEmpty();
-        assertThat(result.get().getName()).isEqualTo(signature);
+        assertThat(result.get().getSignature()).isEqualTo(signature);
     }
 
     @Test
@@ -159,10 +159,11 @@ class LawsuitRepositoryImplTest {
     }
 
     @Test
-    void should_do_nothing_when_record_not_exists() {
+    void should_add_record_when_record_not_exists() {
         // given
         var givenId = UUID.randomUUID();
         String signature = faker.cat().name();
+        var initialResult = repository.lawsuitById(givenId);
         var givenRecord = Lawsuit.builder().lawsuitId(givenId).signature(signature).build();
 
         // when
@@ -170,7 +171,8 @@ class LawsuitRepositoryImplTest {
         var result = repository.lawsuitById(givenId);
 
         // then
-        assertThat(result).isEmpty();
+        assertThat(initialResult).isEmpty();
+        assertThat(result).isPresent();
     }
 
     @Test

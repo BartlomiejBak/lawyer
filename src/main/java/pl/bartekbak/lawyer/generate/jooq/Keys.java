@@ -72,6 +72,7 @@ public class Keys {
     public static final UniqueKey<DbEventRecord> EVENT_PKEY = Internal.createUniqueKey(DbEvent.DB_EVENT, DSL.name("event_pkey"), new TableField[] { DbEvent.DB_EVENT.EVENT_ID }, true);
     public static final UniqueKey<DbEventLawsuitRecord> EVENT_LAWSUIT_PKEY = Internal.createUniqueKey(DbEventLawsuit.DB_EVENT_LAWSUIT, DSL.name("event_lawsuit_pkey"), new TableField[] { DbEventLawsuit.DB_EVENT_LAWSUIT.ID }, true);
     public static final UniqueKey<DbLawsuitRecord> LAWSUIT_PKEY = Internal.createUniqueKey(DbLawsuit.DB_LAWSUIT, DSL.name("lawsuit_pkey"), new TableField[] { DbLawsuit.DB_LAWSUIT.LAWSUIT_ID }, true);
+    public static final UniqueKey<DbLawsuitRecord> UNIQUE_LAWSUIT = Internal.createUniqueKey(DbLawsuit.DB_LAWSUIT, DSL.name("unique_lawsuit"), new TableField[] { DbLawsuit.DB_LAWSUIT.SIGNATURE }, true);
     public static final UniqueKey<DbLawsuitContactRecord> LAWSUIT_CONTACT_PKEY = Internal.createUniqueKey(DbLawsuitContact.DB_LAWSUIT_CONTACT, DSL.name("lawsuit_contact_pkey"), new TableField[] { DbLawsuitContact.DB_LAWSUIT_CONTACT.ID }, true);
     public static final UniqueKey<DbLawsuitTaskRecord> LAWSUIT_TASK_PKEY = Internal.createUniqueKey(DbLawsuitTask.DB_LAWSUIT_TASK, DSL.name("lawsuit_task_pkey"), new TableField[] { DbLawsuitTask.DB_LAWSUIT_TASK.ID }, true);
     public static final UniqueKey<DbNoteRecord> NOTE_PKEY = Internal.createUniqueKey(DbNote.DB_NOTE, DSL.name("note_pkey"), new TableField[] { DbNote.DB_NOTE.NOTE_ID }, true);

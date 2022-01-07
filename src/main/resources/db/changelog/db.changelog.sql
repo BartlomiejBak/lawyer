@@ -404,3 +404,6 @@ ALTER TABLE IF EXISTS DB_COURT ADD CONSTRAINT unique_court UNIQUE (name);
 
 --changeset bbak:33
 ALTER TABLE IF EXISTS DB_CONTACT ADD CONSTRAINT unique_contact UNIQUE (name);
+
+--changeset bbak:34
+ALTER TABLE IF EXISTS DB_LAWSUIT ADD CONSTRAINT unique_lawsuit UNIQUE (signature);
