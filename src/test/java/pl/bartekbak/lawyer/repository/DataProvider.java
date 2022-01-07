@@ -15,6 +15,7 @@ import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_CONTACT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_COURT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_EVENT;
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_LAWSUIT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_POA;
@@ -33,6 +34,7 @@ public class DataProvider {
     public static UUID EVENT_ID = UUID.randomUUID();
     public static UUID CONTACT_ID = UUID.randomUUID();
     public static UUID COURT_ID = UUID.randomUUID();
+    public static UUID LAWSUIT_ID = UUID.randomUUID();
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -94,6 +96,13 @@ public class DataProvider {
         addRandomCourt();
         addRandomCourt();
         addRandomCourt();
+
+        addRandomLawsuit(LAWSUIT_ID);
+        addRandomLawsuit();
+        addRandomLawsuit();
+        addRandomLawsuit();
+        addRandomLawsuit();
+        addRandomLawsuit();
     }
 
     public void addRandomTag() {
@@ -237,6 +246,25 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomLawsuit() {
+        addRandomEvent(UUID.randomUUID());
+    }
+
+    @Transactional
+    public void addRandomLawsuit(UUID id) {
+        context.insertInto(DB_LAWSUIT)
+                .set(DB_LAWSUIT.LAWSUIT_ID, id)
+                .set(DB_LAWSUIT.NAME, faker.name().name())
+                .set(DB_LAWSUIT.CASE_SIDE, faker.name().name())
+                .set(DB_LAWSUIT.INPUT_DATE, LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
+                .set(DB_LAWSUIT.DEADLINE, LocalDate.ofInstant(faker.date().past(10, TimeUnit.DAYS).toInstant(), ZoneId.systemDefault()))
+                .set(DB_LAWSUIT.SIGNATURE, faker.number().digits(20))
+                .set(DB_LAWSUIT.CLAIM_AMOUNT, faker.number().randomDouble(2, 0, 100000000))
+                .set(DB_LAWSUIT.ADDITIONAL_INFO, faker.lorem().paragraph())
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
     @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
@@ -247,5 +275,6 @@ public class DataProvider {
         context.deleteFrom(DB_EVENT).execute();
         context.deleteFrom(DB_CONTACT).execute();
         context.deleteFrom(DB_COURT).execute();
+        context.deleteFrom(DB_LAWSUIT).execute();
     }
 }
