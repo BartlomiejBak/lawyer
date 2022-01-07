@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_ADDRESS;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_CONTACT;
+import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_COURT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_EVENT;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_NOTE;
 import static pl.bartekbak.lawyer.generate.jooq.Tables.DB_PAYMENT;
@@ -31,6 +32,7 @@ public class DataProvider {
     public static UUID ADDRESS_ID = UUID.randomUUID();
     public static UUID EVENT_ID = UUID.randomUUID();
     public static UUID CONTACT_ID = UUID.randomUUID();
+    public static UUID COURT_ID = UUID.randomUUID();
 
     public DataProvider(DSLContext context) {
         this.context = context;
@@ -86,6 +88,12 @@ public class DataProvider {
         addRandomContact();
         addRandomContact();
 
+        addRandomCourt(COURT_ID);
+        addRandomCourt();
+        addRandomCourt();
+        addRandomCourt();
+        addRandomCourt();
+        addRandomCourt();
     }
 
     public void addRandomTag() {
@@ -192,6 +200,7 @@ public class DataProvider {
         addRandomEvent(UUID.randomUUID());
     }
 
+    @Transactional
     public void addRandomContact(UUID id) {
         context.insertInto(DB_CONTACT)
                 .set(DB_CONTACT.CONTACT_ID, id)
@@ -213,6 +222,21 @@ public class DataProvider {
                 .execute();
     }
 
+    public void addRandomCourt() {
+        addRandomEvent(UUID.randomUUID());
+    }
+
+    @Transactional
+    public void addRandomCourt(UUID id) {
+        context.insertInto(DB_COURT)
+                .set(DB_COURT.COURT_ID, id)
+                .set(DB_COURT.NAME, faker.company().name())
+                .set(DB_COURT.DESCRIPTION, faker.lorem().paragraph())
+                .set(DB_COURT.PHONE, faker.phoneNumber().cellPhone())
+                .onDuplicateKeyIgnore()
+                .execute();
+    }
+
     @Transactional
     public void clearDatabase() {
         context.deleteFrom(DB_TAG).execute();
@@ -222,5 +246,6 @@ public class DataProvider {
         context.deleteFrom(DB_ADDRESS).execute();
         context.deleteFrom(DB_EVENT).execute();
         context.deleteFrom(DB_CONTACT).execute();
+        context.deleteFrom(DB_COURT).execute();
     }
 }
