@@ -173,4 +173,32 @@ class ContactRepositoryImplTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void should_delete_record_when_exists() {
+        // given
+        var givenId = DataProvider.CONTACT_ID;
+        var beforeDelete = repository.contactById(givenId);
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.contactById(givenId);
+
+        // then
+        assertThat(beforeDelete).isPresent();
+        assertThat(afterDelete).isEmpty();
+    }
+
+    @Test
+    void should_do_nothing_when_delete_nonexistent_record() {
+        // given
+        var givenId = UUID.randomUUID();
+        var beforeDelete = repository.list();
+
+        // when
+        repository.deleteById(givenId);
+        var afterDelete = repository.list();
+
+        // then
+        assertThat(beforeDelete.size()).isEqualTo(afterDelete.size());
+    }
 }
