@@ -10,6 +10,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.bartekbak.lawyer.common.PostgreSQLJooqContainer;
 import pl.bartekbak.lawyer.repository.DataProvider;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
@@ -60,5 +62,31 @@ class ContactRepositoryImplTest {
         // then
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void should_return_optional_of_existing_record() {
+        // given
+        var recordId = DataProvider.CONTACT_ID;
+
+        // when
+        final var result = repository.contactById(recordId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getContactId()).isEqualTo(recordId);
+    }
+
+    @Test
+    void should_return_empty_optional() {
+        // given
+        var recordId = UUID.randomUUID();
+
+        // when
+        final var result = repository.contactById(recordId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
 
 }
