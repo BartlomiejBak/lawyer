@@ -109,18 +109,19 @@ class TaskRepositoryImplTest {
     void should_do_nothing_when_adding_non_unique_value() {
         // given
         var givenId = UUID.randomUUID();
-        var additionalId = UUID.randomUUID();
         String description = faker.dog().name();
+        String duplicateDescription = faker.dog().name();
         var givenRecord = Task.builder().taskId(givenId).description(description).build();
-        var duplicateRecord = Task.builder().taskId(additionalId).description(description).build();
+        var duplicateRecord = Task.builder().taskId(givenId).description(duplicateDescription).build();
 
         // when
         repository.add(givenRecord);
         repository.add(duplicateRecord);
-        var result = repository.taskById(additionalId);
+        var result = repository.taskById(givenId);
 
         // then
-        assertThat(result).isEmpty();
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getDescription()).isEqualTo(description);
     }
 
     @Test

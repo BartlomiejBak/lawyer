@@ -66,6 +66,7 @@ public class TaskRepositoryImpl extends DatabaseContext implements TaskRepositor
     @Transactional
     public void add(Task task) {
         dslContext().insertInto(DB_TASK)
+                .set(DB_TASK.TASK_ID, task.getTaskId())
                 .set(DB_TASK.PRIORITY, task.isPriority())
                 .set(DB_TASK.DEADLINE, task.getDeadline())
                 .set(DB_TASK.DESCRIPTION, task.getDescription())
