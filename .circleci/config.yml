@@ -1,12 +1,18 @@
-version: 2.0
-
+version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:17
+      - image: cimg/openjdk:17.0.1
         auth:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD
+      - image: circleci/postgres:13.4
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: foo
     working_directory: ~/repo
 
     steps:
@@ -15,11 +21,39 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
-      - run: mvn install -DskipTests
-      - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - "~/.m2"
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn integration-test
+
+      - run:
+          name: install dockerize
+          command: >
+            wget 
+            https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && 
+            sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && 
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: sudo apt update && sudo apt install postgresql-client
+
+      - run:
+          name: update database
+          command: >
+            mvn
+            -Dliquibase.url=jdbc:postgresql://localhost:5432/postgres 
+            -Dliquibase.username=postgres 
+            -Dliquibase.password=foo 
+            -Dliquibase.changeLogFile=/home/circleci/repo/src/main/resources/db/changelog/db.changelog.sql
+            liquibase:update
+
+
+      - run: mvn clean compile
+      - run: mvn install -DskipTests
+      - run: mvn dependency:go-offline
+      - run: mvn -Dtest="pl.bartekbak.lawyer.controller.**" test
+      - run: mvn -Dtest="pl.bartekbak.lawyer.service.**" test
