@@ -15,26 +15,27 @@ The purpose of this app is to simplify and improve the work of individual lawyer
 all data related to their tasks. 
 
 ## Technologies
-- Java 11 
+- Java 17 
 ####
 - Spring Boot
 - Maven
-####
 - PostgreSQL database
 - Lombok
+- Liquibase
+#### Tests
 - JUnit5
 - Mockito
-- Liquibase
+- Testcontainers
 ####
 ## Setup
 The application is developed in IntelliJ IDEA Ultimate Edition.
 Can be run via IDE. 
 
-Database - app runs with official postgreSQL docker image. To run application you need to pull docker image/install postgres locally
-and change application.properties file:
-- spring.datasource.url (49155 should be changed to chosen host port)
-- spring.datasource.username
-- spring.datasource.password
+Database - app runs with official postgreSQL (version 14) docker image. To run application you need to pull docker image/install 
+postgres locally with:
+
+docker run --name postgres-latest -e POSTGRES_PASSWORD=foo -p 5432:5432 -d postgres:14
+
 
 ## Status
 In progress...
@@ -43,5 +44,4 @@ To do/to be completed:
 * Frontend (proper display of elements, graphics),
 * Connection to external database (PostgreSQL),
 * Logging in and access protection
-* Migration to Jooq
 * ...
