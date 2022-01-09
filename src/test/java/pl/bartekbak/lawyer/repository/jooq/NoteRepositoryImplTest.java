@@ -94,7 +94,7 @@ class NoteRepositoryImplTest {
     void should_add_note_when_not_exists() {
         // given
         var givenId = UUID.randomUUID();
-        String title = faker.book().title();
+        String title = faker.book().title() + "2";
         String text = faker.lorem().paragraph();
         var givenNote = Note.builder().noteId(givenId)
                 .title(title)

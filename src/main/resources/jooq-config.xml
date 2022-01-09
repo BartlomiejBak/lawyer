@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.15.0.xsd">
 
-<!--    local config-->
-
-<!--    <jdbc>-->
-<!--        <driver>org.postgresql.Driver</driver>-->
-<!--        <url>jdbc:postgresql://localhost:49153/postgres</url>-->
-<!--        <user>bakba</user>-->
-<!--        <password>foo</password>-->
-<!--    </jdbc>-->
-
     <jdbc>
         <driver>org.postgresql.Driver</driver>
         <url>jdbc:postgresql://localhost:5432/postgres</url>
