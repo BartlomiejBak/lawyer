@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import pl.bartekbak.lawyer.common.ExpandedObjectMapper;
 import pl.bartekbak.lawyer.commons.ModelProvider;
 import pl.bartekbak.lawyer.dto.TaskDTO;
 import pl.bartekbak.lawyer.service.TaskService;
@@ -43,7 +44,7 @@ class TaskControllerTest {
     void setUp() {
         task = provider.getFirstTask();
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        objectMapper = new ObjectMapper();
+        objectMapper = new ExpandedObjectMapper();
     }
 
     @Test

@@ -14,7 +14,6 @@ import pl.bartekbak.lawyer.generate.jooq.tables.DbCourtAddress;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbEvent;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbEventLawsuit;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuit;
-import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitContact;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitTask;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbNote;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbPayment;
@@ -79,11 +78,6 @@ public class Tables {
      * The table <code>public.db_lawsuit</code>.
      */
     public static final DbLawsuit DB_LAWSUIT = DbLawsuit.DB_LAWSUIT;
-
-    /**
-     * The table <code>public.db_lawsuit_contact</code>.
-     */
-    public static final DbLawsuitContact DB_LAWSUIT_CONTACT = DbLawsuitContact.DB_LAWSUIT_CONTACT;
 
     /**
      * The table <code>public.db_lawsuit_task</code>.
