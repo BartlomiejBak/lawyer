@@ -22,7 +22,6 @@ import pl.bartekbak.lawyer.generate.jooq.tables.DbCourtAddress;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbEvent;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbEventLawsuit;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuit;
-import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitContact;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbLawsuitTask;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbNote;
 import pl.bartekbak.lawyer.generate.jooq.tables.DbPayment;
@@ -96,11 +95,6 @@ public class Public extends SchemaImpl {
     public final DbLawsuit DB_LAWSUIT = DbLawsuit.DB_LAWSUIT;
 
     /**
-     * The table <code>public.db_lawsuit_contact</code>.
-     */
-    public final DbLawsuitContact DB_LAWSUIT_CONTACT = DbLawsuitContact.DB_LAWSUIT_CONTACT;
-
-    /**
      * The table <code>public.db_lawsuit_task</code>.
      */
     public final DbLawsuitTask DB_LAWSUIT_TASK = DbLawsuitTask.DB_LAWSUIT_TASK;
@@ -168,7 +162,6 @@ public class Public extends SchemaImpl {
             DbEvent.DB_EVENT,
             DbEventLawsuit.DB_EVENT_LAWSUIT,
             DbLawsuit.DB_LAWSUIT,
-            DbLawsuitContact.DB_LAWSUIT_CONTACT,
             DbLawsuitTask.DB_LAWSUIT_TASK,
             DbNote.DB_NOTE,
             DbPayment.DB_PAYMENT,
